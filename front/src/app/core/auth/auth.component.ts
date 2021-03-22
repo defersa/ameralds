@@ -27,4 +27,5 @@ export class AuthComponent implements OnInit {
     public submit(): void {
         this.authService.getToken(this.authForm.value);
     }
+
 }

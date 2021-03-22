@@ -1,3 +1,4 @@
+import { HttpClient } from '@angular/common/http';
 import { Component } from '@angular/core';
 
 @Component({
@@ -6,7 +7,14 @@ import { Component } from '@angular/core';
     styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
-    constructor() {
-
+    constructor(
+        private httpClient: HttpClient
+    ) {
     }
+
+    public test(): void {
+        this.httpClient.get('http://localhost:8000/try-authorized/')
+        .subscribe((result: unknown) => console.log(result));
+    }
+
 }

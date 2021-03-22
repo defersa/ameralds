@@ -11,7 +11,11 @@ export class LocalStorageService {
         return window.localStorage.getItem(name);
     }
 
-    public setVariable(name: string, value: unknown): void {
-        window.localStorage.setItem(name, JSON.stringify(value));
+    public setVariable(name: string, value: string): void {
+        window.localStorage.setItem(name, value);
+    }
+
+    public removeVariable(name: string): void {
+        window.localStorage.removeItem(name);
     }
 }

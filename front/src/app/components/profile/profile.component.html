@@ -1,0 +1,8 @@
+<div *ngIf="profile">
+    {{profile.username}}
+    {{profile.email}}
+    <button (click)="logout()">Logout</button>
+</div>
+<div *ngIf="!profile">
+    <amstore-auth></amstore-auth>
+</div>
