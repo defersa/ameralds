@@ -20,7 +20,7 @@ import { ProfileComponent } from './components/profile/profile.component';
         CoreModule
     ],
     providers: [
-        {provide: HTTP_INTERCEPTORS, useClass: StoreInterceptor, multi: true},
+        { provide: HTTP_INTERCEPTORS, useClass: StoreInterceptor, multi: true },
     ],
     bootstrap: [AppComponent]
 })

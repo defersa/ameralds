@@ -8,13 +8,7 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
     constructor(
-        private httpClient: HttpClient
     ) {
-    }
-
-    public test(): void {
-        this.httpClient.get('http://localhost:8000/try-authorized/')
-        .subscribe((result: unknown) => console.log(result));
     }
 
 }

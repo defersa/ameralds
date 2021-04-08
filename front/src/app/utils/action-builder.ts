@@ -3,6 +3,8 @@ import { environment } from "src/environments/environment";
 
 export enum HttpActions {
     Profile = 'profile',
+    GetPatterns = 'get-patterns',
+    GetPattern = 'get-pattern-card'
 }
 
 export enum HttpAuthActions {

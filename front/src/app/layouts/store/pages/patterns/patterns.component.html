@@ -1,0 +1,7 @@
+<div *ngFor="let item of items" style="padding: 16px 0;">
+    <p><button (click)="navigateToChild(item.id)">{{ item.name }}</button></p>
+    <p>{{ item.urls }}</p>
+    <p>{{ item.price_ru }} Р</p>
+    <p>{{ item.price_eu }} $</p>
+</div>
+<amstore-paginator [page]="page" [pageCount]="pageCount" (goToPageEvent)="setQueryParams($event)"></amstore-paginator>

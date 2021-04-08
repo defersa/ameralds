@@ -6,6 +6,7 @@ import { getAction, HttpActions } from 'src/app/utils/action-builder';
 interface ISmallProfile {
     username: string;
     email: string;
+    godmode: boolean;
 }
 
 @Component({
@@ -19,6 +20,10 @@ interface ISmallProfile {
 export class ProfileComponent implements OnInit {
 
     public profile: ISmallProfile | null = null;
+
+    public get godmode(): boolean {
+        return this.profile?.godmode || false;
+    }
 
     constructor(
         private httpClient: HttpClient,
@@ -34,6 +39,7 @@ export class ProfileComponent implements OnInit {
                     getAction(HttpActions.Profile))
                     .subscribe((result: ISmallProfile) => this.profile = result);
             }
+            this.authService.godmodeStatus.next(this.godmode);
         });
 
     }
