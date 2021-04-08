@@ -144,6 +144,7 @@ REST_FRAMEWORK = {
 
 JWT_AUTH = {
     'JWT_ALLOW_REFRESH': True,
-    'JWT_EXPIRATION_DELTA': datetime.timedelta(seconds=3600),
+    'JWT_EXPIRATION_DELTA': datetime.timedelta(weeks=1),
+    'JWT_REFRESH_EXPIRATION_DELTA': datetime.timedelta(days=8),
 }
 CORS_ALLOWED_ORIGINS = ['http://localhost:4200']
