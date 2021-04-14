@@ -27,6 +27,12 @@ class RatingSelializer(serializers.HyperlinkedModelSerializer):
         fields = ['score']
 
 
+class PatternsPriceSerializer(serializers.HyperlinkedModelSerializer):
+    class Meta:
+        model = Pattern
+        fields = ['id', 'price_ru', 'price_en']
+
+
 class PatternsMinSerializer(serializers.HyperlinkedModelSerializer):
     rating = RatingSelializer(many=True)
 

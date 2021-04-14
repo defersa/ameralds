@@ -1,0 +1,12 @@
+.amstore-pattern-button {
+    color: white;
+    &_common {
+        background: blue;
+    }
+    &_in-goods {
+        background: orange;
+    }
+    &_bought {
+        background: green;
+    }
+}

@@ -4,7 +4,9 @@ import { environment } from "src/environments/environment";
 export enum HttpActions {
     Profile = 'profile',
     GetPatterns = 'get-patterns',
-    GetPattern = 'get-pattern-card'
+    GetPattern = 'get-pattern-card',
+    AddProduct = 'add-product',
+    RemoveProduct = 'remove-product'
 }
 
 export enum HttpAuthActions {

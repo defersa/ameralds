@@ -4,10 +4,10 @@ from enum import Enum
 
 
 class ORDER_STATUS(Enum):
-    CARD = 0
-    PAID = 1
-    DELIVERY = 2
-    SUCCESS = 3
+    CARD = 1
+    PAID = 2
+    DELIVERY = 3
+    SUCCESS = 4
 
 
 class Category(models.Model):
@@ -123,10 +123,16 @@ class Order(models.Model):
     next_status_date = models.DateField(
         verbose_name="Примерное время измения статуса", blank=True)
 
-    owner = models.ForeignKey(Person, on_delete=models.CASCADE)
+    owner = models.ForeignKey(Person, on_delete=models.CASCADE, related_name='orders')
 
+    @classmethod
+    def create(self, status, person, next_status_date):
+        order = self(status=status, owner=person, next_status_date=next_status_date)
+        return order
+        
     def __str__(self):
         return str(self.pk)
+        
 
 
 class Promo(models.Model):

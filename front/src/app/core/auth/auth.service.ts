@@ -15,6 +15,8 @@ export class AuthService {
 
     public authStatus: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
     public godmodeStatus: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
+    public boughtPatterns$: BehaviorSubject<number[]> = new BehaviorSubject<number[]>([]);
+
     public get authToken(): string {
         return this.localStorage.getVariable(AUTH_TOKEN_NAME) as string;
     }
