@@ -5,7 +5,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { AuthComponent } from './auth/auth.component';
 import { LocalStorageService } from './services/local-storage.service';
-import { AuthService } from './auth/auth.service';
+import { AuthService } from '../services/auth.service';
 
 
 

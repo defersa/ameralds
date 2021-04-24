@@ -6,7 +6,8 @@ export enum HttpActions {
     GetPatterns = 'get-patterns',
     GetPattern = 'get-pattern-card',
     AddProduct = 'add-product',
-    RemoveProduct = 'remove-product'
+    RemoveProduct = 'remove-product',
+    UploadImage = 'upload-image-file'
 }
 
 export enum HttpAuthActions {

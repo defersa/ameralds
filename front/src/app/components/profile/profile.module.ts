@@ -14,9 +14,6 @@ import { GoodsService } from 'src/app/services/goods.service';
         CommonModule,
         CoreModule,
         GoodsModule
-    ],
-    providers: [
-        GoodsService
     ]
 })
 export class ProfileModule { }

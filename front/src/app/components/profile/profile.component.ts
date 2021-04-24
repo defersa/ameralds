@@ -1,15 +1,8 @@
-import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
-import { AuthService } from 'src/app/core/auth/auth.service';
-import { GoodsService } from 'src/app/services/goods.service';
-import { getAction, HttpActions } from 'src/app/utils/action-builder';
+import { BehaviorSubject } from 'rxjs';
+import { AuthService } from 'src/app/services/auth.service';
+import { ISmallProfile, ProfileService } from 'src/app/services/profile.service';
 
-interface ISmallProfile {
-    username: string;
-    email: string;
-    godmode: boolean;
-    goods: any;
-}
 
 @Component({
     selector: 'amstore-profile',
@@ -21,37 +14,30 @@ interface ISmallProfile {
 })
 export class ProfileComponent implements OnInit {
 
-    public profile: ISmallProfile | null = null;
-
-    // TODO: Присвоение вынести в отдельную функцию подписки
-    public get godmode(): boolean {
-        return this.profile?.godmode || false;
+    public get godmode(): BehaviorSubject<boolean> {
+        return this.profileService.godmodeStatus$;
     }
 
-    public get goods(): any {
-        return this.profile?.goods || undefined;
+
+    public get profile(): ISmallProfile | null {
+        return this._profile;
     }
+    public set profile(value: ISmallProfile | null) {
+        this._profile = value;
+    }
+
+    private _profile: ISmallProfile | null = null;
 
     constructor(
-        private httpClient: HttpClient,
         private authService: AuthService,
-        private goodsService: GoodsService
-    ) { }
+        private profileService: ProfileService
+    ) {
+        this.profileService.profile$
+            .subscribe((profile: ISmallProfile | null) => this.profile = profile);
+    }
 
     public ngOnInit(): void {
         this.authService.initAuth();
-        this.authService.authStatus.subscribe((status: boolean) => {
-            this.profile = null;
-            if (status) {
-                this.httpClient.get<ISmallProfile>(
-                    getAction(HttpActions.Profile))
-                    .subscribe((result: ISmallProfile) => {
-                        this.profile = result;
-                        this.goodsService.goods$.next(result.goods);
-                    });
-            }
-            this.authService.godmodeStatus.next(this.godmode);
-        });
 
     }
     public logout(): void {

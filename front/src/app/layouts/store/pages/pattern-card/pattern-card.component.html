@@ -2,3 +2,5 @@
 <button (click)="getBack()">Back</button>
 {{id}}
 <button (click)="button.action()" class='amstore-pattern-button' [ngClass]='button.class'>{{button.label}}</button>
+<input type="file" (change)="dropFiles($event.target)" name="uploadimage" #imageInput>
+<button (click)="upload()">upload</button>

@@ -133,6 +133,14 @@ class Order(models.Model):
     def __str__(self):
         return str(self.pk)
         
+class Image(models.Model):
+    image_full = models.ImageField(upload_to="images/full", blank=True)
+    image_small = models.ImageField(upload_to="images/small", blank=True)
+    
+    
+    @classmethod
+    def create(self, inout_image_full, input_image_small):
+        return self(image_full = inout_image_full, image_small = input_image_small)
 
 
 class Promo(models.Model):

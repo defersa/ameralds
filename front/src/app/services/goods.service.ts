@@ -2,9 +2,9 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable, of, Subject } from 'rxjs';
 import { tap } from 'rxjs/operators';
-import { AuthService } from '../core/auth/auth.service';
+import { AuthService } from './auth.service';
 import { LocalStorageService } from '../core/services/local-storage.service';
-import { getAction, HttpActions, HttpAuthActions } from '../utils/action-builder';
+import { getAction, HttpActions } from '../utils/action-builder';
 
 export type GoodsCard = {
     jewels: ProductLite[];

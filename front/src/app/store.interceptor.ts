@@ -8,7 +8,7 @@ import {
 } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
-import { AuthService } from './core/auth/auth.service';
+import { AuthService } from './services/auth.service';
 
 const UNAUTHORIZED_STATUS = 401;
 

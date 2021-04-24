@@ -2,7 +2,7 @@ import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 import { getAction, HttpAuthActions, HttpRootFragments } from 'src/app/utils/action-builder';
-import { LocalStorageService } from '../services/local-storage.service';
+import { LocalStorageService } from '../core/services/local-storage.service';
 
 const AUTH_TOKEN_NAME = 'authToken';
 const EXPIRATION_DELTA = 'expirationDelta'
@@ -14,8 +14,6 @@ const REFRESH_EXPIRATION_DELTA = 'refreshExpirationDelta';
 export class AuthService {
 
     public authStatus: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
-    public godmodeStatus: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
-    public boughtPatterns$: BehaviorSubject<number[]> = new BehaviorSubject<number[]>([]);
 
     public get authToken(): string {
         return this.localStorage.getVariable(AUTH_TOKEN_NAME) as string;

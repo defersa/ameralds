@@ -1,7 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { AuthService } from 'src/app/core/auth/auth.service';
+import { AuthService } from 'src/app/services/auth.service';
 import { GoodsCard, GoodsModifire, GoodsService, ProductLite, ProductType } from 'src/app/services/goods.service';
+import { ProfileService } from 'src/app/services/profile.service';
+import { getAction, HttpActions } from 'src/app/utils/action-builder';
 import { PatternService } from '../../services/pattern.service';
 import { SmallPattern } from '../patterns/patterns.component';
 
@@ -18,6 +21,9 @@ type PatterButtonStatus = {
 })
 export class PatternCardComponent implements OnInit {
 
+    // @ViewChild('imageInput', { static: true })
+    // private _fileUploadForm: DynamicFormComponent;
+
     public pattern: SmallPattern | undefined;
 
     public id: number;
@@ -31,8 +37,9 @@ export class PatternCardComponent implements OnInit {
     constructor(
         private route: ActivatedRoute,
         private patternService: PatternService,
-        private authService: AuthService,
-        private goodsService: GoodsService
+        private profileService: ProfileService,
+        private goodsService: GoodsService,
+        private httpService: HttpClient
     ) {
         this.id = Number(this.route.snapshot.paramMap.get('id'));
     }
@@ -44,7 +51,7 @@ export class PatternCardComponent implements OnInit {
                 this.pattern = result;
             })
         this.goodsService.goods$.subscribe(this.getPatternStatusUpdate());
-        this.authService.boughtPatterns$.subscribe(this.getPatternStatusUpdate());
+        this.profileService.boughtPatterns$.subscribe(this.getPatternStatusUpdate());
         this.getPatternStatusUpdate()();
     }
 
@@ -57,7 +64,7 @@ export class PatternCardComponent implements OnInit {
             }
 
             const goods: GoodsCard = this.goodsService.goods$.value;
-            const bought: number[] = this.authService.boughtPatterns$.value;
+            const bought: number[] = this.profileService.boughtPatterns$.value;
             if (goods.patterns.find((value: ProductLite) => value.id === this.id)) {
                 this.button = {
                     label: 'Удалить из корзины',
@@ -100,6 +107,25 @@ export class PatternCardComponent implements OnInit {
                 .subscribe((result: GoodsModifire) => {
                 });
         }
+    }
+
+    public file: File | null = null;
+
+    public upload(): void {
+        console.log(this.file);
+        if(!this.file){
+            return;
+        }
+        const data: FormData = new FormData();
+        data.append('file', this.file);
+        data.append('title', 'file');
+        this.httpService.post(getAction(HttpActions.UploadImage), data).subscribe((result)=> {
+            console.log(result);
+        })
+    }
+    public dropFiles(fileList: EventTarget | null): void {
+        const files: FileList | null = fileList ? (fileList as HTMLInputElement).files : null;
+        this.file = files?.length ? files[0] : null;
     }
 
 }
