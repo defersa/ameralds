@@ -3,10 +3,11 @@ import { ActivatedRoute, ActivationEnd, Router, Event } from '@angular/router';
 import { BehaviorSubject, Subject } from 'rxjs';
 import { filter, map, takeUntil } from 'rxjs/operators';
 
-export type ListType = {
+export type MenuListType = {
     label: string;
     pathFragment: string[];
     path?: string;
+    onlyModer?: boolean;
 }
 
 @Component({
@@ -19,7 +20,7 @@ export class MenuMiddlewareComponent implements OnDestroy {
     private destroyed: Subject<void> = new Subject<void>();
 
     public filters: unknown[] = [];
-    public list: ListType[] = [];
+    public list: MenuListType[] = [];
 
     public currentPath$: BehaviorSubject<string> = new BehaviorSubject<string>('');
 
@@ -41,8 +42,8 @@ export class MenuMiddlewareComponent implements OnDestroy {
             });
     }
 
-    protected initList(value: ListType[]): void {
-        this.list = value.map((item: ListType) => ({ ...item, path: '/' + item.pathFragment.join('/') }));
+    protected initList(value: MenuListType[]): void {
+        this.list = value.map((item: MenuListType) => ({ ...item, path: '/' + item.pathFragment.join('/') }));
     }
 
     public ngOnDestroy(): void {

@@ -39,4 +39,11 @@ export class PatternService {
             skipLocationChange: false
         })
     }
+    public goToEdit(id: number): void {
+        this.router.navigate(['/pattern-edit', id], {
+            relativeTo: this.route,
+            queryParams: this.queryParams,
+            skipLocationChange: false
+        })
+    }
 }

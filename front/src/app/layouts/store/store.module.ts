@@ -9,6 +9,7 @@ import { PatternsComponent } from './pages/patterns/patterns.component';
 import { PatternCardComponent } from './pages/pattern-card/pattern-card.component';
 import { PaginatorModule } from 'src/app/components/paginator/paginator.module';
 import { StoreRoutes } from 'src/app/utils/routs-name';
+import { PatternAddComponent } from './pages/pattern-add/pattern-add.component';
 
 
 export const routes: Routes = [{
@@ -24,6 +25,14 @@ export const routes: Routes = [{
             component: PatternCardComponent,
         },
         {
+            path: StoreRoutes.PatternAdd,
+            component: PatternAddComponent,
+        },
+        {
+            path: StoreRoutes.PatternEdit,
+            component: PatternAddComponent,
+        },
+        {
             path: StoreRoutes.Patterns,
             component: PatternsComponent,
         },
@@ -35,7 +44,7 @@ export const routes: Routes = [{
 }]
 
 @NgModule({
-    declarations: [StoreComponent, MenuComponent, JewelryComponent, JewelryCardComponent, PatternsComponent, PatternCardComponent],
+    declarations: [StoreComponent, MenuComponent, JewelryComponent, JewelryCardComponent, PatternsComponent, PatternCardComponent, PatternAddComponent],
     imports: [
         RouterModule.forChild(routes),
         PaginatorModule,

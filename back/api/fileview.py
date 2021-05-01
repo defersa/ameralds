@@ -25,19 +25,32 @@ class FileManager(APIView):
         
         return Response()
 
+import io, string, random
+from django.core.files.uploadedfile import InMemoryUploadedFile
+
 class ImageManager(APIView):
     permission_classes = []
 
     def post(self, request):
-        # print(request.data['file'])
-        # image = models.Image.create(request.data['file'])
-        # image.save()
         image_original = Image.open(request.data['file'])
-        image_big = image_original.resize((1920, 1080), Image.ANTIALIAS)
-        image_small = image_original.resize((640, 480), Image.ANTIALIAS)
+        image_big: Image = image_original.resize((1920, 1080), Image.ANTIALIAS)
+        image_small: Image = image_original.resize((640, 480), Image.ANTIALIAS)
+
+        filename = ''.join(random.choices(string.ascii_uppercase + string.digits, k=30)) + '.jpg'
         
+        image_big_io = io.BytesIO()
+        image_big.save(image_big_io, format='JPEG')
+
+        thumb_file_big = InMemoryUploadedFile(image_big_io, None, filename, 'image/jpeg',
+                                  image_big_io.tell, None)
+
+
+        image_small_io = io.BytesIO()         
+        image_small.save(image_small_io, format='JPEG')
         
-        # print(image_big, image_small.load(), request.data['file'])
-        image = models.Image.create(image_big.load(), image_small.load())
+        thumb_file_small = InMemoryUploadedFile(image_small_io, None, filename, 'image/jpeg',
+                                  image_small_io.tell, None)
+        
+        image = models.Image.create(thumb_file_big, thumb_file_small)
         image.save()
         return Response()

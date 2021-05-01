@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { BehaviorSubject } from 'rxjs';
 import { AuthService } from 'src/app/services/auth.service';
 import { GoodsCard, GoodsModifire, GoodsService, ProductLite, ProductType } from 'src/app/services/goods.service';
 import { ProfileService } from 'src/app/services/profile.service';
@@ -21,8 +22,6 @@ type PatterButtonStatus = {
 })
 export class PatternCardComponent implements OnInit {
 
-    // @ViewChild('imageInput', { static: true })
-    // private _fileUploadForm: DynamicFormComponent;
 
     public pattern: SmallPattern | undefined;
 
@@ -33,13 +32,13 @@ export class PatternCardComponent implements OnInit {
         action: () => { },
         class: ''
     }
+    public canEdit: boolean = false;
 
     constructor(
         private route: ActivatedRoute,
         private patternService: PatternService,
         private profileService: ProfileService,
-        private goodsService: GoodsService,
-        private httpService: HttpClient
+        private goodsService: GoodsService
     ) {
         this.id = Number(this.route.snapshot.paramMap.get('id'));
     }
@@ -52,6 +51,7 @@ export class PatternCardComponent implements OnInit {
             })
         this.goodsService.goods$.subscribe(this.getPatternStatusUpdate());
         this.profileService.boughtPatterns$.subscribe(this.getPatternStatusUpdate());
+        this.profileService.godmodeStatus$.subscribe((status: boolean) => this.canEdit = status);
         this.getPatternStatusUpdate()();
     }
 
@@ -109,23 +109,9 @@ export class PatternCardComponent implements OnInit {
         }
     }
 
-    public file: File | null = null;
+    public goToEdit(): void {
+        this.patternService.goToEdit(this.id);
+    }
 
-    public upload(): void {
-        console.log(this.file);
-        if(!this.file){
-            return;
-        }
-        const data: FormData = new FormData();
-        data.append('file', this.file);
-        data.append('title', 'file');
-        this.httpService.post(getAction(HttpActions.UploadImage), data).subscribe((result)=> {
-            console.log(result);
-        })
-    }
-    public dropFiles(fileList: EventTarget | null): void {
-        const files: FileList | null = fileList ? (fileList as HTMLInputElement).files : null;
-        this.file = files?.length ? files[0] : null;
-    }
 
 }

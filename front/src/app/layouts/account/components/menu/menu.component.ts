@@ -1,8 +1,8 @@
 import { Component, Injector } from '@angular/core';
-import { ListType, MenuMiddlewareComponent } from 'src/app/components/menu-middleware/menu-middleware.component';
+import { MenuListType, MenuMiddlewareComponent } from 'src/app/components/menu-middleware/menu-middleware.component';
 import { AccountRoutes, StoreRoutes } from 'src/app/utils/routs-name';
 
-const LIST_MAP: ListType[] = [
+const LIST_MAP: MenuListType[] = [
     { label: 'Магазин', pathFragment: [StoreRoutes.Store] },
     { label: 'Аккаунт', pathFragment: [AccountRoutes.Account]},
     { label: 'Корзина', pathFragment: [AccountRoutes.Account, AccountRoutes.Goods] }

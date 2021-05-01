@@ -132,5 +132,5 @@ dmypy.json
 amvenv/
 env.py
 migrations/
-/ameralds/media
-/ameralds/images
+/back/media
+/back/static

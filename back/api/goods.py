@@ -1,6 +1,6 @@
 from rest_framework import serializers
 from . import patterns, jewerly
-from .models import Order, Pattern, Jewelry
+from .models import Order, Pattern, Jewelry 
 from datetime import datetime
 
 from rest_framework.permissions import IsAuthenticated

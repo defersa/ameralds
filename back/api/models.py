@@ -2,12 +2,36 @@ from django.db import models
 from django.contrib.auth.models import User
 from enum import Enum
 
+import os
+
 
 class ORDER_STATUS(Enum):
     CARD = 1
     PAID = 2
     DELIVERY = 3
     SUCCESS = 4
+
+
+class Image(models.Model):
+    image_full = models.ImageField(
+        upload_to='static/images_model/full', blank=True)
+    image_small = models.ImageField(
+        upload_to='static/images_model/small', blank=True)
+
+    def delete(self, *args, **kwargs):
+        if bool(self.image_full) and os.path.isfile(self.image_full.path):
+            os.remove(self.image_full.path)
+        if bool(self.image_small) and os.path.isfile(self.image_small.path):
+            os.remove(self.image_small.path)
+
+        super(Image, self).delete(*args, **kwargs)
+
+    @classmethod
+    def create(self, inout_image_full, input_image_small):
+        return self(image_full=inout_image_full, image_small=input_image_small)
+
+    def __str__(self):
+        return str(self.pk)
 
 
 class Category(models.Model):
@@ -22,8 +46,8 @@ class Jewelry(models.Model):
     description = models.CharField(
         max_length=1000, verbose_name="Описание украшения")
 
-    images = models.CharField(
-        max_length=1000, verbose_name="Изображения", blank=True)
+    images = models.ManyToManyField(
+        Image, related_name="jewelry", blank=True, verbose_name="Изображения")
 
     stock = models.IntegerField(verbose_name="Количество в наличии")
     complexity = models.IntegerField(
@@ -50,8 +74,9 @@ class Pattern(models.Model):
     description = models.CharField(
         max_length=1000, verbose_name="Описание схемы")
 
-    images = models.CharField(
-        max_length=1000, verbose_name="Изображения", blank=True)
+    images = models.ManyToManyField(
+        Image, related_name="pattern", blank=True, verbose_name="Изображения")
+
     urls = models.CharField(max_length=1000, verbose_name="Файлы схемы")
 
     price_ru = models.FloatField(verbose_name="Цена для СНГ")
@@ -63,8 +88,12 @@ class Pattern(models.Model):
         blank=True)
 
     views = models.IntegerField(verbose_name="Количество показов", default=0)
-
     create_date = models.DateField(verbose_name="Дата создания позиции")
+
+    def delete(self, *args, **kwargs):
+        for image in self.images.all():
+            image.delete()
+        super(Pattern, self).delete(*args, **kwargs)
 
     def __str__(self):
         return str(self.name)
@@ -89,8 +118,10 @@ class Person(models.Model):
 class JewelryRating(models.Model):
     score = models.IntegerField(verbose_name="Оценка", default=0)
 
-    user = models.ForeignKey(Person, on_delete=models.CASCADE, related_name ='jewelryRating')
-    jewelry = models.ForeignKey(Jewelry, on_delete=models.CASCADE, related_name ='rating')
+    user = models.ForeignKey(
+        Person, on_delete=models.CASCADE, related_name='jewelryRating')
+    jewelry = models.ForeignKey(
+        Jewelry, on_delete=models.CASCADE, related_name='rating')
 
     def __str__(self):
         return str(self.pk)
@@ -99,8 +130,10 @@ class JewelryRating(models.Model):
 class PatternRating(models.Model):
     score = models.IntegerField(verbose_name="Оценка", default=0)
 
-    user = models.ForeignKey(Person, on_delete=models.CASCADE, related_name ='patternRating')
-    pattern = models.ForeignKey(Pattern, on_delete=models.CASCADE, related_name ='rating')
+    user = models.ForeignKey(
+        Person, on_delete=models.CASCADE, related_name='patternRating')
+    pattern = models.ForeignKey(
+        Pattern, on_delete=models.CASCADE, related_name='rating')
 
     def __str__(self):
         return str(self.pk)
@@ -123,24 +156,17 @@ class Order(models.Model):
     next_status_date = models.DateField(
         verbose_name="Примерное время измения статуса", blank=True)
 
-    owner = models.ForeignKey(Person, on_delete=models.CASCADE, related_name='orders')
+    owner = models.ForeignKey(
+        Person, on_delete=models.CASCADE, related_name='orders')
 
     @classmethod
     def create(self, status, person, next_status_date):
-        order = self(status=status, owner=person, next_status_date=next_status_date)
+        order = self(status=status, owner=person,
+                     next_status_date=next_status_date)
         return order
-        
+
     def __str__(self):
         return str(self.pk)
-        
-class Image(models.Model):
-    image_full = models.ImageField(upload_to="images/full", blank=True)
-    image_small = models.ImageField(upload_to="images/small", blank=True)
-    
-    
-    @classmethod
-    def create(self, inout_image_full, input_image_small):
-        return self(image_full = inout_image_full, image_small = input_image_small)
 
 
 class Promo(models.Model):
