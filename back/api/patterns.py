@@ -3,7 +3,7 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.authentication import SessionAuthentication, BasicAuthentication
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.response import Response
-from rest_framework import serializers
+from rest_framework import serializers, status
 from .models import Pattern, PatternRating
 
 import math
@@ -11,6 +11,7 @@ from django.core.paginator import Paginator
 
 
 PATTERNS_ON_LIST = 3
+GOD_GROUP_NAME = 'god'
 
 
 def getRatingSum(items):
@@ -72,7 +73,8 @@ class PatternsView(APIView):
 class PatternCardView(APIView):
     permission_classes = []
 
-    def get(self, request, id):
+    def get(self, request):
+        id = request.GET.get('id')
         pattern = Pattern.objects.get(pk=id)
         pattern.views = pattern.views + 1
         pattern.save()
@@ -92,4 +94,22 @@ class PatternCardView(APIView):
         return Response({
             'pattern': data,
             'user_rating': user_rating
+        })
+    def post(self, request):
+        if not request.user or request.user.groups.filter(name=GOD_GROUP_NAME).count() == 0 :
+            Response("Not enought permissions", status=status.HTTP_403_FORBIDDEN)
+
+        pattern = Pattern(
+            name=request.data['name'],
+            price_ru=request.data['price_ru'],
+            price_en=request.data['price_en'],
+            description='desc')
+        # pattern.name = request.data['name']
+        # pattern.price_ru = request.data['price_ru']
+        # pattern.price_en = request.data['price_en']
+        # pattern.description = ''
+        # pattern.images.set(None)
+        pattern.save()
+        Response({
+            id: pattern.pk
         })

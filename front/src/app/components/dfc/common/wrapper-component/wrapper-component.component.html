@@ -1,0 +1,7 @@
+<div class="dfc-wrappert-container">
+    <div class="dfc-wrappert-container-label">{{label}}</div>
+    <div class="dfc-wrappert-container-content">
+        <ng-content></ng-content>
+        <div class="dfc-wrappert-container-error" [class.has-error]="error">{{error}}</div>
+    </div>
+</div>

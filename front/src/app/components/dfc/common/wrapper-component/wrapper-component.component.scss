@@ -1,0 +1,10 @@
+.dfc-wrappert-container {
+
+    // TODO: Прикрутить бутстрап и выпилить
+    display: flex;
+    flex-direction: row;
+
+    &-error:not(.has-error) {
+        visibility: hidden;
+    }
+}

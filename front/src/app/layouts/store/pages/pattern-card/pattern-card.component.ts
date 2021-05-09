@@ -2,11 +2,12 @@ import { HttpClient } from '@angular/common/http';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { BehaviorSubject } from 'rxjs';
+import { map } from 'rxjs/operators';
 import { AuthService } from 'src/app/services/auth.service';
 import { GoodsCard, GoodsModifire, GoodsService, ProductLite, ProductType } from 'src/app/services/goods.service';
 import { ProfileService } from 'src/app/services/profile.service';
 import { getAction, HttpActions } from 'src/app/utils/action-builder';
-import { PatternService } from '../../services/pattern.service';
+import { PatternRequest, PatternService } from '../../services/pattern.service';
 import { SmallPattern } from '../patterns/patterns.component';
 
 type PatterButtonStatus = {
@@ -45,6 +46,7 @@ export class PatternCardComponent implements OnInit {
 
     ngOnInit(): void {
         this.patternService.getPattern(this.id)
+            .pipe(map((request: PatternRequest) => request.pattern))
             .subscribe((result) => {
                 console.log(result);
                 this.pattern = result;

@@ -1,3 +1,9 @@
 <div>here</div>
-<input type="file" (change)="dropFiles($event.target)" name="uploadimage" #imageInput>
-<button (click)="upload()">upload</button>
+<form [formGroup]="patternForm">
+    <dfc-input type='text' label="Имя схемы" placeholder="Введите имя" [control]="getControl('name')"></dfc-input>
+    <dfc-input type='number' label="Цена в долларах" [control]="getControl('price_en')"></dfc-input>
+    <dfc-input type='number' label="Цена в рублях" [control]="getControl('price_ru')"></dfc-input>
+</form>
+<button (click)="savePattern()">Send pattern</button>
+<!-- <input type="file" (change)="dropFiles($event.target)" name="uploadimage" #imageInput>
+<button (click)="upload()">upload</button> -->

@@ -10,6 +10,8 @@ import { PatternCardComponent } from './pages/pattern-card/pattern-card.componen
 import { PaginatorModule } from 'src/app/components/paginator/paginator.module';
 import { StoreRoutes } from 'src/app/utils/routs-name';
 import { PatternAddComponent } from './pages/pattern-add/pattern-add.component';
+import { ReactiveFormsModule } from '@angular/forms';
+import { DfcModule } from 'src/app/components/dfc/dfc.module';
 
 
 export const routes: Routes = [{
@@ -48,7 +50,9 @@ export const routes: Routes = [{
     imports: [
         RouterModule.forChild(routes),
         PaginatorModule,
-        CommonModule
+        CommonModule,
+        ReactiveFormsModule,
+        DfcModule
     ]
 })
 export class StoreModule { }
