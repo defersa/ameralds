@@ -6,8 +6,9 @@ import { AccountRoutes, StoreRoutes } from 'src/app/utils/routs-name';
 const LIST_MAP: MenuListType[] = [
     { label: 'Аккаунт', pathFragment: [AccountRoutes.Account],  },
     { label: 'Схемы', pathFragment: [StoreRoutes.Patterns] },
+    { label: 'Украшения', pathFragment: [StoreRoutes.Jewelrys] },
     { label: 'Добавить схему', pathFragment: [StoreRoutes.PatternAdd], onlyModer: true },
-    { label: 'Украшения', pathFragment: [StoreRoutes.Jewelrys] }
+    { label: 'Изображения', pathFragment: [StoreRoutes.Images], onlyModer: true },
 ]
 
 @Component({

@@ -2,8 +2,6 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ProfileComponent } from './profile.component';
 import { CoreModule } from 'src/app/core/core.module';
-import { GoodsModule } from '../goods/goods.module';
-import { GoodsService } from 'src/app/services/goods.service';
 
 
 
@@ -12,8 +10,7 @@ import { GoodsService } from 'src/app/services/goods.service';
     exports: [ProfileComponent],
     imports: [
         CommonModule,
-        CoreModule,
-        GoodsModule
+        CoreModule
     ]
 })
 export class ProfileModule { }

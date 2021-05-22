@@ -1,9 +1,22 @@
-<div>here</div>
+<button *ngIf="id" (click)="goToCard()">Get back to card</button>
+<h1>{{ id ? 'Edit' : 'Add'}} pattern</h1>
 <form [formGroup]="patternForm">
     <dfc-input type='text' label="Имя схемы" placeholder="Введите имя" [control]="getControl('name')"></dfc-input>
     <dfc-input type='number' label="Цена в долларах" [control]="getControl('price_en')"></dfc-input>
     <dfc-input type='number' label="Цена в рублях" [control]="getControl('price_ru')"></dfc-input>
 </form>
-<button (click)="savePattern()">Send pattern</button>
-<!-- <input type="file" (change)="dropFiles($event.target)" name="uploadimage" #imageInput>
-<button (click)="upload()">upload</button> -->
+<div class="amstore-pattern-add">
+    <div *ngFor="let image of images" class="amstore-pattern-add-item">
+        <amstore-image-viewer [image]="image" (deleteItem)="removeImage($event)"></amstore-image-viewer>
+        <div>
+            <button><-</button>
+            <button>-></button>
+        </div>
+    </div>
+</div>
+<amstore-images [showCheckbox]="true" [selectImageList]="images" (selectItem)="changeImage($event)" (deleteItem)="removeImage($event)"></amstore-images>
+
+<div>
+    <button (click)="savePattern()">Send pattern</button>
+    <button *ngIf="id" (click)="deletePattern()">Delete pattern</button>
+</div>

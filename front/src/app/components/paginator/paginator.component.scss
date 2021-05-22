@@ -1,3 +1,17 @@
 .paginator-disable {
-    font-size: 12px;
+    background: #cccccc;
+}
+button {
+    border: none;
+    cursor: pointer;
+
+    color: white;
+    background: #2979FF;
+
+    width: 28px;
+    height: 28px;
+
+    border-radius: 14px;
+
+    margin: 0 4px;
 }

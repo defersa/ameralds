@@ -3,11 +3,16 @@ import { environment } from "src/environments/environment";
 
 export enum HttpActions {
     Profile = 'profile',
-    GetPatterns = 'get-patterns',
-    GetPattern = 'get-pattern-card',
+    Patterns = 'patterns',
+    Pattern = 'pattern',
+    PatternEdit = 'pattern-edit',
     AddProduct = 'add-product',
     RemoveProduct = 'remove-product',
-    UploadImage = 'upload-image-file'
+
+    UploadImage = 'upload-image-file',
+    GetImages = 'get-images',
+
+    GoodsBuy = 'goods-buy'
 }
 
 export enum HttpAuthActions {
@@ -24,4 +29,7 @@ type ActionsUnit = HttpActions | HttpAuthActions;
 
 export function getAction(action: ActionsUnit, root: HttpRootFragments = HttpRootFragments.Api): string {
     return environment.endpoint + root + action + '/';
+}
+export function getStaticUrl(url: string): string {
+    return environment.endpoint + url;
 }

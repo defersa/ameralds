@@ -1,7 +1,7 @@
-<div *ngFor="let item of items" style="padding: 16px 0;">
-    <p><button (click)="navigateToChild(item.id)">{{ item.name }}</button></p>
+<amstore-product-card *ngFor="let item of items" [title]="item.name" [images]="item.images" (clickTitle)="navigateToChild(item.id)">
     <p>{{ item.urls }}</p>
     <p>{{ item.price_ru }} Р</p>
-    <p>{{ item.price_eu }} $</p>
-</div>
+    <p>{{ item.price_en }} $</p>
+    <button (click)="buttonStatus[item.status].action(item)" class='amstore-pattern-button' [ngClass]='buttonStatus[item.status].class'>{{buttonStatus[item.status].label}}</button>
+</amstore-product-card>
 <amstore-paginator [page]="page" [pageCount]="pageCount" (goToPageEvent)="setQueryParams($event)"></amstore-paginator>

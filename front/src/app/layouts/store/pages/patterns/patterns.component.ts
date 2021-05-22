@@ -2,23 +2,12 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { Observable, Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
+import { ProductType, GoodsModifire, GoodsCard, ProductLite } from 'src/app/interface/goods.intreface';
+import { PageRequest, SmallPattern, SmallPatternWithStatus } from 'src/app/interface/pattern.interface';
+import { GoodsService } from 'src/app/services/goods.service';
+import { ProfileService } from 'src/app/services/profile.service';
 import { PatternService } from '../../services/pattern.service';
 
-export type SmallPattern = {
-    id: number;
-    name: string;
-    description: string;
-    urls: string;
-    price_ru: number;
-    price_eu: number;
-    create_date: any;
-}
-
-type PageRequest = {
-    page: number;
-    pageCount: number;
-    items: SmallPattern[];
-}
 
 @Component({
     selector: 'app-patterns',
@@ -27,9 +16,38 @@ type PageRequest = {
 })
 export class PatternsComponent implements OnInit, OnDestroy {
 
-    public items: SmallPattern[] = [];
+    public rawItems: SmallPattern[] = [];
+    public items: SmallPatternWithStatus[] = [];
     public pageCount: number = 1;
     public page: number = 1;
+
+    public buttonStatus = {
+        buy: {
+            label: 'Купить',
+            action: (pattern: SmallPattern) => {
+                this.goodsService.addProduct(
+                    ProductType.Patterns, pattern)
+                    .subscribe((result: GoodsModifire) => {
+                    });
+            },
+            class: 'amstore-pattern-button_common'
+        },
+        remove: {
+            label: 'Удалить из корзины',
+            action: (pattern: SmallPattern) => {
+                this.goodsService.removeProduct(
+                    ProductType.Patterns, pattern.id)
+                    .subscribe((result: GoodsModifire) => {
+                    });
+            },
+            class: 'amstore-pattern-button_in-goods'
+        },
+        bought: {
+            label: 'Товар уже куплен',
+            action: (pattern: SmallPattern) => { },
+            class: 'amstore-pattern-button_bought'
+        }
+    }
 
     protected destroyed: Subject<void> = new Subject<void>();
 
@@ -42,8 +60,33 @@ export class PatternsComponent implements OnInit, OnDestroy {
     constructor(
         private activateRoute: ActivatedRoute,
         private pattern: PatternService,
+        private profileService: ProfileService,
+        private goodsService: GoodsService,
         private router: Router
-    ) { }
+    ) {
+
+        this.goodsService.goods$.pipe(takeUntil(this.destroyed)).subscribe(this.getPatternsStatusUpdate());
+        this.profileService.boughtPatterns$.pipe(takeUntil(this.destroyed)).subscribe(this.getPatternsStatusUpdate())
+    }
+
+    public getPatternsStatusUpdate(): () => void {
+        return () => {
+            this.items = this.rawItems.map((item: SmallPattern) => {
+                let status: 'buy' | 'remove' | 'bought' = 'buy';
+                const goods: GoodsCard = this.goodsService.goods$.value;
+                const bought: number[] = this.profileService.boughtPatterns$.value;
+                if (goods.patterns.find((value: ProductLite) => value.id === item.id)) {
+                    status = 'remove';
+                }
+                if (bought.find((value: number) => value === item.id)) {
+                    status = 'bought';
+                }
+                return {
+                    ...item, status
+                }
+            });
+        }
+    }
 
     ngOnInit(): void {
         this.initQuerySubscribe();
@@ -77,16 +120,13 @@ export class PatternsComponent implements OnInit, OnDestroy {
         this.pattern.getPatterns(page).subscribe((next: PageRequest) => {
             this.pageCount = next.pageCount;
             this.page = next.page;
-            this.items = next.items;
+            this.rawItems = next.items;
+            this.getPatternsStatusUpdate()();
         })
     }
 
     public navigateToChild(id: number): void {
-        this.router.navigate(['/pattern-card', id], {
-            relativeTo: this.activateRoute,
-            queryParams: this.pattern.queryParams,
-            skipLocationChange: false
-        })
+        this.pattern.goToCard(id);
     }
 
 }

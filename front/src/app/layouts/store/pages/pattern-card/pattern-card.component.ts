@@ -1,14 +1,12 @@
-import { HttpClient } from '@angular/common/http';
-import { Component, OnInit, ViewChild } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
-import { BehaviorSubject } from 'rxjs';
-import { map } from 'rxjs/operators';
-import { AuthService } from 'src/app/services/auth.service';
-import { GoodsCard, GoodsModifire, GoodsService, ProductLite, ProductType } from 'src/app/services/goods.service';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
+import { Subject } from 'rxjs';
+import { map, takeUntil } from 'rxjs/operators';
+import { GoodsCard, GoodsModifire, ProductLite, ProductType } from 'src/app/interface/goods.intreface';
+import { PatternRequest, SmallPattern } from 'src/app/interface/pattern.interface';
+import { GoodsService } from 'src/app/services/goods.service';
 import { ProfileService } from 'src/app/services/profile.service';
-import { getAction, HttpActions } from 'src/app/utils/action-builder';
-import { PatternRequest, PatternService } from '../../services/pattern.service';
-import { SmallPattern } from '../patterns/patterns.component';
+import { PatternService } from '../../services/pattern.service';
 
 type PatterButtonStatus = {
     label: string;
@@ -21,7 +19,7 @@ type PatterButtonStatus = {
     templateUrl: './pattern-card.component.html',
     styleUrls: ['./pattern-card.component.scss']
 })
-export class PatternCardComponent implements OnInit {
+export class PatternCardComponent implements OnInit, OnDestroy {
 
 
     public pattern: SmallPattern | undefined;
@@ -35,6 +33,8 @@ export class PatternCardComponent implements OnInit {
     }
     public canEdit: boolean = false;
 
+    protected destroyed: Subject<void> = new Subject<void>();
+
     constructor(
         private route: ActivatedRoute,
         private patternService: PatternService,
@@ -45,16 +45,27 @@ export class PatternCardComponent implements OnInit {
     }
 
     ngOnInit(): void {
+        this.initSub();
+    }
+
+    ngOnDestroy(): void {
+        this.destroyed.next();
+        this.destroyed.complete();
+    }
+
+    public initSub(): void {
         this.patternService.getPattern(this.id)
             .pipe(map((request: PatternRequest) => request.pattern))
             .subscribe((result) => {
-                console.log(result);
                 this.pattern = result;
-            })
-        this.goodsService.goods$.subscribe(this.getPatternStatusUpdate());
-        this.profileService.boughtPatterns$.subscribe(this.getPatternStatusUpdate());
-        this.profileService.godmodeStatus$.subscribe((status: boolean) => this.canEdit = status);
-        this.getPatternStatusUpdate()();
+                this.getPatternStatusUpdate()();
+            });
+        this.goodsService.goods$.pipe(takeUntil(this.destroyed))
+            .subscribe(this.getPatternStatusUpdate());
+        this.profileService.boughtPatterns$.pipe(takeUntil(this.destroyed))
+            .subscribe(this.getPatternStatusUpdate());
+
+        this.profileService.godmodeStatus$.pipe(takeUntil(this.destroyed)).subscribe((status: boolean) => this.canEdit = status);
     }
 
     public getPatternStatusUpdate(): () => void {
@@ -67,7 +78,7 @@ export class PatternCardComponent implements OnInit {
 
             const goods: GoodsCard = this.goodsService.goods$.value;
             const bought: number[] = this.profileService.boughtPatterns$.value;
-            if (goods.patterns.find((value: ProductLite) => value.id === this.id)) {
+            if (goods.patterns.find((value: SmallPattern) => value.id === this.id)) {
                 this.button = {
                     label: 'Удалить из корзины',
                     action: this.getRemoveToCard(),
@@ -91,13 +102,7 @@ export class PatternCardComponent implements OnInit {
     public getAddToCard(): () => void {
         return () => {
             this.goodsService.addProduct(
-                ProductType.Patterns, this.pattern ?
-                {
-                    id: this.id,
-                    price_en: this.pattern.price_eu,
-                    price_ru: this.pattern?.price_ru,
-
-                } : { id: 0, price_en: 0, price_ru: 0 })
+                ProductType.Patterns, this.pattern ? this.pattern : { id: 0, price_en: 0, price_ru: 0 })
                 .subscribe((result: GoodsModifire) => {
                 });
         }

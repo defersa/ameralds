@@ -1,11 +1,12 @@
-import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { map } from 'rxjs/operators';
 import { CustomValidatorFns } from 'src/app/components/dfc/common/custom-validators-fn';
-import { getAction, HttpActions } from 'src/app/utils/action-builder';
-import { PatternRequest, PatternService, PatternType } from '../../services/pattern.service';
+import { ImageModel, ImageModelSmall } from 'src/app/interface/image.interface';
+import { PatternRequest, PatternType } from 'src/app/interface/pattern.interface';
+import { PatternService } from '../../services/pattern.service';
+import { ImageToSmall } from '../../utils/images';
 
 const EDIT_FIELDS: string[] = ['name', 'price_en', 'price_ru'];
 
@@ -19,10 +20,11 @@ export class PatternAddComponent implements OnInit {
     public id: number;
     public patternForm: FormGroup;
 
+    public images: ImageModelSmall[] = [];
+
     constructor(
         private route: ActivatedRoute,
-        private patternService: PatternService,
-        private httpService: HttpClient
+        private patternService: PatternService
     ) {
         this.patternForm = new FormGroup({
             name: new FormControl('', Validators.required),
@@ -36,9 +38,9 @@ export class PatternAddComponent implements OnInit {
                 .pipe(map((request: PatternRequest) => request.pattern))
                 .subscribe((pattern: PatternType) => {
                     EDIT_FIELDS.forEach((key: string) => {
-                        console.log(pattern[key as keyof PatternType], pattern);
                         this.getControl(key).setValue(pattern[key as keyof PatternType]);
                     });
+                    this.images = pattern.images;
                 })
         }
     }
@@ -50,31 +52,43 @@ export class PatternAddComponent implements OnInit {
         return this.patternForm.get(name) as FormControl || new FormControl;
     }
 
-    public file: File | null = null;
-
-    public upload(): void {
-        console.log(this.file);
-        if (!this.file) {
-            return;
-        }
-        const data: FormData = new FormData();
-        data.append('file', this.file);
-        data.append('title', 'file');
-        this.httpService.post(getAction(HttpActions.UploadImage), data).subscribe((result) => {
-            console.log(result);
-        })
-    }
-    public dropFiles(fileList: EventTarget | null): void {
-        const files: FileList | null = fileList ? (fileList as HTMLInputElement).files : null;
-        this.file = files?.length ? files[0] : null;
-    }
     public savePattern(): void {
         if(this.patternForm.invalid){
             return;
         }
-        if(!this.id) {
-            this.patternService.createPattern(this.patternForm.value).subscribe((result) => console.log(result));
+        const value: Record<string, unknown> = {
+            ...this.patternForm.value,
+            id: this.id,
+            images: this.images.map((image: ImageModelSmall) => image.id)
         }
-        console.log(this.patternForm.value, this.patternForm.valid);
+
+        if(!this.id) {
+            this.patternService
+                .createPattern(value)
+                .subscribe((result) => this.patternService.goToCard(result.id));
+            return;
+        }
+        this.patternService
+            .updatePattern(value)
+            .subscribe((result) => console.log(result));
+    }
+    public deletePattern(): void {
+        this.patternService.removePattern(this.id).subscribe((result) => this.patternService.getBack());
+    }
+
+    public goToCard(): void {
+        this.patternService.goToCard(this.id);
+    }
+
+    public changeImage(image: ImageModel): void {
+        this.images.find((item: ImageModelSmall) => item.id === image.id) ? this.removeImage(image) : this.addImage(image);
+    }
+
+
+    public addImage(image: ImageModel): void {
+        this.images = [ImageToSmall(image), ...this.images];
+    }
+    public removeImage(image: ImageModel | ImageModelSmall): void {
+        this.images = this.images.filter((item: ImageModelSmall) => item.id !== image.id);
     }
 }

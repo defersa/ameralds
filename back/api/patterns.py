@@ -1,13 +1,14 @@
+import math
+from django.core.paginator import Paginator
+
 from rest_framework.views import APIView
-from rest_framework.permissions import IsAuthenticated
-from rest_framework.authentication import SessionAuthentication, BasicAuthentication
+from rest_framework.permissions import IsAdminUser
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.response import Response
 from rest_framework import serializers, status
 from .models import Pattern, PatternRating
 
-import math
-from django.core.paginator import Paginator
+from .fileview import ImageSerializer
 
 
 PATTERNS_ON_LIST = 3
@@ -36,27 +37,30 @@ class PatternsPriceSerializer(serializers.HyperlinkedModelSerializer):
 
 class PatternsMinSerializer(serializers.HyperlinkedModelSerializer):
     rating = RatingSelializer(many=True)
+    images = ImageSerializer(many=True)
 
     class Meta:
         model = Pattern
         fields = ['id', 'name', 'urls', 'views',
-                  'price_ru', 'price_en', 'rating']
+                  'price_ru', 'price_en', 'rating', 'images']
 
 
 class PatternsMaxSerializer(serializers.HyperlinkedModelSerializer):
     rating = RatingSelializer(many=True)
+    images = ImageSerializer(many=True)
 
     class Meta:
         model = Pattern
         fields = ['id', 'name', 'description', 'urls', 'views',
-                  'price_ru', 'price_en', 'create_date', 'rating']
+                  'price_ru', 'price_en', 'create_date', 'rating', 'images']
 
 
 class PatternsView(APIView):
     permission_classes = []
 
     def get(self, request, page):
-        paginator = Paginator(Pattern.objects.order_by('-views'), PATTERNS_ON_LIST)
+        paginator = Paginator(
+            Pattern.objects.order_by('-views'), PATTERNS_ON_LIST)
         pattern = PatternsMinSerializer(
             paginator.page(page), many=True).data
 
@@ -75,7 +79,14 @@ class PatternCardView(APIView):
 
     def get(self, request):
         id = request.GET.get('id')
+
+        if not len(Pattern.objects.filter(pk=id)):
+            return Response({
+                'result': False
+            })
+
         pattern = Pattern.objects.get(pk=id)
+
         pattern.views = pattern.views + 1
         pattern.save()
 
@@ -92,24 +103,49 @@ class PatternCardView(APIView):
                     user_rating_filter, many=True).data[0]
 
         return Response({
+            'result': True,
             'pattern': data,
             'user_rating': user_rating
         })
+
+class PatternEditView(APIView):
+    permission_classes = [IsAdminUser]
     def post(self, request):
-        if not request.user or request.user.groups.filter(name=GOD_GROUP_NAME).count() == 0 :
-            Response("Not enought permissions", status=status.HTTP_403_FORBIDDEN)
 
         pattern = Pattern(
             name=request.data['name'],
             price_ru=request.data['price_ru'],
             price_en=request.data['price_en'],
-            description='desc')
-        # pattern.name = request.data['name']
-        # pattern.price_ru = request.data['price_ru']
-        # pattern.price_en = request.data['price_en']
-        # pattern.description = ''
-        # pattern.images.set(None)
+            description='desc',
+            images=request.data['images'])
         pattern.save()
-        Response({
-            id: pattern.pk
+
+        return Response({
+            'id': pattern.pk
+        })
+
+    def patch(self, request):
+        id = request.data['id']
+        if not id:
+            Response("Not correct id", status=status.HTTP_400_BAD_REQUEST)
+
+        pattern = Pattern.objects.get(pk=id)
+        pattern.name = request.data['name']
+        pattern.price_ru = request.data['price_ru']
+        pattern.price_en = request.data['price_en']
+        pattern.images.set(request.data['images'])
+        pattern.save()
+
+        return Response({
+            'id': pattern.pk
+        })
+
+    def delete(self, request):
+
+        id = request.GET.get('id')
+        pattern = Pattern.objects.get(pk=id)
+        pattern.delete()
+
+        return Response({
+            'result': True
         })

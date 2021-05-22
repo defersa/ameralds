@@ -3,7 +3,7 @@ from django.db import models
 from django.contrib.auth.models import User
 from enum import Enum
 
-import os 
+import os
 from datetime import datetime
 
 
@@ -19,6 +19,8 @@ class Image(models.Model):
         upload_to='static/images_model/full', blank=True)
     image_small = models.ImageField(
         upload_to='static/images_model/small', blank=True)
+    create_date = models.DateTimeField(
+        verbose_name="Дата создания картинки", auto_now_add=True)
 
     def delete(self, *args, **kwargs):
         if bool(self.image_full) and os.path.isfile(self.image_full.path):
@@ -79,7 +81,8 @@ class Pattern(models.Model):
     images = models.ManyToManyField(
         Image, related_name="pattern", blank=True, verbose_name="Изображения")
 
-    urls = models.CharField(max_length=1000, verbose_name="Файлы схемы", blank=True)
+    urls = models.CharField(
+        max_length=1000, verbose_name="Файлы схемы", blank=True)
 
     price_ru = models.FloatField(verbose_name="Цена для СНГ")
     price_en = models.FloatField(verbose_name="Цена для мира")
@@ -90,7 +93,8 @@ class Pattern(models.Model):
         blank=True)
 
     views = models.IntegerField(verbose_name="Количество показов", default=0)
-    create_date = models.DateField(verbose_name="Дата создания позиции", default=utils.timezone.now)
+    create_date = models.DateField(
+        verbose_name="Дата создания позиции", default=utils.timezone.now)
 
     def delete(self, *args, **kwargs):
         for image in self.images.all():

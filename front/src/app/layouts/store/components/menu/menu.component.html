@@ -1,3 +1,4 @@
-<p>menu works!</p>
+<div class="amstore-menu">
 <button *ngFor="let item of list" [routerLink]="item.path" [disabled]="item.path === (currentPath$ | async)">
     {{item.label}}</button>
+</div>

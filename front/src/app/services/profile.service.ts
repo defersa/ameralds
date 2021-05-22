@@ -38,7 +38,7 @@ export class ProfileService {
                     getAction(HttpActions.Profile))
                     .subscribe((result: ISmallProfile) => {
                         this.profile$.next(result);
-                        this.goodsService.goods$.next(result.goods);
+                        this.goodsService.goods = result.goods;
                         this.godmodeStatus$.next(result.godmode);
                         this.boughtPatterns$.next(result.patterns.map((item: { id: number }) => item.id))
                     });

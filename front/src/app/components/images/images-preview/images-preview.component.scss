@@ -1,0 +1,19 @@
+.amstore-images-preview {
+    img {
+        padding: 2px;
+    }
+    &-current {
+        img {
+            width: 128px;
+            height: 128px;
+            object-fit: cover;
+        }
+    }
+    &-list {
+        img {
+            width: 36px;
+            height: 36px;
+            object-fit: cover;
+        }
+    }
+}

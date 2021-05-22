@@ -10,7 +10,7 @@ from rest_framework.response import Response
 
 class GoodsSelializer(serializers.HyperlinkedModelSerializer):
     jewels = jewerly.JewelryPriceSerializer(many=True)
-    patterns = patterns.PatternsPriceSerializer(many=True)
+    patterns = patterns.PatternsMinSerializer(many=True)
 
     class Meta:
         model = Order
@@ -92,5 +92,18 @@ class Goods():
             return Response({
                 'result': status,
                 'message': message,
+                'goods': Goods.getGoodsSer(request.user.person).data
+            })
+
+    class GoodsBuy(APIView):
+        permission_classes = [IsAuthenticated]
+
+        def post(self, request): 
+            person_goods = Goods.getGoods(request.user.person)
+            person_goods.status = 4
+            person_goods.save()
+            
+            return Response({
+                'result': True,
                 'goods': Goods.getGoodsSer(request.user.person).data
             })

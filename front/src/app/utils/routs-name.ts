@@ -6,7 +6,8 @@ export enum StoreRoutes  {
     PatternAdd = 'pattern-add',
     Jewelrys = 'jewelrys',
     JewelryCard = 'jewelry-card/:id',
-    JewelryAdd = 'jewelry-add'
+    JewelryAdd = 'jewelry-add',
+    Images = 'images'
 }
 
 export enum AccountRoutes {

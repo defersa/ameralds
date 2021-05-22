@@ -5,6 +5,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { MenuComponent } from './components/menu/menu.component';
 import { GoodsComponent } from './pages/goods/goods.component';
 import { AccountRoutes } from 'src/app/utils/routs-name';
+import { ProductCardModule } from 'src/app/components/product-card/product-card.module';
 
 
 export const routes: Routes = [{
@@ -25,7 +26,8 @@ export const routes: Routes = [{
     declarations: [AccountComponent, MenuComponent, GoodsComponent],
     imports: [
         RouterModule.forChild(routes),
-        CommonModule
+        CommonModule,
+        ProductCardModule
     ]
 })
 export class AccountModule { }

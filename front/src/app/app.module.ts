@@ -10,16 +10,20 @@ import { ProfileModule } from './components/profile/profile.module';
 import { AuthService } from './services/auth.service';
 import { GoodsService } from './services/goods.service';
 import { ProfileService } from './services/profile.service';
+import { HeaderComponent } from './components/header/header.component';
+import { GoodsModule } from './components/goods/goods.module';
 
 @NgModule({
     declarations: [
-        AppComponent
+        AppComponent,
+        HeaderComponent
     ],
     imports: [
         BrowserModule,
         AppRoutingModule,
         CoreModule,
-        ProfileModule
+        ProfileModule,
+        GoodsModule
     ],
     providers: [
         { provide: HTTP_INTERCEPTORS, useClass: StoreInterceptor, multi: true },

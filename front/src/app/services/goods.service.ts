@@ -5,37 +5,28 @@ import { tap } from 'rxjs/operators';
 import { AuthService } from './auth.service';
 import { LocalStorageService } from '../core/services/local-storage.service';
 import { getAction, HttpActions } from '../utils/action-builder';
+import { GoodsCard, ProductLite, PriceLocation, ProductType, GoodsModifire } from '../interface/goods.intreface';
+import { SmallPattern } from '../interface/pattern.interface';
+import { MapImage } from '../layouts/store/utils/images';
 
-export type GoodsCard = {
-    jewels: ProductLite[];
-    patterns: ProductLite[];
-    id: number;
-}
-export type GoodsModifire = {
-    goods: GoodsCard;
-    result: boolean;
-}
-export enum PriceLocation {
-    EN = 'price_en',
-    RU = 'price_ru'
-}
-
-export enum ProductType {
-    Patterns = 'patterns',
-    Jewels = 'jewels'
-}
-
-export type ProductLite = {
-    id: number;
-    price_en: number;
-    price_ru: number;
-}
 const LOCAL_GOODS_NAME: string = 'localGoods';
 
 @Injectable({
     providedIn: 'root'
 })
 export class GoodsService {
+
+    public set goods(value: GoodsCard) {
+        value.patterns = value.patterns.map((item: SmallPattern) => {
+            item.images = item.images.map(MapImage);
+            return item;
+        });
+        this.goods$.next(value);
+    }
+
+    public get goods(): GoodsCard {
+        return this.goods$.getValue();
+    }
 
     public goods$: BehaviorSubject<GoodsCard>;
 
@@ -70,16 +61,14 @@ export class GoodsService {
         })
     }
 
-    public addProduct(type: ProductType, product: ProductLite): Observable<any> {
+    public addProduct(type: ProductType, product: ProductLite | SmallPattern): Observable<any> {
         if (this.authService.authStatus.value) {
             return this.httpClient
                 .post<GoodsModifire>(getAction(HttpActions.AddProduct), { id: product.id, productType: type })
-                .pipe(
-                    tap((request: GoodsModifire) => this.goods$.next(request.goods))
-                );
+                .pipe( tap((request: GoodsModifire) => this.goods = request.goods));
         }
         const value: GoodsCard = this.localGoods;
-        value[type].push(product);
+        ProductType.Patterns === type ? value.patterns.push(product as SmallPattern) : value.jewels.push(product as ProductLite);
         this.goods$.next(value);
 
         return of({
@@ -87,17 +76,20 @@ export class GoodsService {
             goods: value
         });
     }
-
     public removeProduct(type: ProductType, id: number): Observable<any> {
         if (this.authService.authStatus.value) {
             return this.httpClient
                 .post<GoodsModifire>(getAction(HttpActions.RemoveProduct), { id: id, productType: type })
-                .pipe(
-                    tap((request: GoodsModifire) => this.goods$.next(request.goods))
-                );
+                .pipe( tap((request: GoodsModifire) => this.goods = request.goods));
         }
+
         const value: GoodsCard = this.localGoods;
-        value[type] = value[type].filter((value: ProductLite) => value.id !== id );
+        if(ProductType.Patterns === type){
+            value.patterns = value[type].filter((value: SmallPattern) => value.id !== id );
+        }
+        if(ProductType.Jewels === type){
+            value.jewels = value[type].filter((value: ProductLite) => value.id !== id );
+        }
         this.goods$.next(value);
 
         return of({
@@ -105,4 +97,17 @@ export class GoodsService {
             goods: value
         });
     }
+
+    public buyGoods(): Observable<any> {
+        return this.httpClient.post(getAction(HttpActions.GoodsBuy), {}).pipe();
+    }
+
+    private mapGoods(goods: GoodsCard): GoodsCard {
+        goods.patterns = goods.patterns.map((item: SmallPattern) => {
+            item.images = item.images.map(MapImage);
+            return item;
+        });
+        return goods;
+    }
+
 }

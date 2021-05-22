@@ -12,6 +12,10 @@ import { StoreRoutes } from 'src/app/utils/routs-name';
 import { PatternAddComponent } from './pages/pattern-add/pattern-add.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { DfcModule } from 'src/app/components/dfc/dfc.module';
+import { ImagesComponent } from './pages/images/images.component';
+import { ImageViewerComponent } from './pages/images/image-viewer/image-viewer.component';
+import { ProductCardModule } from 'src/app/components/product-card/product-card.module';
+import { GoodsModule } from 'src/app/components/goods/goods.module';
 
 
 export const routes: Routes = [{
@@ -42,17 +46,31 @@ export const routes: Routes = [{
             path: StoreRoutes.Jewelrys,
             component: JewelryComponent,
         },
+        {
+            path: StoreRoutes.Images,
+            component: ImagesComponent,
+        },
     ]
 }]
 
 @NgModule({
-    declarations: [StoreComponent, MenuComponent, JewelryComponent, JewelryCardComponent, PatternsComponent, PatternCardComponent, PatternAddComponent],
+    declarations: [
+        StoreComponent,
+        MenuComponent,
+        JewelryComponent,
+        JewelryCardComponent,
+        PatternsComponent,
+        PatternCardComponent,
+        PatternAddComponent,
+        ImagesComponent,
+        ImageViewerComponent],
     imports: [
         RouterModule.forChild(routes),
         PaginatorModule,
         CommonModule,
         ReactiveFormsModule,
-        DfcModule
+        DfcModule,
+        ProductCardModule
     ]
 })
 export class StoreModule { }

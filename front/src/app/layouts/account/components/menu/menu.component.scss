@@ -1,0 +1,17 @@
+.amstore-menu {
+    display: flex;
+    flex-direction: column;
+
+    button {
+        text-align: right;
+        background: 0;
+        padding: 12px;
+        border: none;
+        &:hover {
+            background: rgb(238, 169, 255);
+        }
+        &:disabled {
+            background: rgb(204, 204, 204);
+        }
+    }
+}

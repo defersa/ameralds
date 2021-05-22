@@ -1,0 +1,8 @@
+<div class="amstore-images-preview">
+    <div class="amstore-images-preview-current">
+        <img [src]="currentImage.image_small" />
+    </div>
+    <div class="amstore-images-preview-list">
+        <img *ngFor="let image of images; let i = index" [src]="image.image_small" (mouseover)="onSwitchCurrent(i)" />
+    </div>
+</div>
