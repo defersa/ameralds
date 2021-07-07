@@ -24,3 +24,9 @@ export type ProductLite = {
     price_en: number;
     price_ru: number;
 }
+
+export type GoodsStatusResult = {
+    result: boolean;
+    patterns: {id: number}[];
+    goods: GoodsCard;
+}

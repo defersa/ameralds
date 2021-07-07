@@ -13,7 +13,7 @@ const REFRESH_EXPIRATION_DELTA = 'refreshExpirationDelta';
 })
 export class AuthService {
 
-    public authStatus: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
+    public authStatus: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(this.authToken ? true : false);
 
     public get authToken(): string {
         return this.localStorage.getVariable(AUTH_TOKEN_NAME) as string;
@@ -28,6 +28,7 @@ export class AuthService {
         private localStorage: LocalStorageService,
         private httpClient: HttpClient
     ) {
+        this.refreshToken();
     }
 
     public getToken(value: { username: string, password: string }): void {
@@ -41,9 +42,6 @@ export class AuthService {
                 (error: HttpErrorResponse) => {
                     console.log(error.message);
                 });
-    }
-    public initAuth(): void {
-        this.refreshToken();
     }
 
     public logout(): void {
@@ -74,7 +72,7 @@ export class AuthService {
                     });
                 return;
         }
-        this.authStatus.next(false);
+        this.logout();
     }
 
     private setExpirationDelta(): void {

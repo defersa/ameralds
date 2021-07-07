@@ -127,7 +127,6 @@ export class ImagesComponent implements OnInit {
     public goToPage(page: number): void {
         this.imagesService.getImages(String(page))
             .subscribe((data: ImageModelRequest) => {
-                console.log(data);
                 this.page = data.page;
                 this.pageCount = data.pageCount;
                 this.imageList = data.images.map(MapImageFull);

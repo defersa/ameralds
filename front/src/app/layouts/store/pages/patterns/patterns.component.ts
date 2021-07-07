@@ -1,7 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { ActivatedRoute, Params, Router } from '@angular/router';
-import { Observable, Subject } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
+import { Subject } from 'rxjs';
+import { takeUntil, tap } from 'rxjs/operators';
+import { FilterQuery } from 'src/app/components/paginated-page/paginated-page.component';
 import { ProductType, GoodsModifire, GoodsCard, ProductLite } from 'src/app/interface/goods.intreface';
 import { PageRequest, SmallPattern, SmallPatternWithStatus } from 'src/app/interface/pattern.interface';
 import { GoodsService } from 'src/app/services/goods.service';
@@ -51,20 +51,12 @@ export class PatternsComponent implements OnInit, OnDestroy {
 
     protected destroyed: Subject<void> = new Subject<void>();
 
-    public get queryParams$(): Observable<Params> {
-        return this.activateRoute.queryParams?.pipe(
-            takeUntil(this.destroyed)
-        );
-    }
 
     constructor(
-        private activateRoute: ActivatedRoute,
         private pattern: PatternService,
         private profileService: ProfileService,
-        private goodsService: GoodsService,
-        private router: Router
+        private goodsService: GoodsService
     ) {
-
         this.goodsService.goods$.pipe(takeUntil(this.destroyed)).subscribe(this.getPatternsStatusUpdate());
         this.profileService.boughtPatterns$.pipe(takeUntil(this.destroyed)).subscribe(this.getPatternsStatusUpdate())
     }
@@ -89,7 +81,6 @@ export class PatternsComponent implements OnInit, OnDestroy {
     }
 
     ngOnInit(): void {
-        this.initQuerySubscribe();
     }
 
     ngOnDestroy(): void {
@@ -97,32 +88,14 @@ export class PatternsComponent implements OnInit, OnDestroy {
         this.destroyed.complete();
     }
 
-    public setQueryParams(page: number): void {
-        this.pattern.queryParams = { page };
-        this.router.navigate([], {
-            relativeTo: this.activateRoute,
-            queryParams: this.pattern.queryParams,
-            queryParamsHandling: 'merge',
-            skipLocationChange: false
-        })
-    }
 
-    public initQuerySubscribe(): void {
-        this.activateRoute.queryParams?.pipe(
-            takeUntil(this.destroyed)
-        ).subscribe((params: Params) => {
-            this.pattern.queryParams = params;
-            this.nextPage(params.page ? params.page : 1);
-        });
-    }
-
-    public nextPage(page: number): void {
-        this.pattern.getPatterns(page).subscribe((next: PageRequest) => {
-            this.pageCount = next.pageCount;
-            this.page = next.page;
-            this.rawItems = next.items;
-            this.getPatternsStatusUpdate()();
-        })
+    public nextPage(query: FilterQuery): void {
+        this.pattern.getPatterns(query.page).
+            pipe(tap((next: PageRequest) => {
+                this.pageCount = next.pageCount;
+                this.page = next.page;
+                this.rawItems = next.items;
+            })).subscribe( this.getPatternsStatusUpdate());
     }
 
     public navigateToChild(id: number): void {

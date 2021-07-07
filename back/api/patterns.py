@@ -2,7 +2,7 @@ import math
 from django.core.paginator import Paginator
 
 from rest_framework.views import APIView
-from rest_framework.permissions import IsAdminUser
+from rest_framework.permissions import IsAdminUser, IsAuthenticated
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.response import Response
 from rest_framework import serializers, status
@@ -61,18 +61,34 @@ class PatternsView(APIView):
     def get(self, request, page):
         paginator = Paginator(
             Pattern.objects.order_by('-views'), PATTERNS_ON_LIST)
-        pattern = PatternsMinSerializer(
+        patterns = PatternsMinSerializer(
             paginator.page(page), many=True).data
 
-        for p in pattern:
+        for p in patterns:
             p['rating'] = getRatingSum(p['rating'])
 
         return Response({
             'pageCount': math.ceil(paginator.count / PATTERNS_ON_LIST),
             'page': page,
-            'items': pattern
+            'items': patterns
         })
 
+class OwnPatternsView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request, page):
+        
+        personPatterns = request.user.person.patterns
+        paginator = Paginator(
+            personPatterns.order_by('-views'), PATTERNS_ON_LIST)
+        serializerPatterns = PatternsMinSerializer(
+            paginator.page(page), many=True).data
+            
+        return Response({
+            'pageCount': math.ceil(paginator.count / PATTERNS_ON_LIST),
+            'page': page,
+            'items': serializerPatterns
+        })
 
 class PatternCardView(APIView):
     permission_classes = []
@@ -95,7 +111,7 @@ class PatternCardView(APIView):
 
         user_rating = None
 
-        if request.user:
+        if not request.user.is_anonymous:
             user_rating_filter = request.user.person.patternRating.filter(
                 pattern=pattern)
             if len(user_rating_filter):

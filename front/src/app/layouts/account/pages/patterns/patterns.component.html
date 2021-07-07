@@ -3,6 +3,5 @@
         <p>{{ item.urls }}</p>
         <p>{{ item.price_ru }} Р</p>
         <p>{{ item.price_en }} $</p>
-        <button (click)="buttonStatus[item.status].action(item)" class='amstore-pattern-button' [ngClass]='buttonStatus[item.status].class'>{{buttonStatus[item.status].label}}</button>
     </amstore-product-card>
 </amstore-paginated-page>

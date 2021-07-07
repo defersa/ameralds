@@ -12,6 +12,7 @@ import { GoodsService } from './services/goods.service';
 import { ProfileService } from './services/profile.service';
 import { HeaderComponent } from './components/header/header.component';
 import { GoodsModule } from './components/goods/goods.module';
+import { RouterService } from './services/router.service';
 
 @NgModule({
     declarations: [
@@ -29,7 +30,8 @@ import { GoodsModule } from './components/goods/goods.module';
         { provide: HTTP_INTERCEPTORS, useClass: StoreInterceptor, multi: true },
         AuthService,
         GoodsService,
-        ProfileService
+        ProfileService,
+        RouterService
     ],
     bootstrap: [AppComponent]
 })

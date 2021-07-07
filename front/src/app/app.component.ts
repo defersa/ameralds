@@ -1,5 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, ViewEncapsulation } from '@angular/core';
+import { RouterService } from './services/router.service';
 
 @Component({
     selector: 'app-root',
@@ -9,6 +10,7 @@ import { Component, ViewEncapsulation } from '@angular/core';
 })
 export class AppComponent {
     constructor(
+        private routerService: RouterService
     ) {
     }
 

@@ -12,7 +12,10 @@ export enum HttpActions {
     UploadImage = 'upload-image-file',
     GetImages = 'get-images',
 
-    GoodsBuy = 'goods-buy'
+    GoodsBuy = 'goods-buy',
+
+    GetOrders = 'get-orders',
+    GetOwnPatterns = 'get-own-patterns'
 }
 
 export enum HttpAuthActions {

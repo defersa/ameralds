@@ -12,5 +12,8 @@ export enum StoreRoutes  {
 
 export enum AccountRoutes {
     Account = 'account',
-    Goods = 'goods'
+    Goods = 'goods',
+    Orders = 'orders',
+    Patterns = 'patterns',
+    PatternCard = 'pattern-card/:id',
 }

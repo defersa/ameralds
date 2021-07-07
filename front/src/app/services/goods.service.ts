@@ -5,7 +5,7 @@ import { tap } from 'rxjs/operators';
 import { AuthService } from './auth.service';
 import { LocalStorageService } from '../core/services/local-storage.service';
 import { getAction, HttpActions } from '../utils/action-builder';
-import { GoodsCard, ProductLite, PriceLocation, ProductType, GoodsModifire } from '../interface/goods.intreface';
+import { GoodsCard, ProductLite, PriceLocation, ProductType, GoodsModifire, GoodsStatusResult } from '../interface/goods.intreface';
 import { SmallPattern } from '../interface/pattern.interface';
 import { MapImage } from '../layouts/store/utils/images';
 
@@ -98,8 +98,8 @@ export class GoodsService {
         });
     }
 
-    public buyGoods(): Observable<any> {
-        return this.httpClient.post(getAction(HttpActions.GoodsBuy), {}).pipe();
+    public buyGoods(): Observable<GoodsStatusResult> {
+        return this.httpClient.post<GoodsStatusResult>(getAction(HttpActions.GoodsBuy), {}).pipe();
     }
 
     private mapGoods(goods: GoodsCard): GoodsCard {

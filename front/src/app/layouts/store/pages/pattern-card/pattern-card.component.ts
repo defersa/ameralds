@@ -65,7 +65,7 @@ export class PatternCardComponent implements OnInit, OnDestroy {
         this.profileService.boughtPatterns$.pipe(takeUntil(this.destroyed))
             .subscribe(this.getPatternStatusUpdate());
 
-        this.profileService.godmodeStatus$.pipe(takeUntil(this.destroyed)).subscribe((status: boolean) => this.canEdit = status);
+        this.profileService.moderStatus$.pipe(takeUntil(this.destroyed)).subscribe((status: boolean) => this.canEdit = status);
     }
 
     public getPatternStatusUpdate(): () => void {

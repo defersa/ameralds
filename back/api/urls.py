@@ -1,13 +1,16 @@
 from django.urls import path
 
-from . import views, patterns, goods, fileview
+from . import views, patterns, goods, fileview, orders
 
 
 urlpatterns = [	
     path('profile/', views.Profile.as_view()),
+
     path('patterns/<int:page>', patterns.PatternsView.as_view()),       
     path('pattern-edit/', patterns.PatternEditView.as_view()),
     path('pattern/', patterns.PatternCardView.as_view()),
+    path('get-own-patterns/<int:page>', patterns.OwnPatternsView.as_view()),       
+    
     
     path('add-product/', goods.Goods.GoodsAdd.as_view()),
     path('remove-product/', goods.Goods.GoodsRemove.as_view()),
@@ -15,5 +18,7 @@ urlpatterns = [
 
     path('get-pattern-file/', fileview.FileManager.as_view()),
     path('upload-image-file/', fileview.ImageManager.as_view()),
-    path('get-images/<int:page>', fileview.GetImages.as_view())
+    path('get-images/<int:page>', fileview.GetImages.as_view()),
+
+    path('get-orders/<int:page>', orders.Orders.as_view())
 ]

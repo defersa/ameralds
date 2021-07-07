@@ -7,6 +7,8 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.views import APIView
 from rest_framework.response import Response
 
+from .serializers import IdSerializer
+
 
 class GoodsSelializer(serializers.HyperlinkedModelSerializer):
     jewels = jewerly.JewelryPriceSerializer(many=True)
@@ -24,12 +26,21 @@ class Goods():
         if len(orders) > 0:
             order = orders[0]
         else:
-            order = Order.create(1, person, datetime.now())
+            order = Order.create(1, person, datetime.now())            
+            order.create_date = datetime.now()
             order.save()
+
         return order
 
     def getGoodsSer(person):
         return GoodsSelializer(Goods.getGoods(person))
+
+    def getIdFromObject(objs):
+        result = []
+        for obj in objs:
+            result.append(obj['id'])
+
+        return result
 
     class GoodsAdd(APIView):
         permission_classes = [IsAuthenticated]
@@ -99,11 +110,21 @@ class Goods():
         permission_classes = [IsAuthenticated]
 
         def post(self, request): 
-            person_goods = Goods.getGoods(request.user.person)
+            person = request.user.person
+            person_goods = Goods.getGoods(person)
+
             person_goods.status = 4
+            person_goods.create_date = datetime.now()
             person_goods.save()
+
+            bought_patterns_id = Goods.getIdFromObject(IdSerializer(person_goods.patterns.all(), many=True).data)
+
+            for id in bought_patterns_id:
+                person.patterns.add(id);
+            person.save()
             
             return Response({
                 'result': True,
-                'goods': Goods.getGoodsSer(request.user.person).data
+                'goods': Goods.getGoodsSer(request.user.person).data,
+                'patterns': IdSerializer(person.patterns, many=True).data
             })

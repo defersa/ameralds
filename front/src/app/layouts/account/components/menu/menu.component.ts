@@ -1,12 +1,15 @@
 import { Component, Injector } from '@angular/core';
 import { MenuListType, MenuMiddlewareComponent } from 'src/app/components/menu-middleware/menu-middleware.component';
+import { ACCOUNT_ROUTES } from 'src/app/utils/router-builder';
 import { AccountRoutes, StoreRoutes } from 'src/app/utils/routs-name';
 
-const LIST_MAP: MenuListType[] = [
-    { label: 'Магазин', pathFragment: [StoreRoutes.Store] },
-    { label: 'Аккаунт', pathFragment: [AccountRoutes.Account]},
-    { label: 'Корзина', pathFragment: [AccountRoutes.Account, AccountRoutes.Goods] }
-]
+// const LIST_MAP: MenuListType[] = [
+//     { label: 'Магазин', pathFragment: [StoreRoutes.Store] },
+//     { label: 'Аккаунт', pathFragment: [AccountRoutes.Account]},
+//     { label: 'Корзина', pathFragment: [AccountRoutes.Account, AccountRoutes.Goods] },
+//     { label: 'Заказы', pathFragment: [AccountRoutes.Account, AccountRoutes.Orders] },
+//     { label: 'Купленные схемы', pathFragment: [AccountRoutes.Account, AccountRoutes.Patterns] }
+// ]
 
 @Component({
     selector: 'amstore-menu',
@@ -19,7 +22,7 @@ export class MenuComponent extends MenuMiddlewareComponent {
         public injector: Injector
     ) {
         super(injector);
-        this.initList(LIST_MAP);
+        this.initList(ACCOUNT_ROUTES, 'account');
     }
 
 }

@@ -6,6 +6,9 @@ import { MenuComponent } from './components/menu/menu.component';
 import { GoodsComponent } from './pages/goods/goods.component';
 import { AccountRoutes } from 'src/app/utils/routs-name';
 import { ProductCardModule } from 'src/app/components/product-card/product-card.module';
+import { OrdersComponent } from './pages/orders/orders.component';
+import { PaginatedPageModule } from 'src/app/components/paginated-page/paginated-page.module';
+import { PatternsComponent } from './pages/patterns/patterns.component';
 
 
 export const routes: Routes = [{
@@ -18,16 +21,25 @@ export const routes: Routes = [{
             path: AccountRoutes.Goods,
             component: GoodsComponent,
         },
+        {
+            path: AccountRoutes.Orders,
+            component: OrdersComponent,
+        },
+        {
+            path: AccountRoutes.Patterns,
+            component: PatternsComponent,
+        },
     ]
 }]
 
 
 @NgModule({
-    declarations: [AccountComponent, MenuComponent, GoodsComponent],
+    declarations: [AccountComponent, MenuComponent, GoodsComponent, OrdersComponent, PatternsComponent],
     imports: [
         RouterModule.forChild(routes),
         CommonModule,
-        ProductCardModule
+        ProductCardModule,
+        PaginatedPageModule
     ]
 })
 export class AccountModule { }

@@ -1,9 +1,10 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
-import { GoodsCard } from 'src/app/interface/goods.intreface';
+import { GoodsCard, GoodsStatusResult } from 'src/app/interface/goods.intreface';
 import { SmallPattern } from 'src/app/interface/pattern.interface';
 import { GoodsService } from 'src/app/services/goods.service';
+import { ProfileService } from 'src/app/services/profile.service';
 
 @Component({
     selector: 'app-goods',
@@ -22,7 +23,8 @@ export class GoodsComponent implements OnInit, OnDestroy {
     };
 
     constructor(
-        private goodsService: GoodsService
+        private goodsService: GoodsService,
+        private profileService: ProfileService
     ) {
         this.goodsService.goods$.pipe(takeUntil(this.destroyed)).subscribe((item: GoodsCard) => {
             this.patterns = item.patterns;
@@ -38,8 +40,11 @@ export class GoodsComponent implements OnInit, OnDestroy {
         this.destroyed.complete();
     }
     public buy(): void {
-        this.goodsService.buyGoods().subscribe((result: any) => {
-
+        this.goodsService.buyGoods().subscribe((result: GoodsStatusResult) => {
+            if(result.result){
+                this.goodsService.goods = result.goods;
+                this.profileService.rawBoughtPatterns = result.patterns;
+            }
         });
     }
 

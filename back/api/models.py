@@ -67,7 +67,7 @@ class Jewelry(models.Model):
 
     views = models.IntegerField(verbose_name="Количество показов", default=0)
 
-    create_date = models.DateField(verbose_name="Дата создания позиции")
+    create_date = models.DateTimeField(verbose_name="Дата создания позиции")
 
     def __str__(self):
         return str(self.name)
@@ -93,7 +93,7 @@ class Pattern(models.Model):
         blank=True)
 
     views = models.IntegerField(verbose_name="Количество показов", default=0)
-    create_date = models.DateField(
+    create_date = models.DateTimeField(
         verbose_name="Дата создания позиции", default=utils.timezone.now)
 
     def delete(self, *args, **kwargs):
@@ -159,11 +159,14 @@ class Order(models.Model):
     track_number = models.CharField(
         max_length=200, verbose_name="Трек отслеживания", blank=True)
 
-    next_status_date = models.DateField(
+    next_status_date = models.DateTimeField(
         verbose_name="Примерное время измения статуса", blank=True)
 
     owner = models.ForeignKey(
         Person, on_delete=models.CASCADE, related_name='orders')
+
+    create_date = models.DateTimeField(
+        verbose_name="Дата создания заказа", default=utils.timezone.now)
 
     @classmethod
     def create(self, status, person, next_status_date):
@@ -183,7 +186,7 @@ class Promo(models.Model):
     coints_ru = models.FloatField()
     coints_en = models.FloatField()
 
-    deactivate_date = models.DateField(verbose_name="Дата создания позиции")
+    deactivate_date = models.DateTimeField(verbose_name="Дата создания позиции")
 
     def __str__(self):
         return str(self.pk)

@@ -8,14 +8,14 @@ import { JewelryCardComponent } from './pages/jewelry-card/jewelry-card.componen
 import { PatternsComponent } from './pages/patterns/patterns.component';
 import { PatternCardComponent } from './pages/pattern-card/pattern-card.component';
 import { PaginatorModule } from 'src/app/components/paginator/paginator.module';
-import { StoreRoutes } from 'src/app/utils/routs-name';
 import { PatternAddComponent } from './pages/pattern-add/pattern-add.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { DfcModule } from 'src/app/components/dfc/dfc.module';
 import { ImagesComponent } from './pages/images/images.component';
 import { ImageViewerComponent } from './pages/images/image-viewer/image-viewer.component';
 import { ProductCardModule } from 'src/app/components/product-card/product-card.module';
-import { GoodsModule } from 'src/app/components/goods/goods.module';
+import { PaginatedPageModule } from 'src/app/components/paginated-page/paginated-page.module';
+import { getStoreRoutePath, StoreRoutes } from 'src/app/utils/router-builder';
 
 
 export const routes: Routes = [{
@@ -27,27 +27,27 @@ export const routes: Routes = [{
             component: PatternsComponent,
         },
         {
-            path: StoreRoutes.PatternCard,
+            path: getStoreRoutePath(StoreRoutes.PatternCard),
             component: PatternCardComponent,
         },
         {
-            path: StoreRoutes.PatternAdd,
+            path: getStoreRoutePath(StoreRoutes.PatternAdd),
             component: PatternAddComponent,
         },
         {
-            path: StoreRoutes.PatternEdit,
+            path: getStoreRoutePath(StoreRoutes.PatternEdit),
             component: PatternAddComponent,
         },
         {
-            path: StoreRoutes.Patterns,
+            path: getStoreRoutePath(StoreRoutes.Patterns),
             component: PatternsComponent,
         },
         {
-            path: StoreRoutes.Jewelrys,
+            path: getStoreRoutePath(StoreRoutes.Jewelrys),
             component: JewelryComponent,
         },
         {
-            path: StoreRoutes.Images,
+            path: getStoreRoutePath(StoreRoutes.Images),
             component: ImagesComponent,
         },
     ]
@@ -70,7 +70,8 @@ export const routes: Routes = [{
         CommonModule,
         ReactiveFormsModule,
         DfcModule,
-        ProductCardModule
+        ProductCardModule,
+        PaginatedPageModule
     ]
 })
 export class StoreModule { }

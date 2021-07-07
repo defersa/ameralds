@@ -15,7 +15,7 @@ import { ISmallProfile, ProfileService } from 'src/app/services/profile.service'
 export class ProfileComponent implements OnInit {
 
     public get godmode(): BehaviorSubject<boolean> {
-        return this.profileService.godmodeStatus$;
+        return this.profileService.moderStatus$;
     }
 
 
@@ -37,8 +37,6 @@ export class ProfileComponent implements OnInit {
     }
 
     public ngOnInit(): void {
-        this.authService.initAuth();
-
     }
     public logout(): void {
         this.authService.logout();
