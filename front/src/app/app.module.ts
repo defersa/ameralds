@@ -13,6 +13,7 @@ import { ProfileService } from './services/profile.service';
 import { HeaderComponent } from './components/header/header.component';
 import { GoodsModule } from './components/goods/goods.module';
 import { RouterService } from './services/router.service';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 @NgModule({
     declarations: [
@@ -24,7 +25,8 @@ import { RouterService } from './services/router.service';
         AppRoutingModule,
         CoreModule,
         ProfileModule,
-        GoodsModule
+        GoodsModule,
+        BrowserAnimationsModule
     ],
     providers: [
         { provide: HTTP_INTERCEPTORS, useClass: StoreInterceptor, multi: true },
