@@ -1,6 +1,6 @@
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { getAction, HttpAuthActions, HttpRootFragments } from 'src/app/utils/action-builder';
 import { LocalStorageService } from '../core/services/local-storage.service';
 
@@ -23,25 +23,22 @@ export class AuthService {
         this.localStorage.setVariable(AUTH_TOKEN_NAME, token);
         this.authStatus.next(true);
     }
-
-    constructor(
-        private localStorage: LocalStorageService,
-        private httpClient: HttpClient
-    ) {
-        this.refreshToken();
+    public get expirationDelta(): number {
+        return Number(this.localStorage.getVariable(EXPIRATION_DELTA));
+    }
+    public get refreshExpirationDelta(): number {
+        return Number(this.localStorage.getVariable(REFRESH_EXPIRATION_DELTA));
     }
 
-    public getToken(value: { username: string, password: string }): void {
-        this.httpClient.post( getAction(HttpAuthActions.GetToken, HttpRootFragments.Core), value)
-            .subscribe(
-                (result: unknown) => {
-                    this.authToken = (result as Record<string, string>).token;
-                    this.setExpirationDelta();
-                    this.setRefreshExpirationDelta();
-                },
-                (error: HttpErrorResponse) => {
-                    console.log(error.message);
-                });
+    constructor(
+        private localStorage: LocalStorageService
+    ) {
+    }
+
+    public setToken(tokenObject: { token: string }): void {
+        this.authToken = tokenObject.token;
+        this.setExpirationDelta();
+        this.setRefreshExpirationDelta();
     }
 
     public logout(): void {
@@ -51,36 +48,13 @@ export class AuthService {
         this.localStorage.removeVariable(REFRESH_EXPIRATION_DELTA);
     }
 
-    private refreshToken(): void {
-        if (
-            this.authStatus &&
-            Number(this.localStorage.getVariable(EXPIRATION_DELTA)) > Date.now() &&
-            Number(this.localStorage.getVariable(REFRESH_EXPIRATION_DELTA)) > Date.now()
-        ) {
-            const oldToken: Record<string, string> = {
-                token: this.authToken
-            };
-            this.httpClient.post(getAction(HttpAuthActions.RefreshToken, HttpRootFragments.Core), oldToken)
-                .subscribe(
-                    (result: unknown) => {
-                        this.setExpirationDelta();
-                        this.authToken = (result as Record<string, string>).token;
-                    },
-                    (error: HttpErrorResponse) => {
-                        console.log(error.message);
-                        this.logout();
-                    });
-                return;
-        }
-        this.logout();
-    }
 
-    private setExpirationDelta(): void {
+    public setExpirationDelta(): void {
         const nextExpiration: Date = new Date();;
         this.localStorage.setVariable(EXPIRATION_DELTA, String(nextExpiration.setDate(nextExpiration.getDate() + 7)));
     }
 
-    private setRefreshExpirationDelta(): void {
+    public setRefreshExpirationDelta(): void {
         const nextExpiration: Date = new Date();;
         this.localStorage.setVariable(REFRESH_EXPIRATION_DELTA, String(nextExpiration.setDate(nextExpiration.getDate() + 7 * 8)));
     }

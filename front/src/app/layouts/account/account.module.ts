@@ -9,6 +9,7 @@ import { ProductCardModule } from 'src/app/components/product-card/product-card.
 import { OrdersComponent } from './pages/orders/orders.component';
 import { PaginatedPageModule } from 'src/app/components/paginated-page/paginated-page.module';
 import { PatternsComponent } from './pages/patterns/patterns.component';
+import { AmstoreCdkModule } from '@am/cdk/cdk.module';
 
 
 export const routes: Routes = [{
@@ -39,6 +40,7 @@ export const routes: Routes = [{
         RouterModule.forChild(routes),
         CommonModule,
         ProductCardModule,
+        AmstoreCdkModule,
         PaginatedPageModule
     ]
 })

@@ -1,4 +1,10 @@
 <div class="amstore-menu">
-<button *ngFor="let item of list" [routerLink]="item.path" [disabled]="item.path === (currentPath$ | async)">
-    {{item.label}}</button>
+    <h2>МАГАЗИН</h2>
+    <div class="amstore-menu-list">
+        <amstore-button-menu *ngFor="let item of list" [routerLink]="item.path"
+            [active]="item.path === (currentPath$ | async)">
+            <amstore-icon iconName="profile" [size]="20" color="primary"></amstore-icon>
+            {{item.label}}
+        </amstore-button-menu>
+    </div>
 </div>

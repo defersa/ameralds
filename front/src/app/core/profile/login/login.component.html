@@ -1,0 +1,13 @@
+<h1>Войти</h1>
+
+<amstore-forms-input color="primary" type="email" [formControl]="username" name="username">
+    <amstore-forms-label>Адрес почты</amstore-forms-label>
+</amstore-forms-input>
+
+<amstore-forms-input color="primary" type="password" [formControl]="password" name="password">
+    <amstore-forms-label>Пароль</amstore-forms-label>
+</amstore-forms-input>
+
+<span *ngIf="error">Неверный логин или пароль</span>
+
+<amstore-button (click)="login()" color="accent">Войти</amstore-button>

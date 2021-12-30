@@ -11,7 +11,7 @@ from .models import Pattern, PatternRating
 from .fileview import ImageSerializer
 
 
-PATTERNS_ON_LIST = 3
+PATTERNS_ON_LIST = 5
 GOD_GROUP_NAME = 'god'
 
 

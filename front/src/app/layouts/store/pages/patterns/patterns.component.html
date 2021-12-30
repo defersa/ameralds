@@ -1,8 +1,12 @@
-<amstore-paginated-page (queryEvent)="nextPage($event)" [page]="page" [pageCount]="pageCount">
+<!-- <amstore-paginated-page (queryEvent)="nextPage($event)" [page]="page" [pageCount]="pageCount">
     <amstore-product-card *ngFor="let item of items" [title]="item.name" [images]="item.images" (clickTitle)="navigateToChild(item.id)">
         <p>{{ item.urls }}</p>
         <p>{{ item.price_ru }} Р</p>
         <p>{{ item.price_en }} $</p>
         <button (click)="buttonStatus[item.status].action(item)" class='amstore-pattern-button' [ngClass]='buttonStatus[item.status].class'>{{buttonStatus[item.status].label}}</button>
     </amstore-product-card>
+</amstore-paginated-page> -->
+<amstore-paginated-page (queryEvent)="nextPage($event)" [page]="page" [pageCount]="pageCount">
+    <amstore-snapshot-pattern *ngFor="let item of items" [data]="item" (clickOnHeader)="navigateToChild(item.id)">
+    </amstore-snapshot-pattern>
 </amstore-paginated-page>

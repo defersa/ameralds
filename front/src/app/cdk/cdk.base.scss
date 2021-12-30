@@ -1,0 +1,14 @@
+@import './buttons/base.scss';
+@import './forms/forms.scss';
+@import './snapshot/snapshot.scss';
+@import './card/card.scss';
+
+.amstore-row {
+    display: flex;
+    flex-direction: row;
+}
+
+.amstore-column {
+    display: flex;
+    flex-direction: column;
+}

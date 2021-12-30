@@ -1,9 +1,0 @@
-<div *ngIf="profile">
-    {{profile.username}}
-    {{profile.email}}
-    {{profile.godmode ? 'amagod' : 'amalooser'}}
-    <button (click)="logout()">Logout</button>
-</div>
-<div *ngIf="!profile">
-    <amstore-auth></amstore-auth>
-</div>

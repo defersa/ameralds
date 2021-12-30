@@ -16,6 +16,9 @@ import { ImageViewerComponent } from './pages/images/image-viewer/image-viewer.c
 import { ProductCardModule } from 'src/app/components/product-card/product-card.module';
 import { PaginatedPageModule } from 'src/app/components/paginated-page/paginated-page.module';
 import { getStoreRoutePath, StoreRoutes } from 'src/app/utils/router-builder';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { AmstoreCdkModule } from '@am/cdk/cdk.module';
 
 
 export const routes: Routes = [{
@@ -71,7 +74,12 @@ export const routes: Routes = [{
         ReactiveFormsModule,
         DfcModule,
         ProductCardModule,
-        PaginatedPageModule
+        PaginatedPageModule,
+
+        AmstoreCdkModule,
+
+        MatFormFieldModule,
+        MatInputModule
     ]
 })
 export class StoreModule { }

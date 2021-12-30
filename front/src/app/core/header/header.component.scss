@@ -1,0 +1,39 @@
+@import '/src/app/styles/typography.scss';
+@import '/src/app/styles/spacing.scss';
+
+:host {
+    width: 100%;
+    padding: get-spacing(default);
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.amstore-header-controls {
+    display: flex;
+    align-items: flex-start;
+
+    &-wrapper {
+        display: flex;
+        align-items: flex-end;
+    }
+}
+
+.amstore-header-logo {
+    display: flex;
+    flex-direction: row;
+
+    &-text {
+        padding: get-spacing(default) 0 0 get-spacing(default);
+        display: flex;
+        flex-direction: column;
+    }
+
+    &-title {
+        @include get-amstore-font('headline', 36, null, null);
+    }
+
+    &-description {
+        @include get-amstore-font('headline', 12, null, null);
+    }
+}

@@ -6,7 +6,10 @@ import { RouterService } from './services/router.service';
     selector: 'app-root',
     templateUrl: './app.component.html',
     styleUrls: ['./app.component.scss'],
-    encapsulation: ViewEncapsulation.None
+    encapsulation: ViewEncapsulation.None,
+    host: {
+        class: 'amstore-root'
+    }
 })
 export class AppComponent {
     constructor(

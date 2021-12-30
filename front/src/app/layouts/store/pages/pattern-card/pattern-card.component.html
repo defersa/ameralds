@@ -1,5 +1,7 @@
-<br>
-<button (click)="getBack()">Back</button>
-{{id}}
-<button (click)="button.action()" class='amstore-pattern-button' [ngClass]='button.class'>{{button.label}}</button>
-<button *ngIf="canEdit" (click)="goToEdit()">edit</button>
+<div class="amstore-pattern-card-actions">
+    <amstore-button [stroked]="true" (click)="getBack()">Назад</amstore-button>
+    <amstore-button *ngIf="canEdit" (click)="goToEdit()" [stroked]="true" color="accent">Изменить</amstore-button>
+</div>
+<amstore-pattern-card *ngIf="pattern" [data]="pattern">
+
+</amstore-pattern-card>

@@ -1,17 +1,22 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { OverlayModule } from '@angular/cdk/overlay';
 
-import { AuthComponent } from './auth/auth.component';
+import { AmstoreCdkModule } from '@am/cdk/cdk.module';
+
 import { LocalStorageService } from './services/local-storage.service';
 import { AuthService } from '../services/auth.service';
+import { AmastoreLanguageComponent } from './language/language.component';
+import { AmstoreHeaderModule } from './header/header.module';
+import { AmstoreGoodsModule } from './goods-snap/goods.module';
+import { AmstoreProfileModule } from './profile/profile.module';
 
 
 
 @NgModule({
     declarations: [
-        AuthComponent
+        AmastoreLanguageComponent
     ],
     providers: [
         LocalStorageService,
@@ -20,11 +25,17 @@ import { AuthService } from '../services/auth.service';
     imports: [
         HttpClientModule,
         CommonModule,
-        FormsModule,
-        ReactiveFormsModule
+        OverlayModule,
+        AmstoreCdkModule,
+        AmstoreHeaderModule,
+        AmstoreGoodsModule,
+        AmstoreProfileModule
     ],
     exports: [
-        AuthComponent
+        AmastoreLanguageComponent,
+        AmstoreHeaderModule,
+        AmstoreGoodsModule,
+        AmstoreProfileModule
     ]
 })
 export class CoreModule { }

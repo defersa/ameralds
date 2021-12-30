@@ -1,0 +1,19 @@
+@import "/src/app/styles/theming-var.scss";
+@import "/src/app/styles/spacing.scss";
+@import "/src/app/styles/typography.scss";
+
+.amstore-checkbox {
+    span {
+        color: get-amstore-color(gray, deep);
+        @include get-amstore-font("body", 14, null, null);
+    }
+    .mat-checkbox-checked:not(.mat-checkbox-disabled).mat-accent .mat-ripple-element {
+        background: get-amstore-color(green, middle);
+    }
+    .mat-checkbox-checked.mat-accent .mat-checkbox-background {
+        background-color: get-amstore-color(green, dark);
+    }
+    .mat-checkbox-checked:not(.mat-checkbox-disabled).mat-accent .mat-ripple-element, .mat-checkbox:active:not(.mat-checkbox-disabled).mat-accent .mat-ripple-element {
+        background: get-amstore-color(green, dark);
+    }
+}

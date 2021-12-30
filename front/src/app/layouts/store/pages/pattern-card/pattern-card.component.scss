@@ -1,12 +1,9 @@
-.amstore-pattern-button {
-    color: white;
-    &_common {
-        background: blue;
-    }
-    &_in-goods {
-        background: orange;
-    }
-    &_bought {
-        background: green;
+@import "/src/app/styles/spacing.scss";
+
+.amstore-pattern-card {
+    &-actions {
+        amstore-button {
+            margin: 0 get-spacing(2) get-spacing(4) 0;
+        }
     }
 }

@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { PaginatedPageComponent } from './paginated-page.component';
-import { PaginatorModule } from '../paginator/paginator.module';
+import { AmstoreCdkModule } from '@am/cdk/cdk.module';
 
 
 
@@ -10,7 +10,7 @@ import { PaginatorModule } from '../paginator/paginator.module';
     exports: [PaginatedPageComponent],
     imports: [
         CommonModule,
-        PaginatorModule
+        AmstoreCdkModule
     ]
 })
 export class PaginatedPageModule { }

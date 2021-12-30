@@ -1,0 +1,28 @@
+@import "/src/app/styles/theming-var.scss";
+@import "/src/app/styles/spacing.scss";
+@import "/src/app/styles/typography.scss";
+
+.amstore-dialog-login-panel .mat-dialog-container {
+    padding: get-spacing(8);
+
+    h1 {
+        margin: 0;
+        width: 100%;
+        margin-bottom: get-spacing(4);
+
+        @include get-amstore-font("headline", 30, null, null);
+    }
+    amstore-forms-input {
+        width: 100%;
+        margin: get-spacing(1) 0;
+    }
+
+    .amstore-dialog-login {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-end;
+        width: 264px;
+    }
+
+}
+

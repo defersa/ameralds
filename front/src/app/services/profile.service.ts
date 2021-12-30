@@ -1,8 +1,8 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Subject } from 'rxjs';
+import { BehaviorSubject, Observable, Subject } from 'rxjs';
 import { LocalStorageService } from '../core/services/local-storage.service';
-import { getAction, HttpActions } from '../utils/action-builder';
+import { getAction, HttpActions, HttpAuthActions, HttpRootFragments } from '../utils/action-builder';
 import { LangDictionary, RU_LANG } from '../utils/lang-builder';
 import { AccessEnum } from '../utils/router-builder';
 import { AuthService } from './auth.service';
@@ -59,6 +59,8 @@ export class ProfileService {
         private localStorage: LocalStorageService,
         private httpClient: HttpClient
     ) {
+        this.tryRefreshToken();
+
         this.moderStatus$.subscribe((status: boolean) => this.localModerStatus = status);
         this.moderStatus$.next(this.localModerStatus);
 
@@ -85,5 +87,35 @@ export class ProfileService {
         const status: AccessEnum = this.moderStatus$.getValue() ? AccessEnum.Moder :
             this.authService.authStatus.getValue() ? AccessEnum.Auth : AccessEnum.None;
         this.authAndModerStatus$.next(status);
+    }
+
+
+    public getTokenRequest(value: { username: string, password: string }): Observable<{ token: string }> {
+        return this.httpClient.post<{ token: string }>(getAction(HttpAuthActions.GetToken, HttpRootFragments.Core), value);
+    }
+
+
+    private tryRefreshToken(): void {
+        if (
+            this.authService.authStatus &&
+            this.authService.expirationDelta > Date.now() &&
+            this.authService.refreshExpirationDelta > Date.now()
+        ) {
+            const oldToken: Record<string, string> = {
+                token: this.authService.authToken
+            };
+            this.httpClient.post(getAction(HttpAuthActions.RefreshToken, HttpRootFragments.Core), oldToken)
+                .subscribe(
+                    (result: unknown) => {
+                        this.authService.setExpirationDelta();
+                        this.authService.authToken = (result as Record<string, string>).token;
+                    },
+                    (error: HttpErrorResponse) => {
+                        console.log(error.message);
+                        this.authService.logout();
+                    });
+            return;
+        }
+        this.authService.logout();
     }
 }

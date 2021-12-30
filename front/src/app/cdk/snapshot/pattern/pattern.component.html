@@ -1,0 +1,39 @@
+<div class="amstore-snapshot-images">
+    <img [src]="images[0]?.image_full">
+</div>
+<div class="amstore-snapshot-container">
+    <div class="amstore-snapshot-container-header">
+        <h2 (click)="clickOnHeaderAction()">{{title}}</h2>
+        <amstore-icon iconName="pattern" [size]="24" [isBlack]="true"></amstore-icon>
+        <div class="amstore-snapshot-container-heart">
+            <amstore-icon iconName="heart" [size]="32" [isBlack]="true"></amstore-icon>
+        </div>
+    </div>
+    <div class="amstore-snapshot-container-line">
+        <amstore-chip *ngFor="let category of categories" [isDark]="true">{{category.name}}</amstore-chip>
+    </div>
+
+    <div class="amstore-snapshot-container-line">
+        <amstore-chip *ngFor="let category of sizes" [stroked]="true" color="warn" [isDark]="true">{{category.name}}см</amstore-chip>
+    </div>
+
+    <div class="amstore-snapshot-container-line">
+        <amstore-slide>Включить</amstore-slide>
+        <h2>{{price}}</h2>
+    </div>
+
+
+    <div class="amstore-snapshot-container-info" [@expand]="expandState">
+        <amstore-info status="alert">
+            Aкция:<br>
+            На данный товар применяется акция - при покупке схем из списка цена на каждый товар уменьшается. Ознакомится с условиями акции можно по Ссылке. При удовлетворении условий цена автоматически просчитается.
+        </amstore-info>
+    </div>
+
+    <div class="amstore-snapshot-container-line amstore-snapshot-container-buttons">
+        <amstore-button color="warn" class="amstore-snapshot-container-sale" (click)="showSale = !showSale">
+            <amstore-icon iconName="sale" [contrast]="true" [size]="24"></amstore-icon>
+        </amstore-button>
+        <amstore-button (click)="buttonStatus[status].action()" [color]="buttonStatus[status].color">{{buttonStatus[status].label}}</amstore-button>
+    </div>
+</div>

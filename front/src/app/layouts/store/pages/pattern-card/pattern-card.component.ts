@@ -15,7 +15,7 @@ type PatterButtonStatus = {
 }
 
 @Component({
-    selector: 'amstore-pattern-card',
+    selector: 'amstore-pattern-page',
     templateUrl: './pattern-card.component.html',
     styleUrls: ['./pattern-card.component.scss']
 })

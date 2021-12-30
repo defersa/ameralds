@@ -1,4 +1,5 @@
 import { ImageModelSmall } from "./image.interface"
+import { IdName } from "./request.interface"
 
 export type SmallPattern = {
     id: number;
@@ -9,19 +10,10 @@ export type SmallPattern = {
     price_en: number;
     create_date: any;
     images: ImageModelSmall[];
+    categories?: IdName[];
+    sizes?: IdName[];
 }
 
-export type SmallPatternWithStatus = {
-    id: number;
-    name: string;
-    description: string;
-    urls: string;
-    price_ru: number;
-    price_en: number;
-    create_date: any;
-    images: ImageModelSmall[];
-    status: 'buy' | 'remove' | 'bought';
-}
 
 export type PageRequest = {
     page: number;
