@@ -15,6 +15,7 @@ class ORDER_STATUS(Enum):
 
 
 class Image(models.Model):
+    name = models.CharField(max_length=200, verbose_name="Исходное название файла", default="")
     image_full = models.ImageField(
         upload_to='static/images_model/full', blank=True)
     image_small = models.ImageField(
@@ -39,10 +40,11 @@ class Image(models.Model):
 
 
 class Category(models.Model):
-    name = models.CharField(max_length=200, verbose_name="Имя категории")
+    name_en = models.CharField(max_length=200, verbose_name="Имя категории en")
+    name_ru = models.CharField(max_length=200, verbose_name="Имя категории ru")
 
     def __str__(self):
-        return str(self.name)
+        return str(self.name_ru)
 
 
 class Jewelry(models.Model):
