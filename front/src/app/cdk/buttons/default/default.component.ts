@@ -8,6 +8,7 @@ import { AmstoreButtonBaseDirective } from '../base.abstract.directive';
     host: {
         class: 'amstore-button-default',
         '[class.amstore-button-default-stroked]': 'stroked',
+        '[class.amstore-button-default-disabled]': 'disabled',
         '[class.amstore-button-default-medium]': 'size === "medium"',
         '[class.amstore-button-default-large]': 'size === "large"',
     }

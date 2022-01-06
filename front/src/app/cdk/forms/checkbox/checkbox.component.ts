@@ -14,7 +14,6 @@ import { AmstoreFormsBaseDirective } from '../forms.abstract.directive';
 export class AmstoreCheckboxComponent extends AmstoreFormsBaseDirective {
 
     constructor(public elementRef: ElementRef) {
-        super(elementRef)
-        console.log(1);
+        super(elementRef);
     }
 }

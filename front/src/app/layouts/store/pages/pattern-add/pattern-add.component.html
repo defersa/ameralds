@@ -1,5 +1,5 @@
 <amstore-button [stroked]="true" *ngIf="id" (click)="goToCard()">Назад</amstore-button>
-<amstore-pattern-add-card></amstore-pattern-add-card>
+<amstore-pattern-add-card *ngIf="(asyncPattern | async); let pattern" [data]="pattern">{{pattern | json}}</amstore-pattern-add-card>
 
 
 <h1>{{ id ? 'Edit' : 'Add'}} pattern</h1>

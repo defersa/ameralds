@@ -1,5 +1,5 @@
 <div class="amstore-card-images">
-    <amstore-button style="margin: auto;">Изменить <br> изображения</amstore-button>
+    <amstore-button class="amstore-card-edit-image-add" (click)="openImagesEdit()">Изменить <br> изображения</amstore-button>
     <div class="amstore-card-images-main" *ngIf="mainImage">
         <img [src]="mainImage.image_full" (click)="openViewer(data.images, 0)" class="amstore-card-img">
     </div>

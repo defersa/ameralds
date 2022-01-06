@@ -1,14 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
+import { Observable, of } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { CustomValidatorFns } from 'src/app/components/dfc/common/custom-validators-fn';
 import { ImageModel, ImageModelSmall } from 'src/app/interface/image.interface';
 import { PatternRequest, PatternType } from 'src/app/interface/pattern.interface';
 import { PatternService } from '../../services/pattern.service';
 import { ImageToSmall } from '../../utils/images';
-
-const EDIT_FIELDS: string[] = ['name', 'price_en', 'price_ru'];
 
 @Component({
     selector: 'amstore-pattern-add',
@@ -22,6 +21,8 @@ export class PatternAddComponent implements OnInit {
 
     public images: ImageModelSmall[] = [];
 
+    public asyncPattern: Observable<PatternType>; 
+
     constructor(
         private route: ActivatedRoute,
         private patternService: PatternService
@@ -33,16 +34,9 @@ export class PatternAddComponent implements OnInit {
         });
 
         this.id = Number(this.route.snapshot.paramMap.get('id'));
-        if (this.id) {
+        this.asyncPattern = !this.id ? of(EMPTY_PATTERN) :
             this.patternService.getPattern(this.id)
-                .pipe(map((request: PatternRequest) => request.pattern))
-                .subscribe((pattern: PatternType) => {
-                    EDIT_FIELDS.forEach((key: string) => {
-                        this.getControl(key).setValue(pattern[key as keyof PatternType]);
-                    });
-                    this.images = pattern.images;
-                })
-        }
+                .pipe(map((request: PatternRequest) => request.pattern));
     }
 
     public ngOnInit(): void {
@@ -91,4 +85,14 @@ export class PatternAddComponent implements OnInit {
     public removeImage(image: ImageModel | ImageModelSmall): void {
         this.images = this.images.filter((item: ImageModelSmall) => item.id !== image.id);
     }
+}
+const EMPTY_PATTERN: PatternType = {    
+    id: 0,
+    name: '',
+    description: '',
+    urls: '',
+    price_ru: 0,
+    price_en: 0,
+    create_date: '',
+    images: []
 }

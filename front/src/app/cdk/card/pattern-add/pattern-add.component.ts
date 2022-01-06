@@ -1,13 +1,12 @@
 import { AmstoreViewerService } from '@am/cdk/viewer/viewer.service';
-import { ChangeDetectionStrategy, Component, ElementRef, Input, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, Input, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { combineLatest, Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { LangType } from 'src/app/core/language/language.component';
 import { GoodsCard, GoodsModifire, ProductLite, ProductType } from 'src/app/interface/goods.intreface';
 import { ImageModelSmall } from 'src/app/interface/image.interface';
-import { SmallPattern } from 'src/app/interface/pattern.interface';
-import { LangService } from 'src/app/services/lang.service';
+import { PatternType, SmallPattern } from 'src/app/interface/pattern.interface';
 import { AmstoreCardDirective } from '../card.directive';
 
 
@@ -20,25 +19,28 @@ import { AmstoreCardDirective } from '../card.directive';
 })
 export class AmstorePatternAddCardComponent extends AmstoreCardDirective {
     public get mainImage(): ImageModelSmall | null {
-        return this.data.images[0] || null;
+        return this._images[0] || null;
     }
 
     public get subImages(): ImageModelSmall[] {
-        return this.data.images.length ? this.data.images.slice(1)  : [];
+        return this._images.length ? this._images.slice(1) : [];
     }
     public get images(): ImageModelSmall[] {
-        return this.data.images.length ? this.data.images : [];
+        return this._images.length ? this._images : [];
     }
+    public _images: ImageModelSmall[] = [];
+
 
 
     @Input()
-    public set data(value: SmallPattern) {
+    public set data(value: PatternType) {
         this._data = value;
+        this._images = this.data.images;
     };
-    public get data(): SmallPattern {
+    public get data(): PatternType {
         return this._data;
     };
-    private _data: SmallPattern = MOCK_PATTERN;
+    private _data: PatternType;
 
 
     private _lang: LangType = 'ru';
@@ -46,28 +48,30 @@ export class AmstorePatternAddCardComponent extends AmstoreCardDirective {
     protected destroyed: Subject<void> = new Subject<void>();
 
     constructor(public elementRef: ElementRef,
-        protected viewer: AmstoreViewerService,
-        private langService: LangService) {
+        private _changeDetector: ChangeDetectorRef,
+        protected viewer: AmstoreViewerService) {
         super(viewer);
 
     }
 
     public ngOnInit(): void {
+        this.openImagesEdit();
     }
 
     public ngOnDestroy(): void {
         this.destroyed.next();
         this.destroyed.complete();
     }
+    public openImagesEdit(): void {
+        this.viewer.openEdit(this.images)
+            .subscribe((images: false | ImageModelSmall[]) => {
+                if (!images) {
+                    return;
+                }
+                console.log(images);
+                this._images = images;
+                this._changeDetector.markForCheck();
+            });
+    }
 }
 
-const MOCK_PATTERN: SmallPattern = {
-    id: 0,
-    name: '',
-    description: '',
-    urls: '',
-    price_ru: 0,
-    price_en: 0,
-    create_date: undefined,
-    images: []
-};

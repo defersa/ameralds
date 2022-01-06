@@ -1,0 +1,45 @@
+@import "/src/app/styles/spacing.scss";
+
+.amstore-images-edit {
+    &-list {
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+
+        img {
+            border-radius: 4px;
+            width: 180px;
+            height: 140px;
+            margin-bottom: get-spacing(2);
+
+            object-fit: cover;
+        }
+        &-selected {
+            margin: get-spacing(2);
+        }
+        &-item {
+            display: flex;
+            flex-direction: column;
+            margin: get-spacing(2);
+        }
+        
+        amstore-button {
+            min-width: auto;
+        }
+        &-actions {
+            display: flex;
+            justify-content: space-between;
+        }
+
+    }
+    &-actions {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-top: get-spacing(default);
+        
+        amstore-button {
+            margin-left: get-spacing(2);
+        }
+    }
+}

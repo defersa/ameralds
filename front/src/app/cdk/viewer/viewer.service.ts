@@ -1,5 +1,7 @@
 import { Injectable } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
+import { Observable } from 'rxjs';
+import { AmstoreImagesEditComponent } from './edit/edit.component';
 import { AmstoreViewerComponent } from './viewer.component';
 
 @Injectable({
@@ -19,5 +21,15 @@ export class AmstoreViewerService {
             width: '80vw',
             hasBackdrop: true
         });
+    }
+    
+    public openEdit(images: unknown[]): Observable<any> {
+        return this._dialog.open( AmstoreImagesEditComponent, {
+            data: {
+                images
+            },
+            width: '90vw',
+            hasBackdrop: true
+        }).afterClosed();
     }
 }
