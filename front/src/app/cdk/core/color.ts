@@ -2,7 +2,7 @@ import { Directive, ElementRef, Input } from '@angular/core';
 
 export type ThemePalette = 'primary' | 'accent' | 'warn' | 'contrast' | undefined;
 
-@Directive({selector: 'abstarct-color'})
+@Directive({selector: 'abstract-color'})
 export class AmstoreColor {
     @Input()
     public set color(value: ThemePalette) {
@@ -17,7 +17,7 @@ export class AmstoreColor {
         return this._color;
     }
 
-    private _color: ThemePalette;
+    protected _color: ThemePalette;
     protected defaultColor: ThemePalette = 'primary';
 
     constructor(public elementRef: ElementRef) {

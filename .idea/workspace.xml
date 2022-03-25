@@ -2,23 +2,191 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="d8300dd5-5323-41e5-a465-85a695690fc0" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/back/api/general/__init__.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/back/api/general/sizes.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/back/api/patternFile.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/back/templates/email_template_ru.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/front/src/app/cdk/forms/custom-validators-fn.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/front/src/app/cdk/forms/error-message-builder.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/front/src/app/interface/category.interface.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/front/src/app/interface/cdk.interface.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/front/src/app/interface/lang.interface.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/front/src/app/interface/size.interface.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/front/src/app/layouts/store/pages/category/categories/categories.component.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/front/src/app/layouts/store/pages/category/categories/categories.component.scss" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/front/src/app/layouts/store/pages/category/categories/categories.component.spec.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/front/src/app/layouts/store/pages/category/categories/categories.component.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/front/src/app/layouts/store/pages/category/category-edit/category-edit.component.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/front/src/app/layouts/store/pages/category/category-edit/category-edit.component.scss" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/front/src/app/layouts/store/pages/category/category-edit/category-edit.component.spec.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/front/src/app/layouts/store/pages/category/category-edit/category-edit.component.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/front/src/app/layouts/store/pages/pattern/pattern-add/pattern-add.component.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/front/src/app/layouts/store/pages/pattern/pattern-add/pattern-add.component.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/front/src/app/layouts/store/pages/pattern/patterns/patterns.component.scss" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/front/src/app/shared/menu-middleware/menu-middleware.component.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/front/src/app/shared/menu-middleware/menu-middleware.component.scss" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/front/src/app/shared/menu-middleware/menu-middleware.component.spec.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/front/src/app/shared/menu-middleware/menu-middleware.component.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/front/src/app/shared/menu-middleware/menu-middleware.module.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/front/src/app/shared/paginated-page/paginated-page.component.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/front/src/app/shared/paginated-page/paginated-page.component.scss" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/front/src/app/shared/paginated-page/paginated-page.component.spec.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/front/src/app/shared/paginated-page/paginated-page.component.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/front/src/app/shared/paginated-page/paginated-page.module.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/front/src/app/shared/pattern-send/amstore-pattern-send.component.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/front/src/app/shared/pattern-send/amstore-pattern-send.component.scss" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/front/src/app/shared/pattern-send/amstore-pattern-send.component.spec.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/front/src/app/shared/pattern-send/amstore-pattern-send.component.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/front/src/app/shared/pattern-send/amstore-pattern-send.module.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/front/src/app/shared/services/categories.service.spec.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/front/src/app/shared/services/categories.service.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/front/src/app/shared/services/images.service.spec.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/front/src/app/shared/services/images.service.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/front/src/app/shared/services/pattern.service.spec.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/front/src/app/shared/services/pattern.service.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/front/src/app/shared/services/sizes.service.spec.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/front/src/app/shared/services/sizes.service.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/front/src/app/shared/shared.module.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/front/src/app/utils/constants.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/ameralds.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/ameralds.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Django_Lib.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Django_Lib.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ameralds/api/admin.py" beforeDir="false" afterPath="$PROJECT_DIR$/ameralds/api/admin.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ameralds/api/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/ameralds/api/models.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ameralds/api/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/ameralds/api/urls.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ameralds/api/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/ameralds/api/views.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/front/src/app/app.module.ts" beforeDir="false" afterPath="$PROJECT_DIR$/front/src/app/app.module.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/front/src/app/components/profile/profile.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/front/src/app/components/profile/profile.component.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/front/src/app/components/profile/profile.module.ts" beforeDir="false" afterPath="$PROJECT_DIR$/front/src/app/components/profile/profile.module.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/front/src/app/core/auth/auth.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/front/src/app/core/auth/auth.component.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/front/src/app/core/auth/auth.service.spec.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/front/src/app/core/auth/auth.service.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/front/src/app/core/core.module.ts" beforeDir="false" afterPath="$PROJECT_DIR$/front/src/app/core/core.module.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/front/src/app/layouts/store/pages/pattern-card/pattern-card.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/front/src/app/layouts/store/pages/pattern-card/pattern-card.component.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/front/src/app/layouts/store/pages/pattern-card/pattern-card.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/front/src/app/layouts/store/pages/pattern-card/pattern-card.component.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/back/ameralds/settings.py" beforeDir="false" afterPath="$PROJECT_DIR$/back/ameralds/settings.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/back/ameralds/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/back/ameralds/urls.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/back/api/admin.py" beforeDir="false" afterPath="$PROJECT_DIR$/back/api/admin.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/back/api/categories.py" beforeDir="false" afterPath="$PROJECT_DIR$/back/api/general/categories.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/back/api/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/back/api/models.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/back/api/patterns.py" beforeDir="false" afterPath="$PROJECT_DIR$/back/api/patterns.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/back/api/serializers.py" beforeDir="false" afterPath="$PROJECT_DIR$/back/api/serializers.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/back/api/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/back/api/urls.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/front/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/front/package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/front/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/front/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/front/src/app/cdk/card/card.directive.spec.ts" beforeDir="false" afterPath="$PROJECT_DIR$/front/src/app/shared/card/card.directive.spec.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/front/src/app/cdk/card/card.directive.ts" beforeDir="false" afterPath="$PROJECT_DIR$/front/src/app/shared/card/card.directive.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/front/src/app/cdk/card/card.module.ts" beforeDir="false" afterPath="$PROJECT_DIR$/front/src/app/shared/card/card.module.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/front/src/app/cdk/card/card.scss" beforeDir="false" afterPath="$PROJECT_DIR$/front/src/app/shared/card/card.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/front/src/app/cdk/card/pattern-add/pattern-add.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/front/src/app/shared/card/pattern-add/pattern-add.component.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/front/src/app/cdk/card/pattern-add/pattern-add.component.scss" beforeDir="false" afterPath="$PROJECT_DIR$/front/src/app/shared/card/pattern-add/pattern-add.component.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/front/src/app/cdk/card/pattern-add/pattern-add.component.spec.ts" beforeDir="false" afterPath="$PROJECT_DIR$/front/src/app/shared/card/pattern-add/pattern-add.component.spec.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/front/src/app/cdk/card/pattern-add/pattern-add.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/front/src/app/shared/card/pattern-add/pattern-add.component.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/front/src/app/cdk/card/pattern/pattern.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/front/src/app/shared/card/pattern/pattern.component.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/front/src/app/cdk/card/pattern/pattern.component.scss" beforeDir="false" afterPath="$PROJECT_DIR$/front/src/app/shared/card/pattern/pattern.component.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/front/src/app/cdk/card/pattern/pattern.component.spec.ts" beforeDir="false" afterPath="$PROJECT_DIR$/front/src/app/shared/card/pattern/pattern.component.spec.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/front/src/app/cdk/card/pattern/pattern.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/front/src/app/shared/card/pattern/pattern.component.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/front/src/app/cdk/cdk.base.scss" beforeDir="false" afterPath="$PROJECT_DIR$/front/src/app/cdk/cdk.base.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/front/src/app/cdk/cdk.module.ts" beforeDir="false" afterPath="$PROJECT_DIR$/front/src/app/cdk/cdk.module.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/front/src/app/cdk/core/color.ts" beforeDir="false" afterPath="$PROJECT_DIR$/front/src/app/cdk/core/color.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/front/src/app/cdk/forms/forms.abstract.directive.ts" beforeDir="false" afterPath="$PROJECT_DIR$/front/src/app/cdk/forms/forms.abstract.directive.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/front/src/app/cdk/forms/forms.module.ts" beforeDir="false" afterPath="$PROJECT_DIR$/front/src/app/cdk/forms/forms.module.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/front/src/app/cdk/forms/forms.scss" beforeDir="false" afterPath="$PROJECT_DIR$/front/src/app/cdk/forms/forms.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/front/src/app/cdk/forms/input/input.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/front/src/app/cdk/forms/input/input.component.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/front/src/app/cdk/icons/icons.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/front/src/app/cdk/icons/icons.component.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/front/src/app/cdk/icons/icons.service.ts" beforeDir="false" afterPath="$PROJECT_DIR$/front/src/app/cdk/icons/icons.service.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/front/src/app/cdk/snapshot/pattern/pattern.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/front/src/app/shared/snapshot/pattern/pattern.component.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/front/src/app/cdk/snapshot/pattern/pattern.component.scss" beforeDir="false" afterPath="$PROJECT_DIR$/front/src/app/shared/snapshot/pattern/pattern.component.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/front/src/app/cdk/snapshot/pattern/pattern.component.spec.ts" beforeDir="false" afterPath="$PROJECT_DIR$/front/src/app/shared/snapshot/pattern/pattern.component.spec.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/front/src/app/cdk/snapshot/pattern/pattern.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/front/src/app/shared/snapshot/pattern/pattern.component.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/front/src/app/cdk/snapshot/snapshot.base.directive.spec.ts" beforeDir="false" afterPath="$PROJECT_DIR$/front/src/app/shared/snapshot/snapshot.base.directive.spec.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/front/src/app/cdk/snapshot/snapshot.base.directive.ts" beforeDir="false" afterPath="$PROJECT_DIR$/front/src/app/shared/snapshot/snapshot.base.directive.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/front/src/app/cdk/snapshot/snapshot.module.ts" beforeDir="false" afterPath="$PROJECT_DIR$/front/src/app/shared/snapshot/snapshot.module.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/front/src/app/cdk/snapshot/snapshot.scss" beforeDir="false" afterPath="$PROJECT_DIR$/front/src/app/shared/snapshot/snapshot.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/front/src/app/cdk/viewer/edit/edit.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/front/src/app/shared/viewer/edit/edit.component.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/front/src/app/cdk/viewer/edit/edit.component.scss" beforeDir="false" afterPath="$PROJECT_DIR$/front/src/app/shared/viewer/edit/edit.component.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/front/src/app/cdk/viewer/edit/edit.component.spec.ts" beforeDir="false" afterPath="$PROJECT_DIR$/front/src/app/shared/viewer/edit/edit.component.spec.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/front/src/app/cdk/viewer/edit/edit.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/front/src/app/shared/viewer/edit/edit.component.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/front/src/app/cdk/viewer/viewer.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/front/src/app/shared/viewer/viewer.component.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/front/src/app/cdk/viewer/viewer.component.scss" beforeDir="false" afterPath="$PROJECT_DIR$/front/src/app/shared/viewer/viewer.component.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/front/src/app/cdk/viewer/viewer.component.spec.ts" beforeDir="false" afterPath="$PROJECT_DIR$/front/src/app/shared/viewer/viewer.component.spec.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/front/src/app/cdk/viewer/viewer.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/front/src/app/shared/viewer/viewer.component.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/front/src/app/cdk/viewer/viewer.module.ts" beforeDir="false" afterPath="$PROJECT_DIR$/front/src/app/shared/viewer/viewer.module.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/front/src/app/cdk/viewer/viewer.service.spec.ts" beforeDir="false" afterPath="$PROJECT_DIR$/front/src/app/shared/viewer/viewer.service.spec.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/front/src/app/cdk/viewer/viewer.service.ts" beforeDir="false" afterPath="$PROJECT_DIR$/front/src/app/shared/viewer/viewer.service.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/front/src/app/components/dfc/common/custom-validators-fn.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/front/src/app/components/dfc/common/dfc-element/dfc-element.component.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/front/src/app/components/dfc/common/error-message-builder.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/front/src/app/components/dfc/common/wrapper-component/wrapper-component.component.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/front/src/app/components/dfc/common/wrapper-component/wrapper-component.component.scss" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/front/src/app/components/dfc/common/wrapper-component/wrapper-component.component.spec.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/front/src/app/components/dfc/common/wrapper-component/wrapper-component.component.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/front/src/app/components/dfc/components/input/input.component.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/front/src/app/components/dfc/components/input/input.component.scss" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/front/src/app/components/dfc/components/input/input.component.spec.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/front/src/app/components/dfc/components/input/input.component.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/front/src/app/components/dfc/dfc.module.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/front/src/app/components/images/images-preview/images-preview.component.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/front/src/app/components/images/images-preview/images-preview.component.scss" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/front/src/app/components/images/images-preview/images-preview.component.spec.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/front/src/app/components/images/images-preview/images-preview.component.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/front/src/app/components/images/images.module.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/front/src/app/components/menu-middleware/menu-middleware.component.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/front/src/app/components/menu-middleware/menu-middleware.component.scss" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/front/src/app/components/menu-middleware/menu-middleware.component.spec.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/front/src/app/components/menu-middleware/menu-middleware.component.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/front/src/app/components/menu-middleware/menu-middleware.module.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/front/src/app/components/paginated-page/paginated-page.component.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/front/src/app/components/paginated-page/paginated-page.component.scss" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/front/src/app/components/paginated-page/paginated-page.component.spec.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/front/src/app/components/paginated-page/paginated-page.component.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/front/src/app/components/paginated-page/paginated-page.module.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/front/src/app/components/paginator/paginator.component.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/front/src/app/components/paginator/paginator.component.scss" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/front/src/app/components/paginator/paginator.component.spec.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/front/src/app/components/paginator/paginator.component.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/front/src/app/components/paginator/paginator.module.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/front/src/app/components/product-card/product-card.component.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/front/src/app/components/product-card/product-card.component.scss" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/front/src/app/components/product-card/product-card.component.spec.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/front/src/app/components/product-card/product-card.component.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/front/src/app/components/product-card/product-card.module.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/front/src/app/core/language/language.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/front/src/app/core/language/language.component.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/front/src/app/core/profile/login/login.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/front/src/app/core/profile/login/login.component.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/front/src/app/interface/goods.intreface.ts" beforeDir="false" afterPath="$PROJECT_DIR$/front/src/app/interface/goods.intreface.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/front/src/app/interface/pattern.interface.ts" beforeDir="false" afterPath="$PROJECT_DIR$/front/src/app/interface/pattern.interface.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/front/src/app/interface/request.interface.ts" beforeDir="false" afterPath="$PROJECT_DIR$/front/src/app/interface/request.interface.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/front/src/app/layouts/account/account.module.ts" beforeDir="false" afterPath="$PROJECT_DIR$/front/src/app/layouts/account/account.module.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/front/src/app/layouts/account/components/menu/menu.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/front/src/app/layouts/account/components/menu/menu.component.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/front/src/app/layouts/account/pages/goods/goods.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/front/src/app/layouts/account/pages/goods/goods.component.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/front/src/app/layouts/account/pages/goods/goods.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/front/src/app/layouts/account/pages/goods/goods.component.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/front/src/app/layouts/account/pages/orders/orders.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/front/src/app/layouts/account/pages/orders/orders.component.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/front/src/app/layouts/account/pages/orders/orders.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/front/src/app/layouts/account/pages/orders/orders.component.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/front/src/app/layouts/account/pages/patterns/patterns.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/front/src/app/layouts/account/pages/patterns/patterns.component.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/front/src/app/layouts/account/pages/patterns/patterns.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/front/src/app/layouts/account/pages/patterns/patterns.component.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/front/src/app/layouts/store/components/menu/menu.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/front/src/app/layouts/store/components/menu/menu.component.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/front/src/app/layouts/store/pages/images/image-viewer/image-viewer.component.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/front/src/app/layouts/store/pages/images/image-viewer/image-viewer.component.scss" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/front/src/app/layouts/store/pages/images/image-viewer/image-viewer.component.spec.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/front/src/app/layouts/store/pages/images/image-viewer/image-viewer.component.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/front/src/app/layouts/store/pages/images/images.component.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/front/src/app/layouts/store/pages/images/images.component.scss" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/front/src/app/layouts/store/pages/images/images.component.spec.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/front/src/app/layouts/store/pages/images/images.component.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/front/src/app/layouts/store/pages/pattern-add/pattern-add.component.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/front/src/app/layouts/store/pages/pattern-add/pattern-add.component.scss" beforeDir="false" afterPath="$PROJECT_DIR$/front/src/app/layouts/store/pages/pattern/pattern-add/pattern-add.component.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/front/src/app/layouts/store/pages/pattern-add/pattern-add.component.spec.ts" beforeDir="false" afterPath="$PROJECT_DIR$/front/src/app/layouts/store/pages/pattern/pattern-add/pattern-add.component.spec.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/front/src/app/layouts/store/pages/pattern-add/pattern-add.component.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/front/src/app/layouts/store/pages/pattern-card/pattern-card.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/front/src/app/layouts/store/pages/pattern/pattern-card/pattern-card.component.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/front/src/app/layouts/store/pages/pattern-card/pattern-card.component.scss" beforeDir="false" afterPath="$PROJECT_DIR$/front/src/app/layouts/store/pages/pattern/pattern-card/pattern-card.component.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/front/src/app/layouts/store/pages/pattern-card/pattern-card.component.spec.ts" beforeDir="false" afterPath="$PROJECT_DIR$/front/src/app/layouts/store/pages/pattern/pattern-card/pattern-card.component.spec.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/front/src/app/layouts/store/pages/pattern-card/pattern-card.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/front/src/app/layouts/store/pages/pattern/pattern-card/pattern-card.component.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/front/src/app/layouts/store/pages/patterns/patterns.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/front/src/app/layouts/store/pages/pattern/patterns/patterns.component.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/front/src/app/layouts/store/pages/patterns/patterns.component.scss" beforeDir="false" afterPath="$PROJECT_DIR$/back/__init__.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/front/src/app/layouts/store/pages/patterns/patterns.component.spec.ts" beforeDir="false" afterPath="$PROJECT_DIR$/front/src/app/layouts/store/pages/pattern/patterns/patterns.component.spec.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/front/src/app/layouts/store/pages/patterns/patterns.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/front/src/app/layouts/store/pages/pattern/patterns/patterns.component.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/front/src/app/layouts/store/services/images.service.spec.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/front/src/app/layouts/store/services/images.service.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/front/src/app/layouts/store/services/pattern.service.spec.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/front/src/app/layouts/store/services/pattern.service.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/front/src/app/layouts/store/store.module.ts" beforeDir="false" afterPath="$PROJECT_DIR$/front/src/app/layouts/store/store.module.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/front/src/app/services/goods.service.ts" beforeDir="false" afterPath="$PROJECT_DIR$/front/src/app/services/goods.service.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/front/src/app/store.interceptor.ts" beforeDir="false" afterPath="$PROJECT_DIR$/front/src/app/store.interceptor.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/front/src/app/services/lang.service.ts" beforeDir="false" afterPath="$PROJECT_DIR$/front/src/app/services/lang.service.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/front/src/app/services/profile.service.ts" beforeDir="false" afterPath="$PROJECT_DIR$/front/src/app/services/profile.service.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/front/src/app/styles/theming-var.scss" beforeDir="false" afterPath="$PROJECT_DIR$/front/src/app/styles/theming-var.scss" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/front/src/app/utils/action-builder.ts" beforeDir="false" afterPath="$PROJECT_DIR$/front/src/app/utils/action-builder.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/front/src/app/utils/lang-builder.ts" beforeDir="false" afterPath="$PROJECT_DIR$/front/src/app/utils/lang-builder.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/front/src/app/utils/router-builder.ts" beforeDir="false" afterPath="$PROJECT_DIR$/front/src/app/utils/router-builder.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/front/src/styles.scss" beforeDir="false" afterPath="$PROJECT_DIR$/front/src/styles.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/front/tsconfig.json" beforeDir="false" afterPath="$PROJECT_DIR$/front/tsconfig.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/requirements.txt" beforeDir="false" afterPath="$PROJECT_DIR$/requirements.txt" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -26,8 +194,30 @@
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
+  <component name="DjangoConsoleOptions" custom-start-script="import sys; print('Python %s on %s' % (sys.version, sys.platform))&#10;import django; print('Django %s' % django.get_version())&#10;sys.path.extend([WORKING_DIR_AND_PYTHON_PATHS])&#10;if 'setup' in dir(django): django.setup()&#10;import django_manage_shell; django_manage_shell.run(PROJECT_ROOT)">
+    <option name="myCustomStartScript" value="import sys; print('Python %s on %s' % (sys.version, sys.platform))&#10;import django; print('Django %s' % django.get_version())&#10;sys.path.extend([WORKING_DIR_AND_PYTHON_PATHS])&#10;if 'setup' in dir(django): django.setup()&#10;import django_manage_shell; django_manage_shell.run(PROJECT_ROOT)" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Python Script" />
+        <option value="TypeScript File" />
+      </list>
+    </option>
+  </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="GitSEFilterConfiguration">
+    <file-type-list>
+      <filtered-out-file-type name="LOCAL_BRANCH" />
+      <filtered-out-file-type name="REMOTE_BRANCH" />
+      <filtered-out-file-type name="TAG" />
+      <filtered-out-file-type name="COMMIT_BY_MESSAGE" />
+    </file-type-list>
+  </component>
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
   </component>
   <component name="ProjectId" id="1qB3NmAEXFyvkKZtl34a6Px1phW" />
   <component name="ProjectViewState">
@@ -38,10 +228,27 @@
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
-    <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/back/api/migrations" />
+    <property name="nodejs_package_manager_path" value="npm" />
+    <property name="settings.editor.selected.configurable" value="preferences.sourceCode.TypeScript" />
+    <property name="ts.external.directory.path" value="F:\Project\ameralds_git\ameralds\front\node_modules\typescript\lib" />
+    <property name="vue.rearranger.settings.migration" value="true" />
+  </component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="F:\Project\ameralds_git\ameralds\back\api\migrations" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="F:\Project\ameralds_git\ameralds\back\templates" />
+      <recent name="F:\Project\ameralds_git\ameralds\front\src\app\layouts\store\pages\pattern" />
+      <recent name="F:\Project\ameralds_git\ameralds\back\api\general" />
+      <recent name="F:\Project\ameralds_git\ameralds\front\src\app\shared" />
+    </key>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="SvnConfiguration">
+    <configuration />
+  </component>
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
       <changelist id="d8300dd5-5323-41e5-a465-85a695690fc0" name="Default Changelist" comment="" />
@@ -54,10 +261,35 @@
       <workItem from="1619164860731" duration="561000" />
       <workItem from="1619165483433" duration="4000" />
       <workItem from="1619273551807" duration="100000" />
+      <workItem from="1642368828618" duration="1003000" />
+      <workItem from="1647371946071" duration="1101000" />
+      <workItem from="1647373069052" duration="847000" />
+      <workItem from="1647373932265" duration="8000" />
+      <workItem from="1647373964672" duration="67000" />
+      <workItem from="1647374184135" duration="561000" />
+      <workItem from="1647374843173" duration="191000" />
+      <workItem from="1647375266546" duration="10141000" />
+      <workItem from="1647465752202" duration="2521000" />
+      <workItem from="1647539960314" duration="8360000" />
+      <workItem from="1647638347667" duration="5651000" />
+      <workItem from="1647806265341" duration="5124000" />
+      <workItem from="1648068338367" duration="2674000" />
+      <workItem from="1648241105504" duration="107000" />
     </task>
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
   </component>
 </project>

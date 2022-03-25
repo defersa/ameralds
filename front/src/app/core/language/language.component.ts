@@ -1,13 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { LangObject, LangType } from 'src/app/interface/lang.interface';
 import { LangService } from 'src/app/services/lang.service';
-
-export type LangType = 'en' | 'ru';
-
-export type LangObject = {
-    type: LangType;
-    label: string;
-    url: string;
-}
 
 const LANGS: Record<LangType, LangObject> = {
     'en': {

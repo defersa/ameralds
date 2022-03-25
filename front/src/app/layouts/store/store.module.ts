@@ -5,20 +5,16 @@ import { RouterModule, Routes } from '@angular/router';
 import { MenuComponent } from './components/menu/menu.component';
 import { JewelryComponent } from './pages/jewelry/jewelry.component';
 import { JewelryCardComponent } from './pages/jewelry-card/jewelry-card.component';
-import { PatternsComponent } from './pages/patterns/patterns.component';
-import { PatternCardComponent } from './pages/pattern-card/pattern-card.component';
-import { PaginatorModule } from 'src/app/components/paginator/paginator.module';
-import { PatternAddComponent } from './pages/pattern-add/pattern-add.component';
-import { ReactiveFormsModule } from '@angular/forms';
-import { DfcModule } from 'src/app/components/dfc/dfc.module';
-import { ImagesComponent } from './pages/images/images.component';
-import { ImageViewerComponent } from './pages/images/image-viewer/image-viewer.component';
-import { ProductCardModule } from 'src/app/components/product-card/product-card.module';
-import { PaginatedPageModule } from 'src/app/components/paginated-page/paginated-page.module';
+import { PatternsComponent } from './pages/pattern/patterns/patterns.component';
+import { PatternCardComponent } from './pages/pattern/pattern-card/pattern-card.component';
+import { PatternAddComponent } from './pages/pattern/pattern-add/pattern-add.component';
 import { getStoreRoutePath, StoreRoutes } from 'src/app/utils/router-builder';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatInputModule } from '@angular/material/input';
 import { AmstoreCdkModule } from '@am/cdk/cdk.module';
+import { AmstoreSharedModule } from '@am/shared/shared.module';
+import { CategoriesComponent } from './pages/category/categories/categories.component';
+import { CategoryEditComponent } from './pages/category/category-edit/category-edit.component';
+import { SizesComponent } from './pages/sizes/sizes/sizes.component';
+import { SizeEditComponent } from './pages/sizes/size-edit/size-edit.component';
 
 
 export const routes: Routes = [{
@@ -50,9 +46,29 @@ export const routes: Routes = [{
             component: JewelryComponent,
         },
         {
-            path: getStoreRoutePath(StoreRoutes.Images),
-            component: ImagesComponent,
+            path: getStoreRoutePath(StoreRoutes.Categories),
+            component: CategoriesComponent,
         },
+        {
+            path: getStoreRoutePath(StoreRoutes.CategoryEdit),
+            component: CategoryEditComponent,
+        },
+        {
+            path: getStoreRoutePath(StoreRoutes.CategoryAdd),
+            component: CategoryEditComponent,
+        },
+        {
+            path: getStoreRoutePath(StoreRoutes.Sizes),
+            component: SizesComponent,
+        },
+        {
+            path: getStoreRoutePath(StoreRoutes.SizeEdit),
+            component: SizeEditComponent,
+        },
+        {
+            path: getStoreRoutePath(StoreRoutes.SizeAdd),
+            component: SizeEditComponent,
+        }
     ]
 }]
 
@@ -65,21 +81,17 @@ export const routes: Routes = [{
         PatternsComponent,
         PatternCardComponent,
         PatternAddComponent,
-        ImagesComponent,
-        ImageViewerComponent],
+        CategoriesComponent,
+        CategoryEditComponent,
+        SizesComponent,
+        SizeEditComponent
+    ],
     imports: [
         RouterModule.forChild(routes),
-        PaginatorModule,
         CommonModule,
-        ReactiveFormsModule,
-        DfcModule,
-        ProductCardModule,
-        PaginatedPageModule,
 
         AmstoreCdkModule,
-
-        MatFormFieldModule,
-        MatInputModule
+        AmstoreSharedModule
     ]
 })
 export class StoreModule { }

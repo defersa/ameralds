@@ -4,7 +4,7 @@ import { IconsName, IconsService } from './icons.service';
 import { SafeHtml } from '@angular/platform-browser';
 
 
-export type IconSize = 12 | 16 | 20 | 24 | 32;
+export type IconSize = 12 | 16 | 20 | 24 | 28 | 32;
 
 const SRC_MAP: Map<IconsName, string> = new Map([
     ['login', 'assets/icons/NI Login.svg']

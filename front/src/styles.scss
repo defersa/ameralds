@@ -35,8 +35,26 @@ $amstore-theme: mat-light-theme((
 
 /* You can add global styles to this file, and also import other style files */
 
+@import "/src/app/styles/theming-var.scss";
+@import "/src/app/styles/spacing.scss";
+@import "/src/app/styles/typography.scss";
+@import './app/styles/base.scss';
+
 html, body { height: 100%; }
 body { margin: 0; font-family: Raleway, "Helvetica Neue", sans-serif; }
 
-@import 'app/styles/theming-var.scss';
-@import './app/styles/base.scss';
+h1 {
+    @include get-amstore-font("header", 36, null, null);
+}
+
+.amstore-text-primary {
+  color: get-amstore-color(green, deep);
+}
+
+.amstore-text-accent {
+  color: get-amstore-color(blue, deep);
+}
+
+.amstore-text-warn {
+  color: get-amstore-color(red, deep);
+}

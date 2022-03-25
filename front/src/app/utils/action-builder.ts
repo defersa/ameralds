@@ -15,7 +15,20 @@ export enum HttpActions {
     GoodsBuy = 'goods-buy',
 
     GetOrders = 'get-orders',
-    GetOwnPatterns = 'get-own-patterns'
+    GetOwnPatterns = 'get-own-patterns',
+
+    Category = 'category',
+    Categies = 'categories',
+    AllCategies = 'categories-all',
+
+    Size = 'size',
+    Sizes = 'sizes',
+    AllSizes = 'sizes-all',
+    
+    PatternFile = 'pattern-file',
+
+    
+    SendMail = 'send-mail',
 }
 
 export enum HttpAuthActions {

@@ -10,7 +10,14 @@ export enum StoreRoutes {
     JewelryCard = 'jewelry-card',
     JewelryEdit = 'pattern-edit',
     JewelryAdd = 'jewelry-add',
-    Images = 'images'
+
+    Categories = 'categories',
+    CategoryAdd = 'category-add',
+    CategoryEdit = 'category-edit',
+
+    Sizes = 'sizes',
+    SizeAdd = 'size-add',
+    SizeEdit = 'size-edit'
 }
 
 export enum AccountRoutes {
@@ -47,7 +54,12 @@ export const STORE_ROUTES: RouterConfig[] = [
     { name: StoreRoutes.JewelryCard, path: [StoreRoutes.JewelryCard], prefix: ':id' },
     { name: StoreRoutes.JewelryEdit, path: [StoreRoutes.JewelryEdit], prefix: ':id', access: AccessEnum.Moder },
     { name: StoreRoutes.JewelryAdd, path: [StoreRoutes.JewelryAdd], access: AccessEnum.Moder },
-    { name: StoreRoutes.Images, path: [StoreRoutes.Images], access: AccessEnum.Moder },
+    { name: StoreRoutes.Categories, path: [StoreRoutes.Categories], access: AccessEnum.Moder },
+    { name: StoreRoutes.CategoryAdd, path: [StoreRoutes.CategoryAdd], access: AccessEnum.Moder },
+    { name: StoreRoutes.CategoryEdit, path: [StoreRoutes.CategoryEdit], prefix: ':id', access: AccessEnum.Moder },
+    { name: StoreRoutes.Sizes, path: [StoreRoutes.Sizes], access: AccessEnum.Moder },
+    { name: StoreRoutes.SizeAdd, path: [StoreRoutes.SizeAdd], access: AccessEnum.Moder },
+    { name: StoreRoutes.SizeEdit, path: [StoreRoutes.SizeEdit], prefix: ':id', access: AccessEnum.Moder },
 ];
 
 export const ACCOUNT_ROUTES: RouterConfig[] = [
@@ -81,6 +93,21 @@ export function getAccountRoutePath(name: AccountRoutes): string {
     let path: string = route.path.join('/');
     if(route.prefix) {
         path += '/' + route.prefix;
+    }
+
+    return path;
+}
+
+
+export function getStoreNavigatePath(name: StoreRoutes, id: number | undefined = undefined): string {
+    const route: RouterConfig | undefined = STORE_ROUTES.find((value: RouterConfig) => value.name === name);
+
+    if(route === undefined) {
+        return '';
+    }
+    let path: string = '/' + route.path.join('/');
+    if(route.prefix && typeof id === 'number') {
+        path += '/' + id;
     }
 
     return path;

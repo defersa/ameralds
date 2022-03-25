@@ -1,14 +1,18 @@
 from django.contrib import admin
-from .models import Category, Jewelry, Pattern, Person, Order, Promo, JewelryRating, PatternRating, Image
+from . import models
 
 # Register your models here.
 
-admin.site.register(Category)
-admin.site.register(Jewelry)
-admin.site.register(Pattern)
-admin.site.register(Person)
-admin.site.register(Order)
-admin.site.register(Promo)
-admin.site.register(JewelryRating)
-admin.site.register(PatternRating)
-admin.site.register(Image)
+admin.site.register(models.Category)
+admin.site.register(models.Jewelry)
+admin.site.register(models.Pattern)
+admin.site.register(models.Person)
+admin.site.register(models.Order)
+admin.site.register(models.Promo)
+admin.site.register(models.JewelryRating)
+admin.site.register(models.PatternRating)
+admin.site.register(models.Image)
+admin.site.register(models.Size)
+admin.site.register(models.PatternFile)
+admin.site.register(models.PatternSize)
+admin.site.register(models.LangCharFieldShort)

@@ -1,17 +1,24 @@
 from django import utils
 from django.db import models
 from django.contrib.auth.models import User
-from enum import Enum
 
 import os
-from datetime import datetime
 
 
-class ORDER_STATUS(Enum):
-    CARD = 1
-    PAID = 2
-    DELIVERY = 3
-    SUCCESS = 4
+class LangCharFieldShort(models.Model):
+    en = models.CharField(max_length=200, verbose_name="En", blank=True, default="")
+    ru = models.CharField(max_length=200, verbose_name="Ru", blank=True, default="")
+
+    def __str__(self):
+        return str(self.en + ' ' + self.ru)
+
+
+class LangIntegerField(models.Model):
+    en = models.IntegerField(verbose_name="En", blank=True, default=0)
+    ru = models.IntegerField(verbose_name="Ru", blank=True, default=0)
+
+    def __str__(self):
+        return str(str(self.en) + '$ ' + str(self.ru) + 'Р')
 
 
 class Image(models.Model):
@@ -40,11 +47,44 @@ class Image(models.Model):
 
 
 class Category(models.Model):
-    name_en = models.CharField(max_length=200, verbose_name="Имя категории en")
-    name_ru = models.CharField(max_length=200, verbose_name="Имя категории ru")
+    name = models.OneToOneField(LangCharFieldShort, on_delete=models.CASCADE)
+    name_en = models.CharField(max_length=200, verbose_name="Имя категории en", blank=True)
+    name_ru = models.CharField(max_length=200, verbose_name="Имя категории ru", blank=True)
+
+    create_date = models.DateTimeField(
+        verbose_name="Дата создании категории", auto_now_add=True)
+
+    def create(self, en, ru):
+        print(en, ru)
+        lang = LangCharFieldShort(en=en, ru=ru)
+        lang.save()
+        return self.objects.create(name=lang)
 
     def __str__(self):
         return str(self.name_ru)
+
+
+class Size(models.Model):
+    value = models.PositiveIntegerField(default=0)
+    create_date = models.DateTimeField(
+        verbose_name="Дата создания размера", auto_now_add=True)
+
+    def __str__(self):
+        return str(self.value)
+
+
+class PatternFile(models.Model):
+    name = models.CharField(max_length=200, verbose_name="Название файла", default="")
+    file = models.FileField(
+        upload_to='files/pattern', blank=True)
+
+    def delete(self, *args, **kwargs):
+        if bool(self.file) and os.path.isfile(self.file.path):
+            os.remove(self.file.path)
+        super(PatternFile, self).delete(*args, **kwargs)
+
+    def __str__(self):
+        return str(self.name)
 
 
 class Jewelry(models.Model):
@@ -58,6 +98,8 @@ class Jewelry(models.Model):
     stock = models.IntegerField(verbose_name="Количество в наличии")
     complexity = models.IntegerField(
         verbose_name="Количество дней на новую исполнение новой товарной единицы")
+
+    price = models.OneToOneField(LangIntegerField, on_delete=models.CASCADE, null=True, blank=True)
 
     price_ru = models.FloatField(verbose_name="Цена для СНГ")
     price_en = models.FloatField(verbose_name="Цена для мира")
@@ -76,18 +118,17 @@ class Jewelry(models.Model):
 
 
 class Pattern(models.Model):
-    name = models.CharField(max_length=200, verbose_name="Имя схемы")
+    name = models.OneToOneField(LangCharFieldShort, on_delete=models.CASCADE)
+
     description = models.CharField(
         max_length=1000, verbose_name="Описание схемы")
 
     images = models.ManyToManyField(
         Image, related_name="pattern", blank=True, verbose_name="Изображения")
 
-    urls = models.CharField(
-        max_length=1000, verbose_name="Файлы схемы", blank=True)
+    price = models.OneToOneField(LangIntegerField, on_delete=models.CASCADE)
 
-    price_ru = models.FloatField(verbose_name="Цена для СНГ")
-    price_en = models.FloatField(verbose_name="Цена для мира")
+    hidden = models.BooleanField(verbose_name="Скрытый")
 
     category = models.ManyToManyField(
         Category,
@@ -105,6 +146,31 @@ class Pattern(models.Model):
 
     def __str__(self):
         return str(self.name)
+
+
+class PatternSize(models.Model):
+    pattern = models.ForeignKey(Pattern, on_delete=models.CASCADE, related_name="sizes")
+    size = models.ForeignKey(Size, on_delete=models.CASCADE)
+
+    cbb = models.OneToOneField(PatternFile, on_delete=models.CASCADE, related_name="cbb", blank=True, null=True)
+    pdf = models.OneToOneField(PatternFile, on_delete=models.CASCADE, related_name="pdf", blank=True, null=True)
+    png = models.OneToOneField(PatternFile, on_delete=models.CASCADE, related_name="png", blank=True, null=True)
+    jbb = models.OneToOneField(PatternFile, on_delete=models.CASCADE, related_name="jbb", blank=True, null=True)
+
+    def delete(self, *args, **kwargs):
+        if self.cbb:
+            self.cbb.delete()
+        if self.pdf:
+            self.pdf.delete()
+        if self.png:
+            self.png.delete()
+        if self.jbb:
+            self.jbb.delete()
+
+        super(PatternSize, self).delete(*args, **kwargs)
+
+    def __str__(self):
+        return str(self.pk)
 
 
 class Person(models.Model):
@@ -181,7 +247,6 @@ class Order(models.Model):
 
 
 class Promo(models.Model):
-
     active = models.BooleanField()
 
     secretCode = models.CharField(max_length=50)

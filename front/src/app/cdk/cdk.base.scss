@@ -1,7 +1,7 @@
 @import './buttons/base.scss';
 @import './forms/forms.scss';
-@import './snapshot/snapshot.scss';
-@import './card/card.scss';
+@import '../shared/snapshot/snapshot.scss';
+@import '../shared/card/card.scss';
 
 .amstore-row {
     display: flex;

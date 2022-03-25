@@ -1,0 +1,69 @@
+<div class="amstore-card-images">
+    <div class="amstore-card-images-main">
+        <img [src]="mainImage.image_full" (click)="openViewer(data.images, 0)" class="amstore-card-img">
+    </div>
+    <div *ngFor="let image of subImages; index as i;" class="amstore-card-images-sub">
+        <img [src]="image.image_full" (click)="openViewer(data.images, i + 1)" class="amstore-card-img">
+    </div>
+</div>
+<div class="amstore-card-container">
+    <div class="amstore-card-container-header">
+        <h1>{{title}}</h1>
+        <div class="amstore-card-container-heart">
+            <amstore-icon iconName="heart" [size]="32" [isBlack]="true"></amstore-icon>
+        </div>
+    </div>
+    <div class="amstore-card-container-line">
+        <amstore-icon iconName="pattern" [size]="32" [isBlack]="true"></amstore-icon>
+        <b class="amstore-text-accent">Схема</b>
+    </div>
+
+
+    <div class="amstore-card-container-line">
+        <h3>Описание:</h3>
+        <p>
+            Безумно красивый жгут на 2/3 содержащий великолепие и превосходство над остальными жгутами в своем классе
+        </p>
+    </div>
+
+
+    <div class="amstore-card-container-line">
+        <h3>Категории:</h3>
+        <div class="amstore-row">
+            <amstore-chip *ngFor="let category of categories" [isDark]="true" size="large">{{category.name}}</amstore-chip>
+        </div>
+    </div>
+
+    <div class="amstore-card-container-line">
+        <h3>Размеры:</h3>
+
+        <div class="amstore-row">
+            <amstore-checkbox *ngFor="let size of sizes" [control]="size.control">{{size.value}} {{sizeUnit}}</amstore-checkbox>
+        </div>
+    </div>
+
+
+    <div class="amstore-card-container-line">
+        <h3>Подбор цветов:</h3>
+
+        <amstore-slide size="large">Включить подбор</amstore-slide>
+    </div>
+
+
+    <div class="amstore-card-container-info" [@expand]="expandState">
+        <amstore-info status="alert">
+            Aкция:<br>
+            На данный товар применяется акция - при покупке схем из списка цена на каждый товар уменьшается. Ознакомится с условиями акции можно по Ссылке. При удовлетворении условий цена автоматически просчитается.
+        </amstore-info>
+    </div>
+
+
+    <h2>{{price}}</h2>
+
+    <div class="amstore-row amstore-card-container-buttons">
+        <amstore-button color="warn" class="amstore-card-container-sale" [ngClass]="showSale ? '' : 'not-active'" (click)="showSale = !showSale" size="large">
+            <amstore-icon iconName="sale" [contrast]="true" [size]="32"></amstore-icon>
+        </amstore-button>
+        <amstore-button (click)="buttonStatus[status].action()" [color]="buttonStatus[status].color" size="large">{{buttonStatus[status].label}}</amstore-button>
+    </div>
+</div>

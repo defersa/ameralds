@@ -1,8 +1,9 @@
-import { SmallPattern } from "./pattern.interface"
+import { PatternMaxType } from "./pattern.interface"
+import { LangNumber } from "@am/interface/lang.interface";
 
 export type GoodsCard = {
     jewels: ProductLite[];
-    patterns: SmallPattern[];
+    patterns: PatternMaxType[];
     id: number;
 }
 export type GoodsModifire = {
@@ -21,8 +22,7 @@ export enum ProductType {
 
 export type ProductLite = {
     id: number;
-    price_en: number;
-    price_ru: number;
+    price: LangNumber;
 }
 
 export type GoodsStatusResult = {

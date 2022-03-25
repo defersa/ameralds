@@ -24,7 +24,12 @@ export const RU_LANG: LangDictionary = {
             'jewelry-card': 'Карточка украшения',
             // 'jewelry-edit': 'Изменение украшения',
             'jewelry-add': 'Добавление украшения',
-            'images': 'Изображения',
+            'categories': 'Категории',
+            'category-edit': 'Изменить категорию',
+            'category-add': 'Создать категорию',
+            'sizes': 'Размеры',
+            'size-edit': 'Изменить размер',
+            'size-add': 'Создать размер'
         },
         account: {
             '': 'Главная',
@@ -33,6 +38,37 @@ export const RU_LANG: LangDictionary = {
             'orders': 'Заказы',
             'patterns': 'Купленные схемы',
             'pattern-card': 'Купленная схема'
+        }
+    }
+}
+
+export const EN_LANG: LangDictionary = {
+    routes: {
+        store: {
+            '': 'Main',
+            'account': 'Personal',
+            'patterns': 'Patterns',
+            'pattern-card': 'Pattern',
+            'pattern-edit': 'Pattern edit',
+            'pattern-add': 'Pattern add',
+            'jewelrys': 'Jewelries',
+            'jewelry-card': 'Jewelry',
+            // 'jewelry-edit': 'Изменение украшения',
+            'jewelry-add': 'Jewelry add',
+            'categories': 'Categories',
+            'category-edit': 'Category edit',
+            'category-add': 'Category add',
+            'sizes': 'Sizes',
+            'size-edit': 'Edit size',
+            'size-add': 'Add size'
+        },
+        account: {
+            '': 'Main',
+            'account': 'Account',
+            'goods': 'Goods',
+            'orders': 'Orders',
+            'patterns': 'Own patterns',
+            'pattern-card': 'Pattern'
         }
     }
 }

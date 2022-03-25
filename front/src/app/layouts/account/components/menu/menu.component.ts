@@ -1,5 +1,5 @@
 import { Component, Injector } from '@angular/core';
-import { MenuListType, MenuMiddlewareComponent } from 'src/app/components/menu-middleware/menu-middleware.component';
+import { MenuListType, MenuMiddlewareComponent } from 'src/app/shared/menu-middleware/menu-middleware.component';
 import { ACCOUNT_ROUTES } from 'src/app/utils/router-builder';
 import { AccountRoutes, StoreRoutes } from 'src/app/utils/routs-name';
 

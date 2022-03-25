@@ -131,6 +131,5 @@ dmypy.json
 # Project files
 amvenv/
 env.py
-migrations/
 /back/media
 /back/static

@@ -3,5 +3,7 @@
         <ng-content selector="amstore-forms-label"></ng-content>
     </mat-label>
 
-    <input matInput [type]="type" [formControl]="formControl" [name]="name">
+    <input matInput [type]="type" [formControl]="formControl" [name]="name" ngDefaultControl>
+
+    <mat-error *ngIf="isErrorState">{{errors$ | async}}</mat-error>
 </mat-form-field>

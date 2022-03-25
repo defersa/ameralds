@@ -1,7 +1,0 @@
-<button
-    *ngFor="let p of pageList"
-    [disabled]="p === page"
-    [class.paginator-disable]="p === page"
-    (click)="goToPage(p);">
-    {{p}}
-</button>

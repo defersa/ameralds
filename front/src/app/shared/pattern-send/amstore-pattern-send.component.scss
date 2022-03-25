@@ -1,0 +1,16 @@
+@import "/src/app/styles/spacing.scss";
+
+.amstore-pattern-send-wrapper {
+    display: flex;
+    flex-direction: row;
+    overflow: hidden;
+
+    border-radius: 8px;
+
+    margin-bottom: get-spacing(4);
+    margin-top: get-spacing(4);
+
+    padding: get-spacing(4);
+
+    box-shadow: 0 0 8px rgb(17 17 17 / 30%);
+}

@@ -1,0 +1,12 @@
+<div class="amstore-pattern-card-actions">
+    <amstore-button [stroked]="true" (click)="getBack()">Назад</amstore-button>
+    <amstore-button *ngIf="moderStatus$ | async" (click)="goToEdit()" [stroked]="true" color="accent">Изменить</amstore-button>
+</div>
+
+<ng-container *ngIf="moderStatus$ | async">
+    <amstore-pattern-send [pattern]="pattern"></amstore-pattern-send>
+</ng-container>
+
+<amstore-pattern-card *ngIf="pattern" [data]="pattern">
+
+</amstore-pattern-card>

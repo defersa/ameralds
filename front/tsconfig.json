@@ -23,6 +23,22 @@
         "paths": {
             "@am/cdk/*": [
                 "src/app/cdk/*"
+            ],
+
+            "@am/shared/*": [
+                "src/app/shared/*"
+            ],
+
+            "@am/services/*": [
+                "src/app/services/*"
+            ],
+
+            "@am/interface/*": [
+                "src/app/interface/*"
+            ],
+
+            "@am/utils/*": [
+                "src/app/utils/*"
             ]
         }
     },

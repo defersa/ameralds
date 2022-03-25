@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { tap } from 'rxjs/operators';
-import { FilterQuery } from 'src/app/components/paginated-page/paginated-page.component';
+import { FilterQuery } from 'src/app/shared/paginated-page/paginated-page.component';
 import { OrdersRequest, SmallOrders } from 'src/app/interface/order.interface';
 import { OrdersService } from '../../services/orders.service';
 

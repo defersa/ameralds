@@ -1,71 +1,69 @@
 import math
+
+from django.core.mail import send_mail, EmailMultiAlternatives
 from django.core.paginator import Paginator
 
-from rest_framework.views import APIView
-from rest_framework.permissions import IsAdminUser, IsAuthenticated
-from rest_framework.decorators import api_view, permission_classes
-from rest_framework.response import Response
+from django.template.loader import get_template
+from django.template import Context
+
 from rest_framework import serializers, status
-from .models import Pattern, PatternRating
+from rest_framework.permissions import IsAdminUser, IsAuthenticated
+from rest_framework.response import Response
+from rest_framework.views import APIView
 
 from .fileview import ImageSerializer
-
+from .general.categories import CategorySerializer
+from .general.sizes import Size
+from .models import Pattern, PatternRating, LangCharFieldShort, LangIntegerField
+from .patternFile import PatternSize, PatternSizeSerializer
+from .serializers import LangNumberSerializer, LangShortSerializer
 
 PATTERNS_ON_LIST = 5
-GOD_GROUP_NAME = 'god'
 
 
-def getRatingSum(items):
-    items_count = len(items) or 1
-    sum = 0
+def get_rating_sum(items):
+    items_count: int = len(items) or 1
+    rating_sum: int = 0
     for item in items:
-        sum = sum + dict(item)['score']
-    return round(sum/items_count, 2)
-
-
-class RatingSelializer(serializers.HyperlinkedModelSerializer):
-    class Meta:
-        model = PatternRating
-        fields = ['score']
-
-
-class PatternsPriceSerializer(serializers.HyperlinkedModelSerializer):
-    class Meta:
-        model = Pattern
-        fields = ['id', 'price_ru', 'price_en']
+        rating_sum = rating_sum + dict(item)['score']
+    return round(rating_sum / items_count, 2)
 
 
 class PatternsMinSerializer(serializers.HyperlinkedModelSerializer):
-    rating = RatingSelializer(many=True)
+    name = LangShortSerializer()
+    price = LangNumberSerializer()
+
     images = ImageSerializer(many=True)
+    sizes = PatternSizeSerializer(many=True)
+    category = CategorySerializer(many=True)
 
     class Meta:
         model = Pattern
-        fields = ['id', 'name', 'urls', 'views',
-                  'price_ru', 'price_en', 'rating', 'images']
+        fields = ['id', 'name', 'views', 'price', 'images', 'category', 'sizes']
 
 
 class PatternsMaxSerializer(serializers.HyperlinkedModelSerializer):
-    rating = RatingSelializer(many=True)
+    name = LangShortSerializer()
+    price = LangNumberSerializer()
+
     images = ImageSerializer(many=True)
+    sizes = PatternSizeSerializer(many=True)
+    category = CategorySerializer(many=True)
 
     class Meta:
         model = Pattern
-        fields = ['id', 'name', 'description', 'urls', 'views',
-                  'price_ru', 'price_en', 'create_date', 'rating', 'images']
+        fields = ['id', 'name', 'views', 'category', 'hidden', 'price', 'images', 'sizes']
 
 
 class PatternsView(APIView):
     permission_classes = []
 
-    def get(self, request, page):
+    @classmethod
+    def get(cls, request, page):
         paginator = Paginator(
             Pattern.objects.order_by('-views'), PATTERNS_ON_LIST)
         patterns = PatternsMinSerializer(
             paginator.page(page), many=True).data
-
-        for p in patterns:
-            p['rating'] = getRatingSum(p['rating'])
 
         return Response({
             'pageCount': math.ceil(paginator.count / PATTERNS_ON_LIST),
@@ -73,94 +71,174 @@ class PatternsView(APIView):
             'items': patterns
         })
 
+
 class OwnPatternsView(APIView):
     permission_classes = [IsAuthenticated]
 
-    def get(self, request, page):
-        
-        personPatterns = request.user.person.patterns
+    @classmethod
+    def get(cls, request, page):
+        person_patterns = request.user.person.patterns
         paginator = Paginator(
-            personPatterns.order_by('-views'), PATTERNS_ON_LIST)
-        serializerPatterns = PatternsMinSerializer(
+            person_patterns.order_by('-views'), PATTERNS_ON_LIST)
+        serializer_patterns = PatternsMinSerializer(
             paginator.page(page), many=True).data
-            
+
         return Response({
             'pageCount': math.ceil(paginator.count / PATTERNS_ON_LIST),
             'page': page,
-            'items': serializerPatterns
+            'items': serializer_patterns
         })
+
 
 class PatternCardView(APIView):
     permission_classes = []
 
-    def get(self, request):
-        id = request.GET.get('id')
+    @classmethod
+    def get(cls, request):
+        pk = request.GET.get('id')
 
-        if not len(Pattern.objects.filter(pk=id)):
+        if not len(Pattern.objects.filter(pk=pk)):
             return Response({
                 'result': False
             })
 
-        pattern = Pattern.objects.get(pk=id)
-
+        pattern = Pattern.objects.get(pk=pk)
         pattern.views = pattern.views + 1
         pattern.save()
 
         data = PatternsMaxSerializer(pattern).data
-        data['rating'] = getRatingSum(data['rating'])
-
-        user_rating = None
-
-        if not request.user.is_anonymous:
-            user_rating_filter = request.user.person.patternRating.filter(
-                pattern=pattern)
-            if len(user_rating_filter):
-                user_rating = RatingSelializer(
-                    user_rating_filter, many=True).data[0]
 
         return Response({
             'result': True,
-            'pattern': data,
-            'user_rating': user_rating
+            'item': data
         })
+
 
 class PatternEditView(APIView):
     permission_classes = [IsAdminUser]
-    def post(self, request):
 
-        pattern = Pattern(
-            name=request.data['name'],
-            price_ru=request.data['price_ru'],
-            price_en=request.data['price_en'],
-            description='desc',
-            images=request.data['images'])
-        pattern.save()
+    @classmethod
+    def get(cls, request):
+        pk = request.GET.get('id')
+
+        if not len(Pattern.objects.filter(pk=pk)):
+            return Response({
+                'result': False
+            })
+
+        pattern = Pattern.objects.get(pk=pk)
+
+        data = PatternsMaxSerializer(pattern).data
 
         return Response({
-            'id': pattern.pk
+            'result': True,
+            'item': data
         })
 
-    def patch(self, request):
-        id = request.data['id']
+    @classmethod
+    def post(cls, request):
+        pattern = Pattern()
+        pattern.name = LangCharFieldShort()
+        pattern.price = LangIntegerField()
+
+        sizes = cls.update_entity(pattern, request)
+
+        return Response({
+            'id': pattern.pk,
+            'sizes': sizes
+        })
+
+    @classmethod
+    def patch(cls, request):
+        pk = request.data['id']
         if not id:
             Response("Not correct id", status=status.HTTP_400_BAD_REQUEST)
 
-        pattern = Pattern.objects.get(pk=id)
-        pattern.name = request.data['name']
-        pattern.price_ru = request.data['price_ru']
-        pattern.price_en = request.data['price_en']
-        pattern.images.set(request.data['images'])
-        pattern.save()
+        pattern = Pattern.objects.get(pk=pk)
+        sizes = cls.update_entity(pattern, request)
 
         return Response({
-            'id': pattern.pk
+            'id': pattern.pk,
+            'sizes': sizes
         })
 
-    def delete(self, request):
-
-        id = request.GET.get('id')
-        pattern = Pattern.objects.get(pk=id)
+    @classmethod
+    def delete(cls, request):
+        pk = request.GET.get('id')
+        pattern = Pattern.objects.get(pk=pk)
         pattern.delete()
+
+        return Response({
+            'result': True
+        })
+
+    @staticmethod
+    def update_entity(entity, request):
+        entity.name.ru = request.data['name']['ru']
+        entity.name.en = request.data['name']['en']
+        entity.name.save()
+
+        entity.price.ru = request.data['price']['ru']
+        entity.price.en = request.data['price']['en']
+        entity.price.save()
+
+        entity.hidden = request.data['hidden']
+
+        entity.save()
+        entity.category.set(request.data['category'])
+        entity.images.set(request.data['images'])
+
+        pattern_sizes = request.data['patternSizes']
+
+        for size in entity.sizes.all():
+            matches = len([x for x in pattern_sizes if x['id'] == size.pk])
+            if matches == 0:
+                size.delete()
+
+        for size in pattern_sizes:
+            if size['id'] and PatternSize.objects.get(pk=size['id']):
+                bd_pattern_size = PatternSize.objects.get(pk=size['id'])
+                bd_pattern_size.size = Size.objects.get(pk=size['size'])
+                bd_pattern_size.save()
+
+            else:
+                bd_pattern_size = PatternSize(
+                    size=Size.objects.get(pk=size['size']),
+                    pattern=entity)
+                bd_pattern_size.save()
+
+                entity.sizes.add(bd_pattern_size)
+
+        entity.save()
+        return PatternSizeSerializer(entity.sizes, many=True).data
+
+
+class SendMailView(APIView):
+    permission_classes = [IsAdminUser]
+
+    def post(self, request):
+        email = request.data['email']
+        data = "Id схемы: " + str(request.data['id'])
+        # send_mail('Ну вот в принципе', data, None,
+        #           [email], fail_silently=False)
+
+        pattern = Pattern.objects.get(pk=request.data['id'])
+
+        html_template = get_template('email_template_ru.html')
+
+        subject = 'Покупка схемы'
+        html_content = html_template.render({'name': pattern.name.ru, 'sizes': '14, 16'})
+        msg = EmailMultiAlternatives(subject, 'alternate text', None, [email])
+        msg.attach_alternative(html_content, "text/html")
+
+        for size in pattern.sizes.all():
+            msg.attach_file(size.cbb.file.path)
+            msg.attach_file(size.pdf.file.path)
+            msg.attach_file(size.png.file.path)
+
+        msg.content_subtype = 'html'
+        msg.send()
+
 
         return Response({
             'result': True

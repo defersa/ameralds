@@ -23,8 +23,15 @@ $field-border-radius: 8px;
 .amstore-forms {
     margin-top: get-spacing(2);
 
+    & .mat-form-field-appearance-legacy:not(.mat-form-field-invalid) {
+        .mat-form-field-wrapper {
+          padding-bottom: 0;
+        }
+    }
+
     .mat-form-field {
         width: 100%;
+        margin: get-spacing(3) 0;
     }
 
     .mat-form-field-infix {

@@ -1,10 +1,10 @@
 <amstore-paginated-page (queryEvent)="nextPage($event)" [page]="page" [pageCount]="pageCount">
-    <amstore-product-card *ngFor="let order of orders" [title]="'Заказ №' + order.id" >
+    <!-- <amstore-product-card *ngFor="let order of orders" [title]="'Заказ №' + order.id" >
         <p>status: {{ order.status }}</p>
         <p>date create: {{ order.create_date }}</p>
         <p><b>Patterns:</b></p>
         <p *ngFor="let item of order.patterns">{{item.name}}</p>
         <p><b>Jewerly:</b></p>
         <p *ngFor="let item of order.jewels">{{item.name}}</p>
-    </amstore-product-card>
+    </amstore-product-card> -->
 </amstore-paginated-page>

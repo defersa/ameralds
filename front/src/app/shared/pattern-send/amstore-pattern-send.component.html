@@ -1,0 +1,18 @@
+<div *ngIf="pattern" class="amstore-pattern-send-wrapper">
+    <div class="row">
+        <div class="col-4">
+            <amstore-forms-input [control]="emailControl"></amstore-forms-input>
+        </div>
+        <div class="col-4">
+            <amstore-form-select [items]="langDict" [control]="langControl"></amstore-form-select>
+        </div>
+        <div class="col-4">
+            <amstore-checkbox *ngFor="let size of sizes" [control]="size.control">{{size.value}} бс</amstore-checkbox>
+        </div>
+        <div class="row">
+            <div class="col-4">
+                <amstore-button (click)="send()">Отправить</amstore-button>
+            </div>
+        </div>
+    </div>
+</div>

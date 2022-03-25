@@ -51,7 +51,6 @@ export class ProfileService {
     public boughtPatterns$: BehaviorSubject<number[]> =
         new BehaviorSubject<number[]>([]);
 
-    public langDictionary$: BehaviorSubject<LangDictionary> = new BehaviorSubject<LangDictionary>(RU_LANG);
 
     constructor(
         private authService: AuthService,

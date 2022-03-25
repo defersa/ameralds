@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Subject } from 'rxjs';
 import { tap } from 'rxjs/operators';
-import { FilterQuery } from 'src/app/components/paginated-page/paginated-page.component';
+import { FilterQuery } from 'src/app/shared/paginated-page/paginated-page.component';
 import { PageRequest, SmallPattern } from 'src/app/interface/pattern.interface';
 import { PatternsService } from '../../services/patterns.service';
 
