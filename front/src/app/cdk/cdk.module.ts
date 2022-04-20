@@ -1,5 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
+
 import { AmstoreButtonRoundModule } from './buttons/round/round.module';
 import { AmstoreIconModule } from './icons/icons.module';
 import { AmstoreButtonDefaultModule } from './buttons/default/default.module';
@@ -9,9 +11,10 @@ import { AmstorePaginatorModule } from './paginator/paginator.module';
 import { AmstoreChipModule } from './chip/chip.module';
 import { AmstoreInfoModule } from './info/info.module';
 import { AmstoreSlideModule } from './slide/slide.module';
+import { AmstorePanelModule } from "./panel/panel.module";
+import { AmstoreDividerModule } from "./divider/divider.module";
 
 
-import { MatSnackBarModule } from '@angular/material/snack-bar';
 
 const CDK_MODULES: any[] = [
     AmstoreButtonRoundModule,
@@ -23,6 +26,8 @@ const CDK_MODULES: any[] = [
     AmstoreChipModule,
     AmstoreInfoModule,
     AmstoreSlideModule,
+    AmstorePanelModule,
+    AmstoreDividerModule,
     MatSnackBarModule
 ]
 
@@ -34,4 +39,5 @@ const CDK_MODULES: any[] = [
     exports: CDK_MODULES,
     declarations: []
 })
-export class AmstoreCdkModule { }
+export class AmstoreCdkModule {
+}

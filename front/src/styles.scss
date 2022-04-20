@@ -38,6 +38,7 @@ $amstore-theme: mat-light-theme((
 @import "/src/app/styles/theming-var.scss";
 @import "/src/app/styles/spacing.scss";
 @import "/src/app/styles/typography.scss";
+@import "/src/app/styles/untils.scss";
 @import './app/styles/base.scss';
 
 html, body { height: 100%; }
@@ -45,6 +46,12 @@ body { margin: 0; font-family: Raleway, "Helvetica Neue", sans-serif; }
 
 h1 {
     @include get-amstore-font("header", 36, null, null);
+}
+
+h2 {
+    @include get-amstore-font("header", 24, null, null);
+
+    margin: get-spacing(2) 0;
 }
 
 .amstore-text-primary {
@@ -57,4 +64,16 @@ h1 {
 
 .amstore-text-warn {
   color: get-amstore-color(red, deep);
+}
+
+.text-left {
+    text-align: left !important;
+}
+
+.text-center {
+    text-align: center !important;
+}
+
+.text-right {
+    text-align: right !important;
 }

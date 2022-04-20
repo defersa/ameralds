@@ -61,7 +61,7 @@ class Category(models.Model):
         return self.objects.create(name=lang)
 
     def __str__(self):
-        return str(self.name_ru)
+        return str(self.name.ru + ' ' + self.name.en)
 
 
 class Size(models.Model):
@@ -73,7 +73,7 @@ class Size(models.Model):
         return str(self.value)
 
 
-class PatternFile(models.Model):
+class PrivateFile(models.Model):
     name = models.CharField(max_length=200, verbose_name="Название файла", default="")
     file = models.FileField(
         upload_to='files/pattern', blank=True)
@@ -81,7 +81,7 @@ class PatternFile(models.Model):
     def delete(self, *args, **kwargs):
         if bool(self.file) and os.path.isfile(self.file.path):
             os.remove(self.file.path)
-        super(PatternFile, self).delete(*args, **kwargs)
+        super(PrivateFile, self).delete(*args, **kwargs)
 
     def __str__(self):
         return str(self.name)
@@ -118,15 +118,30 @@ class Jewelry(models.Model):
 
 
 class Pattern(models.Model):
-    name = models.OneToOneField(LangCharFieldShort, on_delete=models.CASCADE)
+    name = models.OneToOneField(
+        LangCharFieldShort,
+        on_delete=models.CASCADE)
 
     description = models.CharField(
-        max_length=1000, verbose_name="Описание схемы")
+        max_length=1000,
+        verbose_name="Описание схемы")
 
     images = models.ManyToManyField(
-        Image, related_name="pattern", blank=True, verbose_name="Изображения")
+        Image, related_name="pattern",
+        blank=True,
+        verbose_name="Изображения")
 
-    price = models.OneToOneField(LangIntegerField, on_delete=models.CASCADE)
+    colors = models.OneToOneField(
+        PrivateFile,
+        verbose_name="Цветовой подбор",
+        on_delete=models.CASCADE,
+        related_name="colors",
+        blank=True,
+        null=True)
+
+    price = models.OneToOneField(
+        LangIntegerField,
+        on_delete=models.CASCADE)
 
     hidden = models.BooleanField(verbose_name="Скрытый")
 
@@ -135,13 +150,20 @@ class Pattern(models.Model):
         related_name="pattern",
         blank=True)
 
-    views = models.IntegerField(verbose_name="Количество показов", default=0)
+    views = models.IntegerField(
+        verbose_name="Количество показов",
+        default=0)
     create_date = models.DateTimeField(
-        verbose_name="Дата создания позиции", default=utils.timezone.now)
+        verbose_name="Дата создания позиции",
+        default=utils.timezone.now)
 
     def delete(self, *args, **kwargs):
         for image in self.images.all():
             image.delete()
+
+        if self.colors:
+            self.colors.delete()
+
         super(Pattern, self).delete(*args, **kwargs)
 
     def __str__(self):
@@ -152,10 +174,10 @@ class PatternSize(models.Model):
     pattern = models.ForeignKey(Pattern, on_delete=models.CASCADE, related_name="sizes")
     size = models.ForeignKey(Size, on_delete=models.CASCADE)
 
-    cbb = models.OneToOneField(PatternFile, on_delete=models.CASCADE, related_name="cbb", blank=True, null=True)
-    pdf = models.OneToOneField(PatternFile, on_delete=models.CASCADE, related_name="pdf", blank=True, null=True)
-    png = models.OneToOneField(PatternFile, on_delete=models.CASCADE, related_name="png", blank=True, null=True)
-    jbb = models.OneToOneField(PatternFile, on_delete=models.CASCADE, related_name="jbb", blank=True, null=True)
+    cbb = models.OneToOneField(PrivateFile, on_delete=models.CASCADE, related_name="cbb", blank=True, null=True)
+    pdf = models.OneToOneField(PrivateFile, on_delete=models.CASCADE, related_name="pdf", blank=True, null=True)
+    png = models.OneToOneField(PrivateFile, on_delete=models.CASCADE, related_name="png", blank=True, null=True)
+    jbb = models.OneToOneField(PrivateFile, on_delete=models.CASCADE, related_name="jbb", blank=True, null=True)
 
     def delete(self, *args, **kwargs):
         if self.cbb:

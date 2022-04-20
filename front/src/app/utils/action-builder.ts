@@ -24,10 +24,11 @@ export enum HttpActions {
     Size = 'size',
     Sizes = 'sizes',
     AllSizes = 'sizes-all',
-    
-    PatternFile = 'pattern-file',
 
-    
+    PatternSizeFile = 'pattern-size-file',
+    PatternColorsFile = 'pattern-colors-file',
+    PatternDownloadSizeFile = 'pattern-download-size-file',
+
     SendMail = 'send-mail',
 }
 

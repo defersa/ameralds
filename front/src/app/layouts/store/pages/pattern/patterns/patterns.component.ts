@@ -1,7 +1,7 @@
 import { ThemePalette } from '@am/cdk/core/color';
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { Subject } from 'rxjs';
-import { FilterQuery } from '@am/shared/paginated-page/paginated-page.component';
+import { FilterQuery, PaginatedPageComponent } from '@am/shared/paginated-page/paginated-page.component';
 import { PageRequest, SmallPattern } from '@am/interface/pattern.interface';
 import { PatternService } from '@am/shared/services/pattern.service';
 
@@ -17,10 +17,12 @@ type ButtonStatusMap = {
     styleUrls: ['./patterns.component.scss']
 })
 export class PatternsComponent implements OnInit, OnDestroy {
+    @ViewChild(PaginatedPageComponent)
+    private _paginatedPageComponent: PaginatedPageComponent | undefined;
 
     public items: SmallPattern[] = [];
     public pageCount: number = 1;
-    public page: number = 1;
+    public filters: Record<string, unknown> = {};
 
     protected destroyed: Subject<void> = new Subject<void>();
 
@@ -40,10 +42,18 @@ export class PatternsComponent implements OnInit, OnDestroy {
 
 
     public nextPage(query: FilterQuery): void {
-        this.pattern.getPatterns(query.page)
+        const categories: number[] = (typeof query.categories === 'string' ? [query.categories] : query.categories as [])?.map((item: string) => Number(item)) || [];
+        const sizes: number[] = (typeof query.sizes === 'string' ? [query.sizes] : query.sizes as [])?.map((item: string) => Number(item)) || [];
+        this.filters = {
+            search: query.search ?? '',
+            categories,
+            sizes
+        };
+        const page: number = query.page;
+
+        this.pattern.getPatterns(page, this.filters.categories as number[], this.filters.sizes as number[], this.filters.search as string)
             .subscribe((next: PageRequest) => {
                 this.pageCount = next.pageCount;
-                this.page = next.page;
                 this.items = next.items;
             });
     }
@@ -52,4 +62,16 @@ export class PatternsComponent implements OnInit, OnDestroy {
         this.pattern.goToCard(id);
     }
 
+    public setFilter(event: Record<string, unknown>): void {
+        if (this._paginatedPageComponent) {
+            this._paginatedPageComponent.page = 1;
+            this._paginatedPageComponent.setFilters(event);
+        }
+        // this.pattern.getPatterns(this.page, event.categories as number[], event.sizes as number[], event.search as string)
+        //     .subscribe((next: PageRequest) => {
+        //         this.pageCount = next.pageCount;
+        //         this.page = next.page;
+        //         this.items = next.items;
+        //     });
+    }
 }

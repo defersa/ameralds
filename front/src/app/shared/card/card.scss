@@ -94,7 +94,7 @@ $card-border-radius: 8px;
         }
 
         h3 {
-            margin: get-spacing(1) 0;
+            margin: get-spacing(2) 0;
             @include get-amstore-font("header", 20, null, null);
         }
 
@@ -124,6 +124,12 @@ $card-border-radius: 8px;
         &-info {
             margin: get-spacing(2);
             overflow: hidden;
+        }
+
+        &-download {
+            * {
+                margin: get-spacing(1) 0;
+            }
         }
     }
 }

@@ -34,11 +34,23 @@
         </div>
     </div>
 
+    <ng-container *ngIf="(profileStatus | async) === 'moder'">
+        <div class="amstore-card-container-line">
+            <h3>Скачать паттерны:</h3>
+            <div *ngFor="let size of sizesWithControl" class="amstore-card-container-download">
+                <p>{{size.value}} {{sizeUnit}}:</p>
+                <amstore-button color="accent" (click)="downloadPattern(size.id, 'pdf', size.value)">Скачать в формате pdf</amstore-button>
+                <amstore-button color="accent" (click)="downloadPattern(size.id, 'cbb', size.value)">Скачать в формате cbb</amstore-button>
+                <amstore-button color="accent" (click)="downloadPattern(size.id, 'png', size.value)">Скачать в формате png</amstore-button>
+            </div>
+        </div>
+    </ng-container>
+
     <div class="amstore-card-container-line">
         <h3>Размеры:</h3>
 
         <div class="amstore-row">
-            <amstore-checkbox *ngFor="let size of sizes" [control]="size.control">{{size.value}} {{sizeUnit}}</amstore-checkbox>
+            <amstore-checkbox *ngFor="let size of sizesWithControl" [control]="size.control">{{size.value}} {{sizeUnit}}</amstore-checkbox>
         </div>
     </div>
 

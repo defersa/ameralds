@@ -1,4 +1,131 @@
-<h1>Спасибо за покупку!</h1>
-<p>К письму прикреплена схема "{{ name }}" в размерах {{ sizes }} бисерен</p>
-<p>Тут что то про то как открыть файлы и прочая инфа</p>
-<span>Ameralds Store, 2018-2022</span>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+<head>
+    <style>
+        @font-face {
+            font-family: 'Raleway';
+            font-style: normal;
+            font-weight: 100;
+            src: local('Raleway'), url(https://fonts.gstatic.com/s/raleway/v9/UAnF6lSK1JNc1tqTiG8pNALUuEpTyoUstqEm5AMlJo4.ttf) format('truetype');
+            mso-font-alt: 'Arial';
+        }
+
+        @font-face {
+            font-family: 'Raleway';
+            font-style: normal;
+            font-weight: 300;
+            src: local('Raleway'), url(https://fonts.gstatic.com/s/raleway/v9/UAnF6lSK1JNc1tqTiG8pNALUuEpTyoUstqEm5AMlJo4.ttf) format('truetype');
+            mso-font-alt: 'Arial';
+        }
+
+        @font-face {
+            font-family: 'Raleway';
+            font-style: normal;
+            font-weight: 400;
+            src: local('Raleway'), url(https://fonts.gstatic.com/s/raleway/v9/UAnF6lSK1JNc1tqTiG8pNALUuEpTyoUstqEm5AMlJo4.ttf) format('truetype');
+            mso-font-alt: 'Arial';
+        }
+
+        a {
+            color: #6692BB;
+        }
+
+        .h1-100 {
+            font-weight: 100;
+            font-size: 36px;
+            margin: 12px 0 4px
+        }
+
+        .h3-300 {
+            font-weight: 300;
+            margin: 4px 0;
+        }
+
+        .h1-300 {
+            font-weight: 300;
+            color: #38473A;
+            font-size: 36px;
+            margin: 48px 0;
+        }
+
+        .logo-container {
+            display: flex;
+            flex-direction: row;
+            align-items: flex-start;
+
+        }
+
+        body {
+            font-family: 'Raleway', sans-serif;
+            box-sizing: border-box;
+            width: 100%;
+            padding: 64px 32px;
+            margin: 0;
+        }
+
+        .main {
+            background: white;
+            border-radius: 8px;
+            padding: 32px 64px;
+            max-width: 600px;
+            margin: auto
+        }
+
+        .footer {
+            margin: 16px auto;
+            font-size: 14px;
+            text-align: center;
+        }
+
+        @media screen and (max-width: 400px) {
+            img {
+                width: 75px;
+            }
+
+            body {
+                padding: 16px;
+            }
+
+            .main {
+                padding: 16px 32px;
+            }
+
+            .h1-100 {
+                margin-top: 8px;
+                font-size: 24px;
+            }
+
+            .h3-300 {
+                font-size: 12px;
+            }
+
+            .h1-300 {
+                margin: 32px 0;
+            }
+        }
+    </style>
+</head>
+<body>
+<div class="main">
+    <div class="logo-container">
+        <img src="https://i.ibb.co/v4X7kg2/amstore-logo.png" alt=""/>
+        <div style="margin-left: 24px">
+            <h1 class="h1-100">AM.STORE</h1>
+            <h3 class="h3-300">OFFICIAL AMERALDS STORE</h3>
+        </div>
+    </div>
+
+    <h1 class="h1-300" style="">Спасибо за покупку!</h1>
+
+    <p>К письму прикреплена схема "{{ name }}" в размерах {{ sizes }} бисерен</p>
+    <p style="margin-bottom: 32px;">Тут что то про то как открыть файлы и прочая инфа</p>
+    <p style="font-size: 14px; color: #333;">Тут будут ссылки на <a href="http://localhost">полезные ресурсы</a> и так
+        же ссылки на <a
+                href="http://localhost">официальную группу ВК</a>, наверное <a href="http://localhost">инстаграмм</a>, а
+        так же на <a href="http://localhost">магазин</a>
+        которого пока нет.</p>
+</div>
+<div class="footer">Ameralds Store, 2018-2022</div>
+</body>
+</html>

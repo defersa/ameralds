@@ -46,18 +46,27 @@ export type PatternMaxType = {
     price: LangNumber;
 
     hidden: boolean;
-
     description: string;
     create_date: any;
+
     sizes: PattenSizeFiles[];
+    colors: Blob | { id: number; };
+
     images: ImageModelSmall[];
     category: CategoryType[]
 }
 
 export type PatternSaveResultResponse = {
-    sizes: { id: number; size: { id: number; }; }[];
+    sizes: PatternSaveSizeResult[];
     id: number;
     result: boolean;
+}
+
+export type PatternSaveSizeResult = {
+    id: number;
+    size: {
+        id: number;
+    };
 }
 
 export type PattenSizeFiles = {

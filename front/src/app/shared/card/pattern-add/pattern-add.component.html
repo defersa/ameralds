@@ -33,6 +33,13 @@
     </div>
 
     <div class="amstore-card-container-line">
+        <h3>Цветовая схема:</h3>
+        <amstore-form-upload-file format=".jpg" [nullControl]="patternForm.get('colors')">
+        </amstore-form-upload-file>
+    </div>
+
+
+    <div class="amstore-card-container-line">
         <h3>Категории:</h3>
         <amstore-form-select *ngIf="$categoryList | async; let categoryList" [items]="categoryList"
             [multiple]="true" [nullControl]="patternForm.get('category')">

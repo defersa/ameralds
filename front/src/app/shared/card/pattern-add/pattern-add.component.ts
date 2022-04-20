@@ -17,7 +17,12 @@ import { AmstoreViewerService } from '@am/shared/viewer/viewer.service';
 import { CategoryType } from '@am/interface/category.interface';
 import { OptionType } from '@am/interface/cdk.interface';
 import { ImageModelSmall } from '@am/interface/image.interface';
-import { PattenSizeFiles, PatternMaxType, PatternSaveResultResponse } from '@am/interface/pattern.interface';
+import {
+    PattenSizeFiles,
+    PatternMaxType,
+    PatternSaveResultResponse,
+    PatternSaveSizeResult
+} from '@am/interface/pattern.interface';
 import { LangType } from '@am/interface/lang.interface';
 import { ArrayComponent } from '@am/cdk/forms/array/array.component';
 import { AbstractControl, FormArray, FormControl, FormGroup, Validators } from '@angular/forms';
@@ -29,6 +34,7 @@ import { PatternService } from '@am/shared/services/pattern.service';
 
 
 import { AmstoreCardDirective } from '../card.directive';
+import { ResultRequest } from "@am/interface/request.interface";
 
 
 @Component({
@@ -70,8 +76,6 @@ export class AmstorePatternAddCardComponent extends AmstoreCardDirective impleme
     public sizeArrayComponentList: ArrayComponent[] = [];
     public sizeArrayModel: Record<string, unknown>[] = [];
 
-    private _lang: LangType = 'ru';
-
     protected destroyed: Subject<void> = new Subject<void>();
 
     constructor(public elementRef: ElementRef,
@@ -95,12 +99,13 @@ export class AmstorePatternAddCardComponent extends AmstoreCardDirective impleme
                 ru: new FormControl(null, [Validators.required]),
             }),
             hidden: new FormControl(null, [Validators.required]),
-            category: new FormControl(null, [Validators.required])
+            category: new FormControl(null, [Validators.required]),
+            colors: new FormControl(null, [Validators.required])
         });
     }
 
     public ngOnInit(): void {
-        this.$categoryList = this._categoriesService.getCategoriesAll();
+        this.$categoryList = this._categoriesService.getCategoriesAllUniversal();
 
         this.initSizes();
     }
@@ -114,7 +119,8 @@ export class AmstorePatternAddCardComponent extends AmstoreCardDirective impleme
             price: value.price,
             name: value.name,
             hidden: value.hidden,
-            category: value.category.map((item: CategoryType) => item.id)
+            category: value.category.map((item: CategoryType) => item.id),
+            colors: value.colors
         });
         this.sizeArrayModel = value.sizes.map((item: Record<string, unknown>) => ({
             ...item,
@@ -210,30 +216,12 @@ export class AmstorePatternAddCardComponent extends AmstoreCardDirective impleme
 
         (id ? this._patternService.updatePattern(value) : this._patternService.createPattern(value))
             .pipe(switchMap((result: PatternSaveResultResponse) => {
-                return combineLatest(result.sizes.map((item: { id: number; size: { id: number; }; }) => {
-                        id = result.id;
-                        const sizes: PattenSizeFiles = (value.patternSizes as Record<string, unknown>[])
-                            .find((size: Record<string, unknown>) => size.size === item.size.id) as PattenSizeFiles;
+                id = result.id;
 
-                        const fileList: FormData = new FormData();
-                        fileList.append('patternSizeId', String(item.id));
-
-                        if (sizes.cbb instanceof Blob) {
-                            fileList.append('cbb', sizes.cbb);
-                        }
-                        if (sizes.jbb instanceof Blob) {
-                            fileList.append('jbb', sizes.jbb);
-                        }
-                        if (sizes.png instanceof Blob) {
-                            fileList.append('png', sizes.png);
-                        }
-                        if (sizes.pdf instanceof Blob) {
-                            fileList.append('pdf', sizes.pdf);
-                        }
-
-                        return this._patternService.setPatternFiles(fileList);
-                    })
-                )
+                return combineLatest([
+                    ...result.sizes.map((item: PatternSaveSizeResult) => this._getSetPatternRequest(item, value.patternSizes)),
+                    this._getSetColorRequest(id, value.colors)
+                ]);
             }))
             .subscribe(() => {
                 this._snackBar.open('Все сохранено.', undefined, { duration: 5000 });
@@ -242,5 +230,38 @@ export class AmstorePatternAddCardComponent extends AmstoreCardDirective impleme
                     this._patternService.goToEdit(id).then(() => window.location.reload());
                 }
             })
+    }
+
+    private _getSetPatternRequest(saveSizeResult: PatternSaveSizeResult, patternSizes: unknown): Observable<ResultRequest> {
+        const sizes: PattenSizeFiles = (patternSizes as Record<string, unknown>[])
+            .find((size: Record<string, unknown>) => size.size === saveSizeResult.size.id) as PattenSizeFiles;
+
+        const fileList: FormData = new FormData();
+        fileList.append('patternSizeId', String(saveSizeResult.id));
+
+        if (sizes.cbb instanceof Blob) {
+            fileList.append('cbb', sizes.cbb);
+        }
+        if (sizes.jbb instanceof Blob) {
+            fileList.append('jbb', sizes.jbb);
+        }
+        if (sizes.png instanceof Blob) {
+            fileList.append('png', sizes.png);
+        }
+        if (sizes.pdf instanceof Blob) {
+            fileList.append('pdf', sizes.pdf);
+        }
+
+        return this._patternService.setPatternSizeFiles(fileList);
+    }
+
+    private _getSetColorRequest(patternId: number, color: unknown): Observable<ResultRequest> {
+        const fileList: FormData = new FormData();
+        fileList.append('patternId', String(patternId));
+        if (color instanceof Blob) {
+            fileList.append('colors', color);
+        }
+
+        return this._patternService.setPatternColorFile(fileList);
     }
 }

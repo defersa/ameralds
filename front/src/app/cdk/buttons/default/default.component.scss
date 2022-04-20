@@ -16,9 +16,15 @@
         background: get-amstore-color(gray, middle);
         cursor: default;
         pointer-events: none;
-        
+
         &:hover {
             background: get-amstore-color(gray, middle);
+        }
+
+        &.amstore-button-default-stroked, &.amstore-button-default-stroked:hover {
+            background: get-amstore-color(gray, slight);
+            color: get-amstore-color(gray, dark);
+            border-color: get-amstore-color(gray, dark);
         }
     }
 

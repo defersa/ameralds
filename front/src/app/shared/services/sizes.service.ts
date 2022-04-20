@@ -3,19 +3,22 @@ import { Injectable } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 
-import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { Observable, of } from 'rxjs';
+import { map, tap } from 'rxjs/operators';
 
 import { SizeType } from 'src/app/interface/size.interface';
 import { IdName, PaginatedResponse, ResultRequest } from 'src/app/interface/request.interface';
 import { getAction, HttpActions } from 'src/app/utils/action-builder';
 import { getStoreNavigatePath, StoreRoutes } from 'src/app/utils/router-builder';
+import { OptionType } from "@am/interface/cdk.interface";
 
 
 @Injectable({
     providedIn: 'root'
 })
 export class SizesService {
+
+    public sizesList: OptionType[] = [];
 
     public get queryParams(): Params | null {
         return this._queryParams;
@@ -32,7 +35,8 @@ export class SizesService {
         private route: ActivatedRoute,
         private snackBar: MatSnackBar,
         private router: Router
-    ) { }
+    ) {
+    }
 
 
     public getSizes(page: number): Observable<PaginatedResponse<SizeType>> {
@@ -43,8 +47,19 @@ export class SizesService {
         return this.httpClient.get<{ size: SizeType }>(getAction(HttpActions.Size) + id)
             .pipe(map((result: { size: SizeType }) => result.size));
     }
-    public getAllSizes(): Observable<{items: SizeType[]}> {
-        return this.httpClient.get<{items: SizeType[]}>(getAction(HttpActions.AllSizes));
+
+    public getSizesAll(): Observable<OptionType[]> {
+        return this.sizesList.length ? of(this.sizesList) : this.getAllSizes()
+            .pipe(
+                map((result: { items: SizeType[] }) => result.items.map((item: SizeType) => ({
+                    label: String(item.value),
+                    value: item.id
+                }))),
+                tap((result: OptionType[]) => this.sizesList = result));
+    }
+
+    public getAllSizes(): Observable<{ items: SizeType[] }> {
+        return this.httpClient.get<{ items: SizeType[] }>(getAction(HttpActions.AllSizes));
     }
 
     public goToSizeAdd(): void {
@@ -60,6 +75,7 @@ export class SizesService {
             skipLocationChange: false
         });
     }
+
     public goToSizes(): void {
         this.router.navigate([getStoreNavigatePath(StoreRoutes.Sizes)], {
             relativeTo: this.route,

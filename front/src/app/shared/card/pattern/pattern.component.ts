@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, Input } from '@angular/core';
 import { FormControl } from '@angular/forms';
-import { combineLatest, Subject } from 'rxjs';
+import { BehaviorSubject, combineLatest, Observable, Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
 import { expandAnimation } from '@am/cdk/animations/expand';
@@ -20,8 +20,10 @@ import { LangType } from '@am/interface/lang.interface';
 
 import { AmstoreCardDirective } from '../card.directive';
 import { CategoryType } from '@am/interface/category.interface';
-import { SizeType } from "@am/interface/size.interface";
 import { SIZE_UNIT } from "@am/utils/constants";
+import { AccessEnum } from "@am/utils/router-builder";
+import { SizeType } from "@am/interface/size.interface";
+import { PatternService } from "@am/shared/services/pattern.service";
 
 
 type ButtonStatusMap = {
@@ -46,7 +48,7 @@ export class AmstorePatternCardComponent extends AmstoreCardDirective {
     }
 
     public get mainImage(): ImageModelSmall {
-        return this.data.images[0] || { id: '', image_full: '', image_small: '' };
+        return this.data.images[0] || {id: '', image_full: '', image_small: ''};
     }
 
     public get subImages(): ImageModelSmall[] {
@@ -62,14 +64,18 @@ export class AmstorePatternCardComponent extends AmstoreCardDirective {
     };
 
     public get categories(): IdName[] {
-        return this.data.category.map((item: CategoryType) => ({ id: item.id, name: item.name[this._lang] }))
+        return this.data.category.map((item: CategoryType) => ({id: item.id, name: item.name[this._lang]}))
     }
 
-    public sizes: { value: number, control: FormControl }[] = [];
+    public sizesWithControl: { value: number; control: FormControl; id: number; }[] = [];
 
     @Input()
     public set data(value: PatternMaxType) {
-        this.sizes = value.sizes.map((item: PattenSizeFiles) => ({ value: item.size.value, control: new FormControl() }));
+        this.sizesWithControl = value.sizes.map((item: PattenSizeFiles) => ({
+            value: item.size.value,
+            control: new FormControl(),
+            id: item.id
+        }));
         this._data = value;
     };
 
@@ -81,6 +87,8 @@ export class AmstorePatternCardComponent extends AmstoreCardDirective {
 
     public status: 'buy' | 'remove' | 'bought' = 'buy';
 
+    public profileStatus: BehaviorSubject<AccessEnum> = this.profileService.authAndModerStatus$;
+
     public showSale: boolean = false;
 
     public get expandState(): 'collapsed' | 'expanded' {
@@ -91,10 +99,6 @@ export class AmstorePatternCardComponent extends AmstoreCardDirective {
         return this.data.price[this._lang] + (this._lang === 'en' ? '$' : '₽');
     }
 
-
-    public get isRu(): boolean {
-        return this._lang === 'ru';
-    }
 
     private _lang: LangType = 'ru';
 
@@ -133,6 +137,7 @@ export class AmstorePatternCardComponent extends AmstoreCardDirective {
                 protected viewer: AmstoreViewerService,
                 private changeDetector: ChangeDetectorRef,
                 private profileService: ProfileService,
+                private patternService: PatternService,
                 private langService: LangService,
                 private goodsService: GoodsService) {
         super(viewer);
@@ -140,6 +145,7 @@ export class AmstorePatternCardComponent extends AmstoreCardDirective {
     }
 
     public ngOnInit(): void {
+
         this.langService.lang.pipe(takeUntil(this.destroyed))
             .subscribe((lang: LangType) => {
                 this._lang = lang;
@@ -167,13 +173,30 @@ export class AmstorePatternCardComponent extends AmstoreCardDirective {
         this.destroyed.next();
         this.destroyed.complete();
     }
+
+    public downloadPattern(patternSizeId: number, format: 'pdf' | 'cbb' | 'png', sizeValue: number): void {
+        this.patternService.downloadPatternBySize(patternSizeId, format)
+            .subscribe((item: Blob) => {
+                const fileName: string = this.title + '-' + sizeValue + (item.type === 'text/cbb' ? '.cbb' : '');
+                console.log(item, fileName);
+
+                const binaryData: Blob[] = [item];
+                const downloadLink: HTMLAnchorElement = document.createElement('a');
+                downloadLink.href = window.URL.createObjectURL(new Blob(binaryData, {type: item.type}));
+                downloadLink.setAttribute('download', fileName);
+
+                downloadLink.click();
+                downloadLink.remove();
+            });
+    }
 }
 
 const MOCK_PATTERN: PatternMaxType = {
     id: 0,
-    name: { ru: 'default', en: 'default' },
-    price: { ru: 0, en: 0 },
+    name: {ru: 'default', en: 'default'},
+    price: {ru: 0, en: 0},
     description: '',
+    colors: {id: 0},
     sizes: [],
     create_date: '',
     hidden: false,

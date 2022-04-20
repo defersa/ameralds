@@ -2,6 +2,7 @@ import math
 
 from django.core.mail import send_mail, EmailMultiAlternatives
 from django.core.paginator import Paginator
+from django.db.models import QuerySet, Q
 
 from django.template.loader import get_template
 from django.template import Context
@@ -14,8 +15,8 @@ from rest_framework.views import APIView
 from .fileview import ImageSerializer
 from .general.categories import CategorySerializer
 from .general.sizes import Size
-from .models import Pattern, PatternRating, LangCharFieldShort, LangIntegerField
-from .patternFile import PatternSize, PatternSizeSerializer
+from .models import Pattern, LangCharFieldShort, LangIntegerField, Category
+from .patternFile import PatternSize, PatternSizeSerializer, PrivateFileSerializer
 from .serializers import LangNumberSerializer, LangShortSerializer
 
 PATTERNS_ON_LIST = 5
@@ -45,6 +46,7 @@ class PatternsMinSerializer(serializers.HyperlinkedModelSerializer):
 class PatternsMaxSerializer(serializers.HyperlinkedModelSerializer):
     name = LangShortSerializer()
     price = LangNumberSerializer()
+    colors = PrivateFileSerializer()
 
     images = ImageSerializer(many=True)
     sizes = PatternSizeSerializer(many=True)
@@ -52,16 +54,35 @@ class PatternsMaxSerializer(serializers.HyperlinkedModelSerializer):
 
     class Meta:
         model = Pattern
-        fields = ['id', 'name', 'views', 'category', 'hidden', 'price', 'images', 'sizes']
+        fields = ['id', 'name', 'views', 'category', 'hidden', 'price', 'images', 'sizes', 'colors']
 
 
 class PatternsView(APIView):
     permission_classes = []
 
     @classmethod
-    def get(cls, request, page):
+    def get(cls, request, page, categories, sizes, search=None):
+        print(search, categories, sizes.split('-'))
+
+        pattern_list: QuerySet[Pattern] = Pattern.objects.all()
+
+        if search and search != 'null':
+            print(search)
+            pattern_list = pattern_list.filter(Q(name__en__icontains=search) | Q(name__ru__icontains=search))
+
+        if categories != 'null':
+            categories_id_list = [int(item) for item in categories.split('-')]
+            pattern_list = pattern_list.filter(category__in=categories_id_list)
+
+        if sizes != 'null':
+            sizes_id_list = [int(item) for item in sizes.split('-')]
+            pattern_list = pattern_list.filter(sizes__size__in=sizes_id_list)
+
         paginator = Paginator(
-            Pattern.objects.order_by('-views'), PATTERNS_ON_LIST)
+            pattern_list.order_by('-views'), PATTERNS_ON_LIST)
+
+
+
         patterns = PatternsMinSerializer(
             paginator.page(page), many=True).data
 

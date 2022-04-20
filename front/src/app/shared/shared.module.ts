@@ -8,7 +8,7 @@ import { AmstoreCardModule } from './card/card.module';
 import { AmstoreSnapshotModule } from './snapshot/snapshot.module';
 import { AmstorePaginatedPageModule } from './paginated-page/paginated-page.module';
 import { AmstorePatternSendModule } from "./pattern-send/amstore-pattern-send.module";
-
+import { AmstoreFilterModule } from "./filter/filter.module";
 
 
 const SHARED_MODULES: any[] = [
@@ -16,7 +16,8 @@ const SHARED_MODULES: any[] = [
     AmstoreCardModule,
     AmstoreSnapshotModule,
     AmstorePaginatedPageModule,
-    AmstorePatternSendModule
+    AmstorePatternSendModule,
+    AmstoreFilterModule
 ]
 
 @NgModule({
@@ -28,4 +29,5 @@ const SHARED_MODULES: any[] = [
     exports: SHARED_MODULES,
     declarations: []
 })
-export class AmstoreSharedModule { }
+export class AmstoreSharedModule {
+}

@@ -3,8 +3,8 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute, Params, Router } from '@angular/router';
-import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { Observable, of } from 'rxjs';
+import { map, tap } from 'rxjs/operators';
 import { CategoryType } from 'src/app/interface/category.interface';
 import { IdName, PaginatedResponse, ResultRequest } from 'src/app/interface/request.interface';
 import { getAction, HttpActions } from 'src/app/utils/action-builder';
@@ -24,6 +24,8 @@ export class CategoriesService {
         this._queryParams = value;
     }
 
+    public categoriesList: CategoryType[] = [];
+
     private _queryParams: Params | null = null;
 
     constructor(
@@ -31,15 +33,26 @@ export class CategoriesService {
         private route: ActivatedRoute,
         private snackBar: MatSnackBar,
         private router: Router
-    ) { }
+    ) {
+    }
 
 
     public getCategories(page: number): Observable<PaginatedResponse<CategoryType>> {
         return this.httpClient.get<PaginatedResponse<CategoryType>>(getAction(HttpActions.Categies) + page);
     }
-    public getCategoriesAll(): Observable<OptionType[]> {
-        return this.httpClient.get<{ items: CategoryType[] }>(getAction(HttpActions.AllCategies))
-            .pipe(map((result: { items: CategoryType[] }) => result.items.map((item: CategoryType) => ({ label: Object.values(item.name).join(), value: item.id }))));
+
+    public getCategoriesAllUniversal(): Observable<OptionType[]> {
+        return (this.categoriesList.length ? of(this.categoriesList) : this._requestCategoriesAll())
+            .pipe(
+                map((items: CategoryType[]) => items.map((item: CategoryType) => ({
+                    label: Object.values(item.name).join(),
+                    value: item.id
+                })))
+            );
+    }
+
+    public getCategoriesAll(): Observable<CategoryType[]> {
+        return this.categoriesList.length ? of(this.categoriesList) : this._requestCategoriesAll();
     }
 
     public getCategory(id: number): Observable<CategoryType> {
@@ -60,6 +73,7 @@ export class CategoriesService {
             skipLocationChange: false
         });
     }
+
     public goToCategories(): void {
         this.router.navigate([getStoreNavigatePath(StoreRoutes.Categories)], {
             relativeTo: this.route,
@@ -97,4 +111,11 @@ export class CategoriesService {
             });
     }
 
+    private _requestCategoriesAll(): Observable<CategoryType[]> {
+        return this.httpClient.get<{ items: CategoryType[] }>(getAction(HttpActions.AllCategies))
+            .pipe(
+                map((result: { items: CategoryType[] }) => result.items),
+                tap((result: CategoryType[]) => this.categoriesList = result)
+            );
+    }
 }

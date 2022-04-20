@@ -14,7 +14,6 @@ export class CategoriesComponent implements OnInit {
 
     public items: CategoryType[] = [];
     public pageCount: number = 1;
-    public page: number = 1;
 
     constructor(
         private categories: CategoriesService
@@ -28,7 +27,6 @@ export class CategoriesComponent implements OnInit {
         this.categories.getCategories(query.page)
             .subscribe((next: PaginatedResponse<CategoryType>) => {
                 this.pageCount = next.pageCount;
-                this.page = next.page;
                 this.items = next.items;
             });
     }

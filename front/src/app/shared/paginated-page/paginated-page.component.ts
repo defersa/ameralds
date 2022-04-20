@@ -16,9 +16,10 @@ export type FilterQuery = {
 export class PaginatedPageComponent implements OnInit, OnDestroy {
     @Input()
     public pageCount: number = 1;
-    
-    @Input()
+
     public page: number = 1;
+
+    public _filters: Record<string, unknown> = {};
 
     @Output()
     public queryEvent: EventEmitter<FilterQuery> = new EventEmitter<FilterQuery>();
@@ -38,7 +39,8 @@ export class PaginatedPageComponent implements OnInit, OnDestroy {
     constructor(
         private activateRoute: ActivatedRoute,
         private router: Router
-        ) { }
+    ) {
+    }
 
     public ngOnInit(): void {
         this.initQuerySubscribe();
@@ -49,12 +51,22 @@ export class PaginatedPageComponent implements OnInit, OnDestroy {
         this.destroyed.complete();
     }
 
-    public setQueryParams(page: number): void {
-        this.queryParams = { page };
+    public setPage(page: number): void {
+        this.page = page;
+        this.setQueryParams();
+    }
+
+    public setFilters(filters: Record<string, unknown>): void {
+        this._filters = filters;
+        this.setQueryParams();
+    }
+
+    public setQueryParams(): void {
+        this.queryParams = { page: this.page, ...this._filters};
         this.router.navigate([], {
             relativeTo: this.activateRoute,
             queryParams: this.queryParams,
-            queryParamsHandling: 'merge',
+            queryParamsHandling: '',
             skipLocationChange: false
         })
     }
@@ -64,11 +76,25 @@ export class PaginatedPageComponent implements OnInit, OnDestroy {
             takeUntil(this.destroyed)
         ).subscribe((params: Params) => {
             this.queryParams = params;
+
+            this._updateFilterStateByQueryEvent(params);
+            this.page = params.page ? Number(params.page) : 1;
+
             const filter: FilterQuery = {
-                page: params.page ? params.page : 1
+                ...this._filters,
+                page: this.page
             };
+
             this.queryEvent.emit(filter)
         });
+    }
+
+    private _updateFilterStateByQueryEvent(params: Params): void {
+        const filters: Record<string, unknown> = {...params};
+        if ('page' in filters) {
+            delete filters.page;
+        }
+        this._filters = filters;
     }
 
 }

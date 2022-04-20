@@ -4,7 +4,6 @@ import { Observable, of } from 'rxjs';
 import { ImageModel, ImageModelSmall } from '@am/interface/image.interface';
 import { PatternMaxType } from '@am/interface/pattern.interface';
 import { PatternService } from '@am/shared/services/pattern.service';
-import { ImageToSmall } from '../../../utils/images';
 
 @Component({
     selector: 'amstore-pattern-add',
@@ -45,6 +44,7 @@ const EMPTY_PATTERN: PatternMaxType = {
     price: { ru: 0, en: 0 },
     description: '',
     sizes: [],
+    colors: { id: 0 },
     create_date: '',
     hidden: false,
     images: [],

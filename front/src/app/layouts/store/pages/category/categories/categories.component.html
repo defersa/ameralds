@@ -3,7 +3,7 @@
     Создать новую
 </button>
 
-<amstore-paginated-page (queryEvent)="nextPage($event)" [page]="page" [pageCount]="pageCount">
+<amstore-paginated-page (queryEvent)="nextPage($event)" [pageCount]="pageCount">
     <div class="amstore-categories-container">
         <div *ngFor="let item of items" class="amstore-categories-container-row" (click)="categoryEdit(item.id)">
             <div class="amstore-categories-container-col-small">{{item.id}}</div>

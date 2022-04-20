@@ -5,7 +5,13 @@ import { Injectable } from '@angular/core';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
-import { PageRequest, PatternMaxType, PatternRequest, PatternSaveResultResponse, SmallPattern } from 'src/app/interface/pattern.interface';
+import {
+    PageRequest,
+    PatternMaxType,
+    PatternRequest,
+    PatternSaveResultResponse,
+    SmallPattern
+} from 'src/app/interface/pattern.interface';
 import { getAction, HttpActions } from 'src/app/utils/action-builder';
 import { MapImage } from '../../layouts/store/utils/images';
 
@@ -29,18 +35,23 @@ export class PatternService {
         private httpClient: HttpClient,
         private route: ActivatedRoute,
         private router: Router
-    ) { }
+    ) {
+    }
 
-    public getPatterns(page: number = 1): Observable<PageRequest> {
-        return this.httpClient.get<PageRequest>(getAction(HttpActions.Patterns) + page)
+    public getPatterns(page: number = 1, categories: number[] = [], sizes: number[] = [], search: string = ''): Observable<PageRequest> {
+        const getArray: (arr: number[]) => string = (arr: number[]) => arr?.length ? arr.join('-') : 'null';
+        const query: string = `page=${page}/categories=${getArray(categories)}/sizes=${getArray(sizes)}` + (search !== '' ? `/search=${search}` : '');
+
+        return this.httpClient.get<PageRequest>(getAction(HttpActions.Patterns) + query)
             .pipe(map((value: PageRequest) => {
                 value.items.forEach((pattern: SmallPattern) => pattern.images = pattern.images.map(MapImage));
                 return value;
             }));
     }
+
     public getPattern(id: number): Observable<PatternMaxType> {
         return this.httpClient
-            .get<ItemRequest<PatternMaxType>>(getAction(HttpActions.Pattern), { params: { id: String(id) } })
+            .get<ItemRequest<PatternMaxType>>(getAction(HttpActions.Pattern), {params: {id: String(id)}})
             .pipe(
                 filter((value: ItemRequest<PatternMaxType>) => {
                     if (!value.result) {
@@ -58,7 +69,7 @@ export class PatternService {
 
     public getPatternEdit(id: number): Observable<PatternMaxType> {
         return this.httpClient
-            .get<ItemRequest<PatternMaxType>>(getAction(HttpActions.PatternEdit), { params: { id: String(id) } })
+            .get<ItemRequest<PatternMaxType>>(getAction(HttpActions.PatternEdit), {params: {id: String(id)}})
             .pipe(
                 filter((value: ItemRequest<PatternMaxType>) => {
                     if (!value.result) {
@@ -73,18 +84,25 @@ export class PatternService {
                 })
             );
     }
+
     public createPattern(data: any): Observable<PatternSaveResultResponse> {
         return this.httpClient.post<PatternSaveResultResponse>(getAction(HttpActions.PatternEdit), data);
     }
+
     public updatePattern(data: any): Observable<PatternSaveResultResponse> {
         return this.httpClient.patch<PatternSaveResultResponse>(getAction(HttpActions.PatternEdit), data);
     }
+
     public removePattern(id: number): Observable<ResultRequest> {
-        return this.httpClient.delete<ResultRequest>(getAction(HttpActions.PatternEdit), { params: { id: String(id) } });
+        return this.httpClient.delete<ResultRequest>(getAction(HttpActions.PatternEdit), {params: {id: String(id)}});
     }
 
-    public setPatternFiles(data: FormData): Observable<ResultRequest> {
-        return this.httpClient.post<ResultRequest>(getAction(HttpActions.PatternFile), data );
+    public setPatternSizeFiles(data: FormData): Observable<ResultRequest> {
+        return this.httpClient.post<ResultRequest>(getAction(HttpActions.PatternSizeFile), data);
+    }
+
+    public setPatternColorFile(data: FormData): Observable<ResultRequest> {
+        return this.httpClient.post<ResultRequest>(getAction(HttpActions.PatternColorsFile), data);
     }
 
     public sendPatternMail(email: string, lang: LangType, patternId: number, sizes: number[]): Observable<ResultRequest> {
@@ -104,6 +122,7 @@ export class PatternService {
             skipLocationChange: false
         })
     }
+
     public goToEdit(id: number): Promise<boolean> {
         return this.router.navigate(['/pattern-edit', id], {
             relativeTo: this.route,
@@ -111,11 +130,17 @@ export class PatternService {
             skipLocationChange: false
         })
     }
+
     public goToCard(id: number): void {
         this.router.navigate(['/pattern-card', id], {
             relativeTo: this.route,
             queryParams: this.queryParams,
             skipLocationChange: false
         })
+    }
+
+    public downloadPatternBySize(patternSizeId: number, format: string): Observable<Blob> {
+        // @ts-ignore
+        return this.httpClient.get<Blob>((getAction(HttpActions.PatternDownloadSizeFile) + 'patternSizeId=' + patternSizeId + '/format=' + format), {responseType: 'blob'});
     }
 }
