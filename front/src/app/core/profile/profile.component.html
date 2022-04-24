@@ -1,31 +1,22 @@
-<!-- <div *ngIf="profile">
-    {{profile.username}}
-    {{profile.email}}
-    {{profile.godmode ? 'amagod' : 'amalooser'}}
-    <button (click)="logout()">Logout</button>
-</div>
-<div *ngIf="!profile">
-    <amstore-auth></amstore-auth>
-</div> -->
-
-<ng-container *ngIf="authStatus | async">
+<ng-container *ngIf="authStatus | async; else noAuth">
     <button amstore-button-round roundSide="left">
         <amstore-icon iconName="profile" [size]="20" [contrast]="true"></amstore-icon>
-        Профиль
+        <span class="header-button-label">Профиль</span>
     </button>
     <button amstore-button-round roundSide="right" (click)="logout()">
-        Выйти
-        <amstore-icon iconName="registration" [size]="20" [contrast]="true"></amstore-icon>
+        <span class="header-button-label">Выйти</span>
+        <amstore-icon iconName="logout" [size]="20" [contrast]="true"></amstore-icon>
     </button>
 </ng-container>
 
-<ng-container *ngIf="!(authStatus | async)">
+
+<ng-template #noAuth>
     <button amstore-button-round roundSide="left" (click)="login()">
         <amstore-icon iconName="login" [size]="20" [contrast]="true"></amstore-icon>
-        Войти
+        <span class="header-button-label">Войти</span>
     </button>
     <button amstore-button-round roundSide="right">
-        Регистрация
+        <span class="header-button-label">Регистрация</span>
         <amstore-icon iconName="registration" [size]="20" [contrast]="true"></amstore-icon>
     </button>
-</ng-container>
+</ng-template>

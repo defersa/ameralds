@@ -3,7 +3,7 @@
 .amstore-pattern-card {
     &-actions {
         amstore-button {
-            margin: 0 get-spacing(2) get-spacing(4) 0;
+            margin: get-spacing(2);
         }
     }
 }

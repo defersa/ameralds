@@ -117,3 +117,50 @@ $button-round-border: 2px;
     @include get-amstore-font("body", 14, null, null);
     line-height: $badge-size - $button-round-border * 2;
 }
+
+// mobile
+$badge-mobile-padding: 12px;
+$badge-mobile-size: 24px;
+$badge-mobile-radius: 12px;
+
+$button-mobile-round-radius: 14px;
+$button-mobile-round-size: 28px;
+
+$button-mobile-round-border: 1px;
+@media screen and (max-width: 768px) {
+    :host {
+        padding: get-spacing(1) get-spacing(2);
+        text-transform: uppercase;
+        box-sizing: border-box;
+        min-width: $button-mobile-round-size;
+        min-height: $button-mobile-round-size;
+
+        &.left-side {
+            border-radius: $button-mobile-round-radius 0 0 $button-mobile-round-radius;
+        }
+        &.right-side {
+            border-radius: 0 $button-mobile-round-radius $button-mobile-round-radius 0;
+        }
+        &.both-side {
+            border-radius: $button-mobile-round-radius;
+        }
+        &.amstore-round-has-badge {
+            margin-top: $badge-mobile-padding;
+            margin-right: $badge-mobile-padding;
+        }
+        @include get-amstore-font("body", 14, null, null);
+    }
+
+    .amstore-button-round-badge {
+        width: $badge-mobile-size;
+        height: $badge-mobile-size;
+        top: -($badge-mobile-padding);
+        right: -($badge-mobile-padding);
+
+        border-radius: $badge-mobile-radius;
+        border: $button-mobile-round-border solid get-amstore-color(gray, white);
+
+        @include get-amstore-font("body", 12, null, null);
+        line-height: $badge-mobile-size - $button-mobile-round-border * 2;
+    }
+}

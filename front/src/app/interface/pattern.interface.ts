@@ -21,7 +21,7 @@ export type SmallPattern = {
 export type PageRequest = {
     page: number;
     pageCount: number;
-    items: SmallPattern[];
+    items: PatternMaxType[];
 }
 
 export type PatternType = {

@@ -1,8 +1,18 @@
 @import "/src/app/styles/spacing.scss";
 
-:host {
-    margin-right: get-spacing(2);
+// desktop
+@media screen and (min-width: 768px) {
+    :host, .amstore-icon {
+        margin-right: get-spacing(2);
+    }
 }
-.amstore-icon {
-    margin-right: 4px;
+
+// mobile
+@media screen and (max-width: 768px) {
+    :host, amstore-icon {
+        margin-right: get-spacing(1);
+    }
+    .header-button-label {
+        display: none;
+    }
 }

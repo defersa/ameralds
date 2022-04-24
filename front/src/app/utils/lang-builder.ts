@@ -15,12 +15,12 @@ export const RU_LANG: LangDictionary = {
     routes: {
         store: {
             '': 'Главная',
-            'account': 'Личный кабинет',
+            'account': 'Аккаунт',
             'patterns': 'Схемы',
             'pattern-card': 'Карточка схемы',
             'pattern-edit': 'Изменение схемы',
             'pattern-add': 'Добавление схемы',
-            'jewelrys': 'Карточка украшения',
+            'jewelrys': 'Украшения',
             'jewelry-card': 'Карточка украшения',
             // 'jewelry-edit': 'Изменение украшения',
             'jewelry-add': 'Добавление украшения',

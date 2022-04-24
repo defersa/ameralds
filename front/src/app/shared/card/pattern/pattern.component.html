@@ -1,9 +1,6 @@
-<div class="amstore-card-images">
-    <div class="amstore-card-images-main">
-        <img [src]="mainImage.image_full" (click)="openViewer(data.images, 0)" class="amstore-card-img">
-    </div>
-    <div *ngFor="let image of subImages; index as i;" class="amstore-card-images-sub">
-        <img [src]="image.image_full" (click)="openViewer(data.images, i + 1)" class="amstore-card-img">
+<div class="amstore-card-images-wrapper">
+    <div class="amstore-card-images">
+        <img *ngFor="let image of images; index as i;" [src]="image.image_full" (click)="openViewer(data.images, i)" class="amstore-card-img">
     </div>
 </div>
 <div class="amstore-card-container">
@@ -13,7 +10,7 @@
             <amstore-icon iconName="heart" [size]="32" [isBlack]="true"></amstore-icon>
         </div>
     </div>
-    <div class="amstore-card-container-line">
+    <div class="amstore-card-container-line amstore-row">
         <amstore-icon iconName="pattern" [size]="32" [isBlack]="true"></amstore-icon>
         <b class="amstore-text-accent">Схема</b>
     </div>

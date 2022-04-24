@@ -1,6 +1,4 @@
-import { HttpClient } from '@angular/common/http';
 import { Component, ViewEncapsulation } from '@angular/core';
-import { RouterService } from './services/router.service';
 
 @Component({
     selector: 'app-root',
@@ -12,8 +10,10 @@ import { RouterService } from './services/router.service';
     }
 })
 export class AppComponent {
+
+    public date: Date = new Date();
+
     constructor(
-        private routerService: RouterService
     ) {
     }
 

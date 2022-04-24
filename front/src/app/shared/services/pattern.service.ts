@@ -44,7 +44,7 @@ export class PatternService {
 
         return this.httpClient.get<PageRequest>(getAction(HttpActions.Patterns) + query)
             .pipe(map((value: PageRequest) => {
-                value.items.forEach((pattern: SmallPattern) => pattern.images = pattern.images.map(MapImage));
+                value.items.forEach((pattern: PatternMaxType) => pattern.images = pattern.images.map(MapImage));
                 return value;
             }));
     }

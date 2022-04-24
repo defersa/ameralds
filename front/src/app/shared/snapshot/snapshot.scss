@@ -4,7 +4,6 @@
 
 $field-border-radius: 8px;
 
-
 .amstore-snapshot {
     display: flex;
     flex-direction: row;
@@ -42,9 +41,6 @@ $field-border-radius: 8px;
             h2 {
                 margin: get-spacing(1);
             }
-        }
-        &-heart {
-            margin-left: auto;
         }
         &-line {
             display: flex;

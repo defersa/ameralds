@@ -36,3 +36,10 @@
         }
     }
 }
+
+// mobile
+@media screen and (max-width: 768px) {
+    :host {
+        margin-right: get-spacing(1);
+    }
+}

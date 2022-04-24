@@ -4,10 +4,9 @@ import { takeUntil } from 'rxjs/operators';
 
 import { expandAnimation } from '@am/cdk/animations/expand';
 import { LangType } from '@am/interface/lang.interface';
-import { ThemePalette } from '@am/cdk/core/color';
-import { GoodsCard, GoodsModifire, ProductLite, ProductType } from '@am/interface/goods.intreface';
+import { GoodsCard, ProductLite } from '@am/interface/goods.intreface';
 import { ImageModelSmall } from '@am/interface/image.interface';
-import { SmallPattern } from '@am/interface/pattern.interface';
+import { PattenSizeFiles, PatternMaxType, SmallPattern } from '@am/interface/pattern.interface';
 import { IdName } from '@am/interface/request.interface';
 import { GoodsService } from '@am/services/goods.service';
 import { LangService } from '@am/services/lang.service';
@@ -18,55 +17,20 @@ import { AmstoreSnapshotBaseDirective } from '../snapshot.base.directive';
 import { CategoryType } from "@am/interface/category.interface";
 
 
-type ButtonStatusMap = {
-    label: string;
-    action: () => void;
-    color: ThemePalette;
-}
-
-
 @Component({
     selector: 'amstore-snapshot-pattern',
     templateUrl: './pattern.component.html',
-    styleUrls: ['./pattern.component.scss'],
+    styleUrls: ['./pattern.component.scss', '../snapshot.mobile.scss'],
     animations: [
         expandAnimation
     ],
 })
 export class AmstoreSnapshotPatternComponent extends AmstoreSnapshotBaseDirective implements OnDestroy, OnInit {
     @Input()
-    public data: SmallPattern = MOCK_PATTERN;
+    public data: PatternMaxType = MOCK_PATTERN;
     public status: 'buy' | 'remove' | 'bought' = 'buy';
     public showSale: boolean = false;
 
-    public buttonStatus: Record<string, ButtonStatusMap> = {
-        buy: {
-            label: 'Купить',
-            action: () => {
-                this.goodsService.addProduct(
-                    ProductType.Patterns, this.data)
-                    .subscribe((result: GoodsModifire) => {
-                    });
-            },
-            color: 'primary'
-        },
-        remove: {
-            label: 'Удалить из корзины',
-            action: () => {
-                this.goodsService.removeProduct(
-                    ProductType.Patterns, this.data.id)
-                    .subscribe((result: GoodsModifire) => {
-                    });
-            },
-            color: 'warn'
-        },
-        bought: {
-            label: 'Товар уже куплен',
-            action: () => {
-            },
-            color: 'accent'
-        }
-    }
 
     protected destroyed: Subject<void> = new Subject<void>();
 
@@ -92,8 +56,8 @@ export class AmstoreSnapshotPatternComponent extends AmstoreSnapshotBaseDirectiv
         return this.data.category?.map((item: CategoryType) => ({id: item.id, name: item.name[this._lang]}));
     }
 
-    public get sizes(): IdName[] {
-        return this.data.sizes || [{ id: 0, name: '49.5' }]
+    public get sizes(): PattenSizeFiles[] {
+        return this.data.sizes || [{ id: 0, value: '49.5' }]
     }
 
     public get price(): string {
@@ -132,12 +96,15 @@ export class AmstoreSnapshotPatternComponent extends AmstoreSnapshotBaseDirectiv
 
 }
 
-const MOCK_PATTERN: SmallPattern = {
+const MOCK_PATTERN: PatternMaxType = {
     id: 0,
-    name: { en: '', ru: '' },
-    price: { en: 0, ru: 0 },
+    name: {ru: 'default', en: 'default'},
+    price: {ru: 0, en: 0},
     description: '',
-    category: [],
-    create_date: undefined,
-    images: []
+    colors: {id: 0},
+    sizes: [],
+    create_date: '',
+    hidden: false,
+    images: [],
+    category: []
 };

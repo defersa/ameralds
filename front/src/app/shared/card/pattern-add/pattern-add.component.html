@@ -1,11 +1,8 @@
-<div class="amstore-card-images">
-    <amstore-button class="amstore-card-edit-image-add" (click)="openImagesEdit()">Изменить <br> изображения
-    </amstore-button>
-    <div class="amstore-card-images-main" *ngIf="mainImage">
-        <img [src]="mainImage.image_full" (click)="openViewer(data.images, 0)" class="amstore-card-img">
-    </div>
-    <div *ngFor="let image of subImages; index as i;" class="amstore-card-images-sub">
-        <img [src]="image.image_full" (click)="openViewer(data.images, i + 1)" class="amstore-card-img">
+<div class="amstore-card-images-wrapper">
+    <div class="amstore-card-images">
+        <amstore-button class="amstore-card-edit-image-add" (click)="openImagesEdit()">Изменить <br> изображения
+        </amstore-button>
+        <img *ngFor="let image of images; index as i;" [src]="image.image_full" (click)="openViewer(images, i)" class="amstore-card-img">
     </div>
 </div>
 <div class="amstore-card-container">
@@ -42,7 +39,7 @@
     <div class="amstore-card-container-line">
         <h3>Категории:</h3>
         <amstore-form-select *ngIf="$categoryList | async; let categoryList" [items]="categoryList"
-            [multiple]="true" [nullControl]="patternForm.get('category')">
+                             [multiple]="true" [nullControl]="patternForm.get('category')">
             <amstore-forms-label>Категории</amstore-forms-label>
         </amstore-form-select>
     </div>
@@ -50,7 +47,7 @@
     <div class="amstore-card-container-line" *ngIf="sizeArrayComponentList.length">
         <h3>Размеры и файлы:</h3>
         <amstore-form-array [controlArray]="sizeArrayControl" [arrayComponentList]="sizeArrayComponentList"
-            [model]="sizeArrayModel">
+                            [model]="sizeArrayModel">
         </amstore-form-array>
     </div>
 

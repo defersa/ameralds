@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { Subject } from 'rxjs';
 import { tap } from 'rxjs/operators';
+
 import { FilterQuery } from 'src/app/shared/paginated-page/paginated-page.component';
-import { PageRequest, SmallPattern } from 'src/app/interface/pattern.interface';
+import { PageRequest, PatternMaxType } from 'src/app/interface/pattern.interface';
 import { PatternsService } from '../../services/patterns.service';
 
 @Component({
@@ -11,7 +12,7 @@ import { PatternsService } from '../../services/patterns.service';
     styleUrls: ['./patterns.component.scss']
 })
 export class PatternsComponent implements OnInit {
-    public items: SmallPattern[] = [];
+    public items: PatternMaxType[] = [];
     public pageCount: number = 1;
     public page: number = 1;
 

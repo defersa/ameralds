@@ -1,0 +1,15 @@
+
+// mobile
+@media screen and (max-width: 768px) {
+    :host {
+        margin-right: get-spacing(1);
+    }
+
+    amstore-icon {
+        margin-right: 0;
+    }
+
+    .header-button-label {
+        display: none;
+    }
+}

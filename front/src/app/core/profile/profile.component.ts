@@ -47,7 +47,8 @@ export class ProfileComponent implements OnInit {
 
     public login(): void {
         this._dialog.open( AmstoreLoginComponent, {
-            panelClass: "amstore-dialog-login-panel"
+            panelClass: "amstore-dialog-login-panel",
+            minWidth: '350px'
         });
     }
 

@@ -40,3 +40,14 @@
 
     @include get-amstore-font("body", 16, null, null);
 }
+
+// mobile
+@media screen and (max-width: 768px) {
+    .amstore-button-menu {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        overflow: hidden;
+        flex-shrink: 0;
+    }
+}

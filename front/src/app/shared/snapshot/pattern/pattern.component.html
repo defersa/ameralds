@@ -3,22 +3,17 @@
 </div>
 <div class="amstore-snapshot-container">
     <div class="amstore-snapshot-container-header">
-        <amstore-icon iconName="pattern" [size]="24" [isBlack]="true"></amstore-icon>
         <h2 (click)="clickOnHeaderAction()">{{title}}</h2>
-        <div class="amstore-snapshot-container-heart">
-            <amstore-icon iconName="heart" [size]="32" [isBlack]="true"></amstore-icon>
-        </div>
     </div>
     <div class="amstore-snapshot-container-line">
         <amstore-chip *ngFor="let category of categories" [isDark]="true">{{category.name}}</amstore-chip>
     </div>
 
     <div class="amstore-snapshot-container-line">
-        <amstore-chip *ngFor="let category of sizes" [stroked]="true" color="warn" [isDark]="true">{{category.name}}см</amstore-chip>
+        <amstore-chip *ngFor="let size of sizes" [stroked]="true" color="warn" [isDark]="true">{{size.size.value}} см</amstore-chip>
     </div>
 
     <div class="amstore-snapshot-container-line">
-        <amstore-slide>Включить</amstore-slide>
         <h2>{{price}}</h2>
     </div>
 
@@ -31,9 +26,9 @@
     </div>
 
     <div class="amstore-snapshot-container-line amstore-snapshot-container-buttons">
-        <amstore-button color="warn" class="amstore-snapshot-container-sale" (click)="showSale = !showSale">
+        <amstore-button color="warn" class="amstore-snapshot-container-sale" *ngIf="false" (click)="showSale = !showSale">
             <amstore-icon iconName="sale" [contrast]="true" [size]="24"></amstore-icon>
         </amstore-button>
-        <amstore-button (click)="buttonStatus[status].action()" [color]="buttonStatus[status].color">{{buttonStatus[status].label}}</amstore-button>
+        <amstore-button (click)="clickOnHeaderAction()" color="primary">Подробнее</amstore-button>
     </div>
 </div>

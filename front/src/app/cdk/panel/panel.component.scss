@@ -59,3 +59,10 @@
         }
     }
 }
+
+// mobile
+@media screen and (max-width: 768px) {
+    :host {
+        border-radius: 0;
+    }
+}

@@ -2,14 +2,8 @@ import { ThemePalette } from '@am/cdk/core/color';
 import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { Subject } from 'rxjs';
 import { FilterQuery, PaginatedPageComponent } from '@am/shared/paginated-page/paginated-page.component';
-import { PageRequest, SmallPattern } from '@am/interface/pattern.interface';
+import { PageRequest, PatternMaxType, SmallPattern } from '@am/interface/pattern.interface';
 import { PatternService } from '@am/shared/services/pattern.service';
-
-type ButtonStatusMap = {
-    label: string;
-    action: (pattern: SmallPattern) => void;
-    color: ThemePalette;
-}
 
 @Component({
     selector: 'app-patterns',
@@ -20,7 +14,7 @@ export class PatternsComponent implements OnInit, OnDestroy {
     @ViewChild(PaginatedPageComponent)
     private _paginatedPageComponent: PaginatedPageComponent | undefined;
 
-    public items: SmallPattern[] = [];
+    public items: PatternMaxType[] = [];
     public pageCount: number = 1;
     public filters: Record<string, unknown> = {};
 
@@ -39,7 +33,6 @@ export class PatternsComponent implements OnInit, OnDestroy {
         this.destroyed.next();
         this.destroyed.complete();
     }
-
 
     public nextPage(query: FilterQuery): void {
         const categories: number[] = (typeof query.categories === 'string' ? [query.categories] : query.categories as [])?.map((item: string) => Number(item)) || [];
@@ -67,11 +60,5 @@ export class PatternsComponent implements OnInit, OnDestroy {
             this._paginatedPageComponent.page = 1;
             this._paginatedPageComponent.setFilters(event);
         }
-        // this.pattern.getPatterns(this.page, event.categories as number[], event.sizes as number[], event.search as string)
-        //     .subscribe((next: PageRequest) => {
-        //         this.pageCount = next.pageCount;
-        //         this.page = next.page;
-        //         this.items = next.items;
-        //     });
     }
 }

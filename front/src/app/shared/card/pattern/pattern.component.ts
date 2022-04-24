@@ -47,14 +47,6 @@ export class AmstorePatternCardComponent extends AmstoreCardDirective {
         return SIZE_UNIT[this._lang];
     }
 
-    public get mainImage(): ImageModelSmall {
-        return this.data.images[0] || {id: '', image_full: '', image_small: ''};
-    }
-
-    public get subImages(): ImageModelSmall[] {
-        return this.data.images.length ? this.data.images.slice(1) : [];
-    }
-
     public get images(): ImageModelSmall[] {
         return this.data.images.length ? this.data.images : [];
     }
