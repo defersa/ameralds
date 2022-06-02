@@ -154,3 +154,17 @@ class PatternDownloadSizeFileView(generics.ListAPIView):
             "result": False
         })
 
+
+class PatternDownloadColorsFileView(generics.ListAPIView):
+    @classmethod
+    @permission_classes([IsAdminUser])
+    def get(cls, request, pattern):
+        pattern_obj = Pattern.objects.get(pk=pattern)
+
+        if pattern_obj.colors:
+            response = FileResponse(pattern_obj.colors.file, content_type='image/jpg')
+            return response
+
+        return Response({
+            "result": False
+        })

@@ -23,6 +23,7 @@ class LangIntegerField(models.Model):
 
 class Image(models.Model):
     name = models.CharField(max_length=200, verbose_name="Исходное название файла", default="")
+    index = models.IntegerField(verbose_name="Номер в очереди", blank=True, default=0)
     image_full = models.ImageField(
         upload_to='static/images_model/full', blank=True)
     image_small = models.ImageField(
@@ -44,6 +45,9 @@ class Image(models.Model):
 
     def __str__(self):
         return str(self.pk)
+
+    class Meta:
+        ordering = ['index', 'pk']
 
 
 class Category(models.Model):

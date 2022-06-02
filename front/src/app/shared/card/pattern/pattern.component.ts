@@ -24,6 +24,7 @@ import { SIZE_UNIT } from "@am/utils/constants";
 import { AccessEnum } from "@am/utils/router-builder";
 import { SizeType } from "@am/interface/size.interface";
 import { PatternService } from "@am/shared/services/pattern.service";
+import { downloadBlobFile } from "@am/utils/file-utils";
 
 
 type ButtonStatusMap = {
@@ -169,16 +170,16 @@ export class AmstorePatternCardComponent extends AmstoreCardDirective {
     public downloadPattern(patternSizeId: number, format: 'pdf' | 'cbb' | 'png', sizeValue: number): void {
         this.patternService.downloadPatternBySize(patternSizeId, format)
             .subscribe((item: Blob) => {
-                const fileName: string = this.title + '-' + sizeValue + (item.type === 'text/cbb' ? '.cbb' : '');
-                console.log(item, fileName);
+                const name: string = this.title + '-' + sizeValue + (item.type === 'text/cbb' ? '.cbb' : '');
+                downloadBlobFile(item, name);
+            });
+    }
 
-                const binaryData: Blob[] = [item];
-                const downloadLink: HTMLAnchorElement = document.createElement('a');
-                downloadLink.href = window.URL.createObjectURL(new Blob(binaryData, {type: item.type}));
-                downloadLink.setAttribute('download', fileName);
-
-                downloadLink.click();
-                downloadLink.remove();
+    public downloadColor(): void {
+        this.patternService.downloadColor(this.data.id)
+            .subscribe((item: Blob) => {
+                const name: string = this.title + '-colors.jpg';
+                downloadBlobFile(item, name);
             });
     }
 }

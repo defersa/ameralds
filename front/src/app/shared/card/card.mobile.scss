@@ -45,14 +45,14 @@ $mobile-image-small: 70px + get-spacing(2);
 
             img {
                 object-fit: fill;
-                width: 70px;
+                max-width: 70px;
                 height: 50px;
                 margin: 0 get-spacing(1);
                 border-radius: 4px;
 
                 &:first-child {
                     float: left;
-                    width: 148px;
+                    max-width: 148px;
                     height: 104px;
                 }
             }

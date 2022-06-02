@@ -3,6 +3,11 @@ import { MatDialog } from '@angular/material/dialog';
 import { Observable } from 'rxjs';
 import { AmstoreImagesEditComponent } from './edit/edit.component';
 import { AmstoreViewerComponent } from './viewer.component';
+import {
+    AmstoreImageListEditorComponent, IndexedBlob,
+    IndexedImage
+} from "@am/shared/viewer/image-list-editor/image-list-editor.component";
+import { AmstoreViewerDialogComponent } from "@am/shared/viewer/viewer-dialog/viewer-dialog.component";
 
 @Injectable({
     providedIn: 'root'
@@ -12,8 +17,8 @@ export class AmstoreViewerService {
     constructor(
         private _dialog: MatDialog) { }
 
-    public open(images: unknown[], index: number) : void {
-        this._dialog.open( AmstoreViewerComponent, {
+    public open(images: unknown[], index: number): void {
+        this._dialog.open(AmstoreViewerComponent, {
             data: {
                 images,
                 index
@@ -22,14 +27,43 @@ export class AmstoreViewerService {
             hasBackdrop: true
         });
     }
-    
+
     public openEdit(images: unknown[]): Observable<any> {
-        return this._dialog.open( AmstoreImagesEditComponent, {
+        return this._dialog.open(AmstoreImagesEditComponent, {
             data: {
                 images
             },
             width: '90vw',
             hasBackdrop: true
+        }).afterClosed();
+    }
+
+    public openImageViewer(images: unknown[], index: number): Observable<any> {
+        return this._dialog.open(AmstoreViewerDialogComponent, {
+            data: {
+                images,
+                index
+            },
+            panelClass: 'amstore-viewer-backdrop',
+            width: '100vw',
+            height: '100vh',
+            maxWidth: '100vw',
+            maxHeight: '100vh',
+            hasBackdrop: false
+        }).afterClosed();
+    }
+
+    public openImageEditor(currentImages: IndexedImage[], blobImages: IndexedBlob[]): Observable<any> {
+        return this._dialog.open(AmstoreImageListEditorComponent, {
+            data: {
+                currentImages,
+                blobImages
+            },
+            width: '100vw',
+            height: '100vh',
+            maxWidth: '100vw',
+            maxHeight: '100vh',
+            hasBackdrop: false
         }).afterClosed();
     }
 }

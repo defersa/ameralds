@@ -1,15 +1,23 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { AmstoreViewerComponent } from './viewer.component';
+
 import { AmstoreIconModule } from '@am/cdk/icons/icons.module';
-import { AmstoreImagesEditComponent } from './edit/edit.component';
 import { AmstoreButtonDefaultModule } from '@am/cdk/buttons/default/default.module';
 import { AmstorePaginatorModule } from '@am/cdk/paginator/paginator.module';
 
+import { AmstoreImagesEditComponent } from './edit/edit.component';
+import { AmstoreViewerComponent } from './viewer.component';
+import { AmstoreImageListEditorComponent } from './image-list-editor/image-list-editor.component';
+import { AmstoreViewerDialogComponent } from "@am/shared/viewer/viewer-dialog/viewer-dialog.component";
 
 
 @NgModule({
-    declarations: [AmstoreViewerComponent, AmstoreImagesEditComponent],
+    declarations: [
+        AmstoreViewerComponent,
+        AmstoreImagesEditComponent,
+        AmstoreImageListEditorComponent,
+        AmstoreViewerDialogComponent
+    ],
     imports: [
         CommonModule,
         AmstoreIconModule,
@@ -17,4 +25,5 @@ import { AmstorePaginatorModule } from '@am/cdk/paginator/paginator.module';
         AmstorePaginatorModule
     ]
 })
-export class AmstoreViewerModule { }
+export class AmstoreViewerModule {
+}

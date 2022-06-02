@@ -13,6 +13,6 @@ export class AmstoreCardDirective {
     constructor(protected viewer: AmstoreViewerService) { }
 
     public openViewer(images: ImageModelSmall[], index: number): void {
-        this.viewer.open(images, index);
+        this.viewer.openImageViewer(images, index);
     }
 }

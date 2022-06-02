@@ -1,4 +1,5 @@
 import { IdName } from "./request.interface"
+import { PatternType } from "@am/interface/pattern.interface";
 
 export type ImageModelSmall = {
     id: number;
@@ -23,4 +24,10 @@ export type ImageModelRequest = {
 
 export type ImageAddRequest = {
     image: ImageModel;
+}
+
+export type ImageType = {
+    id: number;
+    image_full: string;
+    image_small: string;
 }

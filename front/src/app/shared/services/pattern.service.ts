@@ -143,4 +143,9 @@ export class PatternService {
         // @ts-ignore
         return this.httpClient.get<Blob>((getAction(HttpActions.PatternDownloadSizeFile) + 'patternSizeId=' + patternSizeId + '/format=' + format), {responseType: 'blob'});
     }
+
+    public downloadColor(pattern: number): Observable<Blob> {
+        // @ts-ignore
+        return this.httpClient.get<Blob>((getAction(HttpActions.PatternDownloadColorsFile) + 'id=' + pattern), {responseType: 'blob'});
+    }
 }

@@ -40,7 +40,6 @@ export class PatternCardComponent implements OnInit, OnDestroy {
         private route: ActivatedRoute,
         private patternService: PatternService,
         private profileService: ProfileService,
-        private goodsService: GoodsService
     ) {
         this.id = Number(this.route.snapshot.paramMap.get('id'));
     }

@@ -5,11 +5,11 @@ import { ArrayComponentListService } from "./array-component-list.service";
 @Injectable({
     providedIn: 'root'
 })
-export class ArratValidatorFns {
+export class ArrayValidatorFns {
     constructor(
         private _arrayComponentList: ArrayComponentListService
     ) { }
-    
+
     public getNotUniqValue(controlName: string): ValidatorFn {
         return (control: AbstractControl) => {
             if (!control) {

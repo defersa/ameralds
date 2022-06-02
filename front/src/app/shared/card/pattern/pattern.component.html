@@ -12,7 +12,7 @@
     </div>
     <div class="amstore-card-container-line amstore-row">
         <amstore-icon iconName="pattern" [size]="32" [isBlack]="true"></amstore-icon>
-        <b class="amstore-text-accent">Схема</b>
+        <b>Схема</b>
     </div>
 
 
@@ -31,14 +31,21 @@
         </div>
     </div>
 
+
     <ng-container *ngIf="(profileStatus | async) === 'moder'">
         <div class="amstore-card-container-line">
-            <h3>Скачать паттерны:</h3>
+            <h3>Скачать паттерн:</h3>
             <div *ngFor="let size of sizesWithControl" class="amstore-card-container-download">
                 <p>{{size.value}} {{sizeUnit}}:</p>
                 <amstore-button color="accent" (click)="downloadPattern(size.id, 'pdf', size.value)">Скачать в формате pdf</amstore-button>
                 <amstore-button color="accent" (click)="downloadPattern(size.id, 'cbb', size.value)">Скачать в формате cbb</amstore-button>
                 <amstore-button color="accent" (click)="downloadPattern(size.id, 'png', size.value)">Скачать в формате png</amstore-button>
+            </div>
+        </div>
+        <div class="amstore-card-container-line">
+            <h3>Скачать подбор:</h3>
+            <div class="amstore-card-container-download">
+                <amstore-button color="accent" (click)="downloadColor()">Скачать подбор</amstore-button>
             </div>
         </div>
     </ng-container>

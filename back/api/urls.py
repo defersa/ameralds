@@ -23,6 +23,9 @@ urlpatterns = [
     path('pattern-download-size-file/patternSizeId=<int:pattern_size_id>/format=<str:format_name>',
          patternFile.PatternDownloadSizeFileView.as_view()),
 
+    path('pattern-download-colors-file/id=<int:pattern>',
+         patternFile.PatternDownloadColorsFileView.as_view()),
+
     path('upload-image-file/', fileview.ImageManager.as_view()),
     path('get-images/<int:page>', fileview.GetImages.as_view()),
 

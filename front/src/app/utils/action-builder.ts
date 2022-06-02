@@ -28,6 +28,7 @@ export enum HttpActions {
     PatternSizeFile = 'pattern-size-file',
     PatternColorsFile = 'pattern-colors-file',
     PatternDownloadSizeFile = 'pattern-download-size-file',
+    PatternDownloadColorsFile = 'pattern-download-colors-file',
 
     SendMail = 'send-mail',
 }

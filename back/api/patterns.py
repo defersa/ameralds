@@ -15,7 +15,7 @@ from rest_framework.views import APIView
 from .fileview import ImageSerializer
 from .general.categories import CategorySerializer
 from .general.sizes import Size
-from .models import Pattern, LangCharFieldShort, LangIntegerField, Category
+from .models import Pattern, LangCharFieldShort, LangIntegerField, Image
 from .patternFile import PatternSize, PatternSizeSerializer, PrivateFileSerializer
 from .serializers import LangNumberSerializer, LangShortSerializer
 
@@ -207,7 +207,18 @@ class PatternEditView(APIView):
 
         entity.save()
         entity.category.set(request.data['category'])
-        entity.images.set(request.data['images'])
+
+        pattern_images = request.data['images']
+        for image in entity.images.all():
+            matches = len([x for x in pattern_images if x == image.pk])
+            if matches == 0:
+                image.delete()
+
+        entity.images.set(pattern_images)
+        for index, image_pk in enumerate(pattern_images):
+            image = Image.objects.get(pk=image_pk)
+            image.index = index
+            image.save()
 
         pattern_sizes = request.data['patternSizes']
 

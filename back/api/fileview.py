@@ -76,8 +76,15 @@ class ImageManager(APIView):
 
     def post(self, request):
         image_original = Image.open(request.data['file'])
-        image_big: Image = image_original.resize((1920, 1080), Image.ANTIALIAS)
-        image_small: Image = image_original.resize((640, 480), Image.ANTIALIAS)
+        image_rate = image_original.size[0] / image_original.size[1]
+
+        image_big: Image = image_original.resize((
+            round(1080 * image_rate),
+            1080), Image.ANTIALIAS)
+
+        image_small: Image = image_original.resize((
+            round(480 * image_rate),
+            480), Image.ANTIALIAS)
 
         filename = ''.join(random.choices(
             string.ascii_uppercase + string.digits, k=30)) + '.jpg'

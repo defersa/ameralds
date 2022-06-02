@@ -9,32 +9,33 @@ import {
     OnInit
 } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { combineLatest, Observable, Subject } from 'rxjs';
-import { switchMap } from 'rxjs/operators';
+import { combineLatest, Observable, of, Subject } from 'rxjs';
+import { map, switchMap } from 'rxjs/operators';
 
 import { AmstoreViewerService } from '@am/shared/viewer/viewer.service';
 
 import { CategoryType } from '@am/interface/category.interface';
 import { OptionType } from '@am/interface/cdk.interface';
-import { ImageModelSmall } from '@am/interface/image.interface';
+import { ImageAddRequest, ImageModelSmall } from '@am/interface/image.interface';
 import {
     PattenSizeFiles,
     PatternMaxType,
     PatternSaveResultResponse,
     PatternSaveSizeResult
 } from '@am/interface/pattern.interface';
-import { LangType } from '@am/interface/lang.interface';
 import { ArrayComponent } from '@am/cdk/forms/array/array.component';
 import { AbstractControl, FormArray, FormControl, FormGroup, Validators } from '@angular/forms';
 import { SizesService } from '@am/shared/services/sizes.service';
 import { SizeType } from '@am/interface/size.interface';
-import { ArratValidatorFns } from '@am/cdk/forms/array/array-validators-fn';
+import { ArrayValidatorFns } from '@am/cdk/forms/array/array-validators-fn';
 import { CategoriesService } from '@am/shared/services/categories.service';
 import { PatternService } from '@am/shared/services/pattern.service';
 
 
 import { AmstoreCardDirective } from '../card.directive';
 import { ResultRequest } from "@am/interface/request.interface";
+import { IndexedBlob, IndexedImage } from "@am/shared/viewer/image-list-editor/image-list-editor.component";
+import { ImagesService } from "@am/shared/services/images.service";
 
 
 @Component({
@@ -44,25 +45,25 @@ import { ResultRequest } from "@am/interface/request.interface";
     changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class AmstorePatternAddCardComponent extends AmstoreCardDirective implements OnDestroy, OnInit {
-    public get mainImage(): ImageModelSmall | null {
-        return this._images[0] || null;
+
+    public get images(): IndexedImage[] {
+        return this._savedImages;
     }
 
-    public get subImages(): ImageModelSmall[] {
-        return this._images.length ? this._images.slice(1) : [];
+    public get blobImages(): IndexedBlob [] {
+        return this._blobImages;
     }
 
-    public get images(): ImageModelSmall[] {
-        return this._images.length ? this._images : [];
-    }
 
-    public _images: ImageModelSmall[] = [];
+    private _savedImages: IndexedImage[] = [];
+    private _blobImages: IndexedBlob[] = [];
 
     public $categoryList: Observable<OptionType[]> | undefined;
 
     @Input()
     public set data(value: PatternMaxType) {
-        this._images = value.images;
+        this._savedImages = value.images.map((item: ImageModelSmall, index: number) => ({image: item, index}));
+
         this._data = value;
 
         this._fillPatternForm(value);
@@ -82,9 +83,9 @@ export class AmstorePatternAddCardComponent extends AmstoreCardDirective impleme
                 private _changeDetector: ChangeDetectorRef,
                 private _sizeService: SizesService,
                 private _categoriesService: CategoriesService,
+                private _imageService: ImagesService,
                 private _patternService: PatternService,
-                private httpClient: HttpClient,
-                private _arrayValidatorsFns: ArratValidatorFns,
+                private _arrayValidatorsFns: ArrayValidatorFns,
                 private _snackBar: MatSnackBar,
                 protected viewer: AmstoreViewerService) {
         super(viewer);
@@ -142,7 +143,7 @@ export class AmstorePatternAddCardComponent extends AmstoreCardDirective impleme
                         name: 'size',
                         component: 'select',
                         label: 'Размер',
-                        items: result.items.map((item: SizeType) => ({ label: String(item.value), value: item.id })),
+                        items: result.items.map((item: SizeType) => ({label: String(item.value), value: item.id})),
                         classes: 'col-12',
                         validator: [Validators.required, this._arrayValidatorsFns.getNotUniqValue('size')]
                     },
@@ -185,12 +186,12 @@ export class AmstorePatternAddCardComponent extends AmstoreCardDirective impleme
     }
 
     public openImagesEdit(): void {
-        this.viewer.openEdit(this.images)
-            .subscribe((images: false | ImageModelSmall[]) => {
+        this.viewer.openImageEditor(this._savedImages, this._blobImages)
+            .subscribe((images: null | [IndexedImage[], IndexedBlob[]]) => {
                 if (!images) {
                     return;
                 }
-                this._images = images;
+                [this._savedImages, this._blobImages] = images;
                 this._changeDetector.markForCheck();
             });
     }
@@ -201,30 +202,38 @@ export class AmstorePatternAddCardComponent extends AmstoreCardDirective impleme
             this.sizeArrayControl.markAllAsTouched();
             this.patternForm.markAllAsTouched();
 
-            this._snackBar.open('Не все поля заполнены корректно', undefined, { duration: 5000 });
+            this._snackBar.open('Не все поля заполнены корректно', undefined, {duration: 5000});
             return;
         }
 
         let id = this._data ? this._data.id : null;
-        const value: Record<string, unknown> = {
+        let value: Record<string, unknown> = {
             id,
             patternSizes: this.sizeArrayControl.getRawValue(),
-            images: this.images.map((item: ImageModelSmall) => item.id),
             ...this.patternForm.getRawValue(),
         };
 
-
-        (id ? this._patternService.updatePattern(value) : this._patternService.createPattern(value))
-            .pipe(switchMap((result: PatternSaveResultResponse) => {
-                id = result.id;
-
-                return combineLatest([
-                    ...result.sizes.map((item: PatternSaveSizeResult) => this._getSetPatternRequest(item, value.patternSizes)),
-                    this._getSetColorRequest(id, value.colors)
-                ]);
-            }))
+        combineLatest([
+            of(null),
+            ...this.blobImages.map((image: IndexedBlob) => {
+                return this._imageService.uploadImages(image.image)
+                    .pipe(map((item: ImageAddRequest) => ({id: item.image.id, index: image.index})));
+            })
+        ])
+            .pipe(
+                switchMap((blobRequest: ({ id: number; index: number; } | null )[]) => {
+                    value = { ...value, images: this._formatImageEntity(blobRequest)};
+                    return (id ? this._patternService.updatePattern(value) : this._patternService.createPattern(value))
+                }),
+                switchMap((result: PatternSaveResultResponse) => {
+                    id = result.id;
+                    return combineLatest([
+                        ...result.sizes.map((item: PatternSaveSizeResult) => this._getSetPatternRequest(item, value.patternSizes)),
+                        this._getSetColorRequest(id, value.colors)
+                    ]);
+                }))
             .subscribe(() => {
-                this._snackBar.open('Все сохранено.', undefined, { duration: 5000 });
+                this._snackBar.open('Все сохранено.', undefined, {duration: 5000});
 
                 if (id) {
                     this._patternService.goToEdit(id).then(() => window.location.reload());
@@ -263,5 +272,17 @@ export class AmstorePatternAddCardComponent extends AmstoreCardDirective impleme
         }
 
         return this._patternService.setPatternColorFile(fileList);
+    }
+
+    private _formatImageEntity(blobRequest: ({ id: number; index: number; } | null )[]): number[] {
+        const blobImages: { id: number; index: number; }[] =
+            blobRequest.filter((item: { id: number; index: number; } | null) => item !== null) as { id: number; index: number; }[];
+
+        return [
+            ...this._savedImages.map((item: IndexedImage) => ({id: item.image.id, index: item.index})),
+            ...blobImages
+        ]
+            .sort((a: { id: number; index: number; }, b: { id: number; index: number; }) => a.index - b.index)
+            .map((item: { id: number; index: number; }) => item.id);
     }
 }
