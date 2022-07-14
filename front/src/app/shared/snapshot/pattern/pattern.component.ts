@@ -1,4 +1,4 @@
-import { Component, ElementRef, Input, OnDestroy, OnInit } from '@angular/core';
+import {Component, ElementRef, Injector, Input, OnDestroy, OnInit} from '@angular/core';
 import { combineLatest, Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
@@ -36,11 +36,11 @@ export class AmstoreSnapshotPatternComponent extends AmstoreSnapshotBaseDirectiv
 
     private _lang: LangType = 'ru';
 
-    constructor(public elementRef: ElementRef,
+    constructor(protected injector: Injector,
                 private profileService: ProfileService,
                 private langService: LangService,
                 private goodsService: GoodsService) {
-        super(elementRef)
+        super(injector);
 
     }
 

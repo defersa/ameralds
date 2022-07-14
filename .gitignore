@@ -135,4 +135,4 @@ env.py
 /back/static
 
 # Ide
-.idea/
+.idea

@@ -1,5 +1,7 @@
-import { Directive, ElementRef, HostBinding, Input, Output, EventEmitter } from '@angular/core';
+import {Directive, ElementRef, HostBinding, Input, Output, EventEmitter, Injector} from '@angular/core';
 import { AmstoreColor } from '@am/cdk/core/color';
+import {ImageModelSmall} from "@am/interface/image.interface";
+import {AmstoreViewerService} from "@am/shared/viewer/viewer.service";
 
 @Directive({
     selector: '[appSnapshotBase]'
@@ -19,13 +21,14 @@ export class AmstoreSnapshotBaseDirective extends AmstoreColor {
     }
 
     private _isDark: boolean = false;
-
+    private _viewer: AmstoreViewerService;
 
     @Output()
     public clickOnHeader: EventEmitter<void> = new EventEmitter<void>();
 
-    constructor(public elementRef: ElementRef) {
-        super(elementRef)
+    constructor(private _injector: Injector) {
+        super(_injector.get(ElementRef));
+        this._viewer = _injector.get(AmstoreViewerService);
     }
 
     private setDarkClass(): void {
@@ -36,5 +39,8 @@ export class AmstoreSnapshotBaseDirective extends AmstoreColor {
 
     public clickOnHeaderAction() {
         this.clickOnHeader.emit();
+    }
+    public openViewer(images: ImageModelSmall[], index: number): void {
+        this._viewer.openImageViewer(images, index);
     }
 }
