@@ -133,3 +133,6 @@ amvenv/
 env.py
 /back/media
 /back/static
+
+# Ide
+.idea/
