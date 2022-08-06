@@ -2,7 +2,7 @@ import { CustomValidatorFns } from '@am/cdk/forms/custom-validators-fn';
 import { SizeType } from '@am/interface/size.interface';
 import { SizesService } from '@am/shared/services/sizes.service';
 import { Component, OnInit } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 
 @Component({
@@ -15,14 +15,14 @@ export class SizeEditComponent implements OnInit {
     public id: number | undefined;
     public isEdit: boolean;
 
-    public form: FormGroup | undefined;
+    public form: UntypedFormGroup | undefined;
 
-    public get controlValue(): FormControl {
-        return this.form?.controls['value'] as FormControl;
+    public get controlValue(): UntypedFormControl {
+        return this.form?.controls['value'] as UntypedFormControl;
     }
 
-    public get initedForm(): FormGroup {
-        return this.form || new FormGroup({});
+    public get initedForm(): UntypedFormGroup {
+        return this.form || new UntypedFormGroup({});
     }
 
     constructor(
@@ -38,10 +38,10 @@ export class SizeEditComponent implements OnInit {
 
     public ngOnInit(): void {
         this.sizes.getAllSizes().subscribe((result: {items: SizeType[]})=> {
-            this.form = new FormGroup({
-                id: new FormControl(),
-                create_date: new FormControl(),
-                value: new FormControl(null, [Validators.required, CustomValidatorFns.getNotUniqValue(result.items.map((item: SizeType) => String(item.value) ))])
+            this.form = new UntypedFormGroup({
+                id: new UntypedFormControl(),
+                create_date: new UntypedFormControl(),
+                value: new UntypedFormControl(null, [Validators.required, CustomValidatorFns.getNotUniqValue(result.items.map((item: SizeType) => String(item.value) ))])
             });
             if (this.isEdit && typeof this.id === 'number') {
                 this.sizes.getSize(this.id)

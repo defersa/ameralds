@@ -1,5 +1,5 @@
 import { Component, Directive, ElementRef, HostBinding, Input } from '@angular/core';
-import { AbstractControl, FormControl } from '@angular/forms';
+import { AbstractControl, UntypedFormControl } from '@angular/forms';
 import { BehaviorSubject, combineLatest, Subject, Subscription } from 'rxjs';
 import { startWith } from 'rxjs/operators';
 import { AmstoreColor, ThemePalette } from '../core/color';
@@ -49,11 +49,11 @@ export class AmstoreFormsBaseDirective extends AmstoreColor {
 
     };
 
-    protected _control: AbstractControl = new FormControl();
+    protected _control: AbstractControl = new UntypedFormControl();
     private _controlSubscription: Subscription | null = null;
 
-    public get formControl(): FormControl {
-        return this.control as FormControl;
+    public get formControl(): UntypedFormControl {
+        return this.control as UntypedFormControl;
     }
 
     public errors$: BehaviorSubject<string | null> = new BehaviorSubject<string | null>(null);

@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { AbstractControl, FormControl, FormGroup } from "@angular/forms";
+import { AbstractControl, UntypedFormControl, UntypedFormGroup } from "@angular/forms";
 import { BehaviorSubject, Observable } from "rxjs";
 import { map, mergeMap, switchMap, takeUntil } from "rxjs/operators";
 
@@ -28,7 +28,7 @@ export class AmstoreFilterComponent implements OnInit {
     public categoriesList$: Observable<OptionType[]> = this._categoriesList();
     public sizesList$: Observable<OptionType[]> = this._getSizeList();
 
-    public filterForm: FormGroup = AmstoreFilterComponent._getFilterModel();
+    public filterForm: UntypedFormGroup = AmstoreFilterComponent._getFilterModel();
 
     @Input()
     public set filters(value: Record<string, unknown>) {
@@ -82,11 +82,11 @@ export class AmstoreFilterComponent implements OnInit {
     }
 
 
-    private static _getFilterModel(): FormGroup {
-        return new FormGroup({
-            search: new FormControl(),
-            categories: new FormControl(),
-            sizes: new FormControl()
+    private static _getFilterModel(): UntypedFormGroup {
+        return new UntypedFormGroup({
+            search: new UntypedFormControl(),
+            categories: new UntypedFormControl(),
+            sizes: new UntypedFormControl()
         });
     }
 

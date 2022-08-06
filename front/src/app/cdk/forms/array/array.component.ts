@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, ElementRef, Input, OnDestroy, ViewEncapsulation } from '@angular/core';
-import { AbstractControl, FormArray, FormControl, FormGroup, ValidatorFn } from '@angular/forms';
+import { AbstractControl, UntypedFormArray, UntypedFormControl, UntypedFormGroup, ValidatorFn } from '@angular/forms';
 import { AmstoreFormsBaseDirective, SelectOption } from '../forms.abstract.directive';
 import { ArrayComponentListService } from './array-component-list.service';
 
@@ -27,7 +27,7 @@ export type ArrayComponent = {
 export class AmstoreFormArrayComponent extends AmstoreFormsBaseDirective implements OnDestroy {
 
     @Input()
-    public controlArray: FormArray = new FormArray([]);
+    public controlArray: UntypedFormArray = new UntypedFormArray([]);
 
     @Input()
     public get arrayComponentList(): ArrayComponent[] {
@@ -49,8 +49,8 @@ export class AmstoreFormArrayComponent extends AmstoreFormsBaseDirective impleme
         return this.controlArray.getRawValue();
     }
 
-    public get formGroups(): FormGroup[] {
-        return this.controlArray.controls as FormGroup[];
+    public get formGroups(): UntypedFormGroup[] {
+        return this.controlArray.controls as UntypedFormGroup[];
     }
 
     constructor(public elementRef: ElementRef, private _arrayComponentListService: ArrayComponentListService) {
@@ -59,9 +59,9 @@ export class AmstoreFormArrayComponent extends AmstoreFormsBaseDirective impleme
 
     public addFormGroup(value: Record<string, unknown>): void {
         const controlsNames: [string, ValidatorFn[]][] = this.arrayComponentList.map((item: ArrayComponent) => [item.name, item.validator || []]);
-        const controls: Record<string, FormControl> = controlsNames
-            .reduce((acc: Record<string, FormControl>, [key, fns]: [string, ValidatorFn[]]) => {
-                const control: FormControl = new FormControl(value[key] || null, fns);
+        const controls: Record<string, UntypedFormControl> = controlsNames
+            .reduce((acc: Record<string, UntypedFormControl>, [key, fns]: [string, ValidatorFn[]]) => {
+                const control: UntypedFormControl = new UntypedFormControl(value[key] || null, fns);
 
                 this._arrayComponentListService.addControl(key, control);
 
@@ -70,11 +70,11 @@ export class AmstoreFormArrayComponent extends AmstoreFormsBaseDirective impleme
                     [key]: control
                 };
             }, {});
-        this.controlArray.controls.push(new FormGroup(controls));
+        this.controlArray.controls.push(new UntypedFormGroup(controls));
     }
 
     public removeFormGroup(index: number): void {
-        const group: FormGroup = this.controlArray.controls[index] as FormGroup;
+        const group: UntypedFormGroup = this.controlArray.controls[index] as UntypedFormGroup;
 
         this._removeFormGroup(group);
 
@@ -87,11 +87,11 @@ export class AmstoreFormArrayComponent extends AmstoreFormsBaseDirective impleme
 
     public ngOnDestroy(): void {
         this.controlArray.controls
-            .forEach((group: AbstractControl) => this._removeFormGroup(group as FormGroup));
+            .forEach((group: AbstractControl) => this._removeFormGroup(group as UntypedFormGroup));
     }
 
-    private _removeFormGroup(group: FormGroup): void {
+    private _removeFormGroup(group: UntypedFormGroup): void {
         Object.keys(group.controls)
-            .forEach((key: string) => this._arrayComponentListService.removeControl(key, group.controls[key] as FormControl))
+            .forEach((key: string) => this._arrayComponentListService.removeControl(key, group.controls[key] as UntypedFormControl))
     }
 }

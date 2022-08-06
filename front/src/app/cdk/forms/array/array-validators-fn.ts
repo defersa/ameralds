@@ -1,5 +1,5 @@
 import { Injectable } from "@angular/core";
-import { AbstractControl, FormControl, ValidationErrors, ValidatorFn } from "@angular/forms";
+import { AbstractControl, UntypedFormControl, ValidatorFn } from "@angular/forms";
 import { ArrayComponentListService } from "./array-component-list.service";
 
 @Injectable({
@@ -15,12 +15,12 @@ export class ArrayValidatorFns {
             if (!control) {
                 return null;
             }
-            let controlList: FormControl[] | undefined = this._arrayComponentList.getControls(controlName);
+            let controlList: UntypedFormControl[] | undefined = this._arrayComponentList.getControls(controlName);
 
             if(controlList) {
-                controlList = controlList.filter((item: FormControl) => item !== control);
+                controlList = controlList.filter((item: UntypedFormControl) => item !== control);
 
-                return controlList.some((item: FormControl) => item.value === control.value)
+                return controlList.some((item: UntypedFormControl) => item.value === control.value)
                     ? { notUniq: {value: control.value }}
                     : null;
             }

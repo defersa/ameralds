@@ -1,6 +1,6 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
-import { FormControl, FormGroup, ValidationErrors, Validators } from '@angular/forms';
+import { UntypedFormControl, UntypedFormGroup, ValidationErrors, Validators } from '@angular/forms';
 import { MatDialogRef } from '@angular/material/dialog';
 import { RecaptchaDirective } from "../../recaptcha/recaptcha.directive";
 import { AuthService } from "@am/services/auth.service";
@@ -18,17 +18,17 @@ import { AuthResponse } from "@am/interface/profile.interface";
     }
 })
 export class AmstoreLoginComponent extends RecaptchaDirective {
-    public authForm: FormGroup;
+    public authForm: UntypedFormGroup;
     public error: string | undefined;
 
     public passwordType: 'text' | 'password' = 'password';
 
-    public get username(): FormControl {
-        return this.authForm.get('username') as FormControl;
+    public get username(): UntypedFormControl {
+        return this.authForm.get('username') as UntypedFormControl;
     }
 
-    public get password(): FormControl {
-        return this.authForm.get('password') as FormControl;
+    public get password(): UntypedFormControl {
+        return this.authForm.get('password') as UntypedFormControl;
     }
 
     private errorName: string = 'auth';
@@ -40,9 +40,9 @@ export class AmstoreLoginComponent extends RecaptchaDirective {
         private _profileService: ProfileService
     ) {
         super();
-        this.authForm = new FormGroup({
-            username: new FormControl('', [Validators.required]),
-            password: new FormControl('', [Validators.required])
+        this.authForm = new UntypedFormGroup({
+            username: new UntypedFormControl('', [Validators.required]),
+            password: new UntypedFormControl('', [Validators.required])
         });
 
         this.authForm.valueChanges.subscribe(() => {

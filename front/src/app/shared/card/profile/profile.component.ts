@@ -1,6 +1,6 @@
 import { Component, Input, OnInit, ViewEncapsulation } from '@angular/core';
 import { ProfileInterface } from "@am/interface/profile.interface";
-import { FormControl, FormGroup, Validators } from "@angular/forms";
+import { UntypedFormControl, UntypedFormGroup, Validators } from "@angular/forms";
 import { AuthService } from "@am/services/auth.service";
 
 @Component({
@@ -24,9 +24,9 @@ export class AmstoreProfileCardComponent implements OnInit {
     public get user(): ProfileInterface { return this._user; }
     private _user: ProfileInterface = USER_MOCK;
 
-    public mainFromGroup: FormGroup = new FormGroup({
-        username: new FormControl({ value: '', disabled: true }, [Validators.required]),
-        email: new FormControl({ value: '', disabled: true }, [Validators.required])
+    public mainFromGroup: UntypedFormGroup = new UntypedFormGroup({
+        username: new UntypedFormControl({ value: '', disabled: true }, [Validators.required]),
+        email: new UntypedFormControl({ value: '', disabled: true }, [Validators.required])
     });
 
     constructor(private _auth: AuthService) { }

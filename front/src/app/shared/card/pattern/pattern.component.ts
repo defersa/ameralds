@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, Input } from '@angular/core';
-import { FormControl } from '@angular/forms';
-import { BehaviorSubject, combineLatest, Observable, Subject } from 'rxjs';
+import { UntypedFormControl } from '@angular/forms';
+import { BehaviorSubject, combineLatest, Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
 import { expandAnimation } from '@am/cdk/animations/expand';
@@ -59,13 +59,13 @@ export class AmstorePatternCardComponent extends AmstoreCardDirective {
         return this.data.category.map((item: CategoryType) => ({id: item.id, name: item.name[this._lang]}))
     }
 
-    public sizesWithControl: { value: number; control: FormControl; id: number; }[] = [];
+    public sizesWithControl: { value: number; control: UntypedFormControl; id: number; }[] = [];
 
     @Input()
     public set data(value: PatternMaxType) {
         this.sizesWithControl = value.sizes.map((item: PattenSizeFiles) => ({
             value: item.size.value,
-            control: new FormControl(),
+            control: new UntypedFormControl(),
             id: item.id
         }));
         this._data = value;

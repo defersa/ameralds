@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormControl, FormGroup, Validators } from "@angular/forms";
+import { UntypedFormControl, UntypedFormGroup, Validators } from "@angular/forms";
 
 @Component({
     selector: 'amstore-registration',
@@ -8,9 +8,9 @@ import { FormControl, FormGroup, Validators } from "@angular/forms";
 })
 export class AmstoreRegistrationComponent implements OnInit {
 
-    public regForm: FormGroup = new FormGroup({
-       password: new FormControl(null, [Validators.required]),
-       passwordRepeat: new FormControl(null, [Validators.required])
+    public regForm: UntypedFormGroup = new UntypedFormGroup({
+       password: new UntypedFormControl(null, [Validators.required]),
+       passwordRepeat: new UntypedFormControl(null, [Validators.required])
     });
 
     constructor() { }
