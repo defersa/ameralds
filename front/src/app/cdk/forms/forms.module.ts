@@ -19,6 +19,7 @@ import { AmstoreButtonDefaultModule } from '../buttons/default/default.module';
 import { AmstoreFormArrayComponent } from './array/array.component';
 import { AmstoreUploadFileComponent } from './upload-file/upload-file.component';
 import { AmstoreChipsCheckboxComponent } from './chips-checkbox/chips-checkbox.component';
+import { AmstoreInputPasswordComponent } from './input-password/input-password.component';
 
 const FORM_COMPONENT: any[] = [
     AmstoreInputComponent,
@@ -27,7 +28,8 @@ const FORM_COMPONENT: any[] = [
     AmstoreSelectComponent,
     AmstoreFormArrayComponent,
     AmstoreUploadFileComponent,
-    AmstoreChipsCheckboxComponent
+    AmstoreChipsCheckboxComponent,
+    AmstoreInputPasswordComponent
 ];
 
 

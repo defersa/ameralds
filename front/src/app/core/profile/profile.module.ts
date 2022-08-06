@@ -11,7 +11,6 @@ import { ProfileComponent } from './profile.component';
 import { AmstoreLoginComponent } from './login/login.component';
 
 
-
 @NgModule({
     declarations: [ProfileComponent, AmstoreLoginComponent],
     exports: [ProfileComponent],

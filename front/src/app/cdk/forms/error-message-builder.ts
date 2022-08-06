@@ -3,8 +3,9 @@ type TransformFunc = (value?: any) => string;
 const ErrorTemplates: Record<string, TransformFunc> = {
     required: () => 'Это поле обязательно',
     email: () => 'Email не корректен',
-    minValue: (value: {current: number, expected: number}) => `Текущее значение ${value.current} меньше чем минимально ожидаемое ${value.expected}`,
-    notUniq: (value: unknown) => `Значение должно быть отлично от существующих!`
+    minValue: (value: { current: number; expected: number; }) => `Текущее значение ${value.current} меньше чем минимально ожидаемое ${value.expected}`,
+    notUniq: (value: unknown) => `Значение должно быть отлично от существующих!`,
+    auth: () => ''
 }
 
 export function getControlErrors(errors: ValidationErrors | null): string | null {

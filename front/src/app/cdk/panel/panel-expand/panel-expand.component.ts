@@ -4,8 +4,8 @@ import { expandAnimation } from "@am/cdk/animations/expand";
 
 @Component({
     selector: 'amstore-panel',
-    templateUrl: './panel.component.html',
-    styleUrls: ['./panel.component.scss'],
+    templateUrl: './panel-expand.component.html',
+    styleUrls: ['./panel-expand.component.scss'],
     animations: [
         expandAnimation
     ],
@@ -13,9 +13,12 @@ import { expandAnimation } from "@am/cdk/animations/expand";
         class: 'amstore-panel'
     }
 })
-export class AmstorePanelComponent extends AmstoreColor {
+export class AmstorePanelExpandComponent extends AmstoreColor {
     @Input()
     public state: boolean = false;
+
+    @Input()
+    public clickable: boolean = true;
 
     public get expandState(): 'collapsed' | 'expanded' {
         return this.state ? 'expanded' : 'collapsed';
@@ -23,6 +26,13 @@ export class AmstorePanelComponent extends AmstoreColor {
 
     constructor(public elementRef: ElementRef) {
         super(elementRef)
+    }
+
+    public changeState(): void {
+        if(!this.clickable){
+            return
+        }
+        this.state = !this.state;
     }
 
 }

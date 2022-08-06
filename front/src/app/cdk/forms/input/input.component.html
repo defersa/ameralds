@@ -5,5 +5,12 @@
 
     <input matInput [type]="type" [formControl]="formControl" [name]="name" ngDefaultControl>
 
+    <amstore-icon *ngIf="suffixName"
+                  (click)="emitSuffixClick()"
+                  [iconName]="suffixName"
+                  [size]="20"
+                  color="accent"
+                  matSuffix></amstore-icon>
+
     <mat-error *ngIf="isErrorState">{{errors$ | async}}</mat-error>
 </mat-form-field>

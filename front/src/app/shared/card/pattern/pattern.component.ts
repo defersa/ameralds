@@ -22,7 +22,6 @@ import { AmstoreCardDirective } from '../card.directive';
 import { CategoryType } from '@am/interface/category.interface';
 import { SIZE_UNIT } from "@am/utils/constants";
 import { AccessEnum } from "@am/utils/router-builder";
-import { SizeType } from "@am/interface/size.interface";
 import { PatternService } from "@am/shared/services/pattern.service";
 import { downloadBlobFile } from "@am/utils/file-utils";
 

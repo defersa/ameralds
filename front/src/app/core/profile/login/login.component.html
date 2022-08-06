@@ -4,10 +4,15 @@
     <amstore-forms-label>Адрес почты</amstore-forms-label>
 </amstore-forms-input>
 
-<amstore-forms-input color="primary" type="password" [control]="password" name="password">
+<amstore-forms-input color="primary" [type]="passwordType" suffixName="setting" (onSuffixClick)="changePasswordType()" [control]="password" name="password">
     <amstore-forms-label>Пароль</amstore-forms-label>
 </amstore-forms-input>
 
-<span *ngIf="error">Неверный логин или пароль</span>
+<span *ngIf="error" class="amstore-dialog-login__error">{{error}}</span>
 
-<amstore-button (click)="login()" color="accent">Войти</amstore-button>
+<div class="container">
+<div class="row justify-content-between">
+    <amstore-button (click)="login()" color="primary">Забыли пароль?</amstore-button>
+    <amstore-button (click)="login()" color="accent">Войти</amstore-button>
+</div>
+</div>

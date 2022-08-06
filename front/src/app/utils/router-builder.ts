@@ -28,6 +28,12 @@ export enum AccountRoutes {
     Orders = 'orders',
     Patterns = 'patterns',
     PatternCard = 'pattern-card',
+    Profile = 'profile'
+}
+
+export enum AuthRoutes {
+    Auth = 'auth',
+    Register = 'register'
 }
 
 export enum AccessEnum {
@@ -38,8 +44,8 @@ export enum AccessEnum {
 
 
 export type RouterConfig = {
-    name: StoreRoutes | AccountRoutes;
-    path: (StoreRoutes | AccountRoutes)[];
+    name: StoreRoutes | AccountRoutes | AuthRoutes;
+    path: (StoreRoutes | AccountRoutes | AuthRoutes)[];
     prefix?: ':id';
     access?: AccessEnum;
 }
@@ -64,11 +70,16 @@ export const STORE_ROUTES: RouterConfig[] = [
 
 export const ACCOUNT_ROUTES: RouterConfig[] = [
     { name: StoreRoutes.Store, path: [] },
+    { name: AccountRoutes.Profile, path: [AccountRoutes.Account, AccountRoutes.Profile], access: AccessEnum.Auth },
     { name: AccountRoutes.Goods, path: [AccountRoutes.Account, AccountRoutes.Goods] },
     { name: AccountRoutes.Orders, path: [AccountRoutes.Account, AccountRoutes.Orders], access: AccessEnum.Auth },
     { name: AccountRoutes.Patterns, path: [AccountRoutes.Account, AccountRoutes.Patterns], access: AccessEnum.Auth },
     { name: AccountRoutes.PatternCard, path: [AccountRoutes.Account, AccountRoutes.PatternCard], prefix: ':id', access: AccessEnum.Auth },
-]
+];
+
+export const AUTH_ROUTES: RouterConfig[] = [
+    { name: AuthRoutes.Register, path: [AuthRoutes.Auth, AuthRoutes.Register] },
+];
 
 export function getStoreRoutePath(name: StoreRoutes): string {
     const route: RouterConfig | undefined = STORE_ROUTES.find((value: RouterConfig) => value.name === name);

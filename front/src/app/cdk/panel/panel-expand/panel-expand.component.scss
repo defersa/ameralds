@@ -1,7 +1,7 @@
-@import "/src/app/styles/theming-var.scss";
-@import "/src/app/styles/spacing.scss";
-@import "/src/app/styles/typography.scss";
-@import "/src/app/styles/untils.scss";
+@import "../../../styles/theming-var";
+@import "../../../styles/spacing";
+@import "../../../styles/typography";
+@import "../../../styles/untils";
 
 @mixin amstore-panel-color($theme) {
     background: get-amstore-color($theme, dark);

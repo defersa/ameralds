@@ -1,8 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { BehaviorSubject } from 'rxjs';
+
 import { AuthService } from 'src/app/services/auth.service';
-import { ISmallProfile, ProfileService } from 'src/app/services/profile.service';
+import { ISmallProfile } from "@am/interface/profile.interface";
+import { ProfileService } from "@am/services/profile.service";
 
 import { AmstoreLoginComponent } from './login/login.component';
 
@@ -15,7 +17,7 @@ import { AmstoreLoginComponent } from './login/login.component';
         class: 'amstore-profile'
     }
 })
-export class ProfileComponent implements OnInit {
+export class ProfileComponent {
 
     public get godmode(): BehaviorSubject<boolean> {
         return this.profileService.moderStatus$;
@@ -42,13 +44,10 @@ export class ProfileComponent implements OnInit {
     ) {
     }
 
-    public ngOnInit(): void {
-    }
-
     public login(): void {
         this._dialog.open( AmstoreLoginComponent, {
             panelClass: "amstore-dialog-login-panel",
-            minWidth: '350px'
+            minWidth: '400px'
         });
     }
 

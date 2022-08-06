@@ -20,8 +20,13 @@ export class AmstoreFormsBaseDirective extends AmstoreColor {
     }
 
     @Input()
+    public required: boolean = false;
+
+    @Input()
     public set nullControl(value: AbstractControl | null) {
-        this.control = value || new FormControl();
+        if(value) {
+            this.control = value;
+        }
     };
 
     @Input()
@@ -44,7 +49,7 @@ export class AmstoreFormsBaseDirective extends AmstoreColor {
 
     };
 
-    private _control: AbstractControl = new FormControl();
+    protected _control: AbstractControl = new FormControl();
     private _controlSubscription: Subscription | null = null;
 
     public get formControl(): FormControl {

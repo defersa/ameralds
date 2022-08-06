@@ -37,7 +37,8 @@ export const RU_LANG: LangDictionary = {
             'goods': 'Корзина',
             'orders': 'Заказы',
             'patterns': 'Купленные схемы',
-            'pattern-card': 'Купленная схема'
+            'pattern-card': 'Купленная схема',
+            'profile': 'Профиль'
         }
     }
 }
@@ -67,8 +68,9 @@ export const EN_LANG: LangDictionary = {
             'account': 'Account',
             'goods': 'Goods',
             'orders': 'Orders',
-            'patterns': 'Own patterns',
-            'pattern-card': 'Pattern'
+            'patterns': 'Bought patterns',
+            'pattern-card': 'Pattern',
+            'profile': 'Profile'
         }
     }
 }

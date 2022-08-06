@@ -1,6 +1,6 @@
-from django.urls import path
+from django.urls import path, include
 
-from . import views, patterns, goods, fileview, orders, patternFile
+from . import views, patterns, goods, fileview, orders, patternFile, auth
 from .general import sizes, categories
 
 urlpatterns = [
@@ -47,7 +47,9 @@ urlpatterns = [
     path('pattern-edit/', patterns.PatternEditView.as_view()),
     path('pattern-edit/<int:page>', patterns.PatternEditView.as_view()),
 
-    path('send-mail/', patterns.SendMailView.as_view())
-    
+    path('send-mail/', patterns.SendMailView.as_view()),
+
+    path('auth/', include('api.auth.urls')),
+    path('profile/', include('api.profile.urls')),
     
 ]

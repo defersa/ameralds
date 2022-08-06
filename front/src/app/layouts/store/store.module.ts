@@ -15,6 +15,7 @@ import { CategoriesComponent } from './pages/category/categories/categories.comp
 import { CategoryEditComponent } from './pages/category/category-edit/category-edit.component';
 import { SizesComponent } from './pages/sizes/sizes/sizes.component';
 import { SizeEditComponent } from './pages/sizes/size-edit/size-edit.component';
+import { AmstoreCanActivatePage } from "../../store.guard";
 
 
 export const routes: Routes = [{
@@ -24,50 +25,62 @@ export const routes: Routes = [{
         {
             path: '',
             component: PatternsComponent,
+            canActivate: [AmstoreCanActivatePage]
         },
         {
             path: getStoreRoutePath(StoreRoutes.PatternCard),
             component: PatternCardComponent,
+            canActivate: [AmstoreCanActivatePage]
         },
         {
             path: getStoreRoutePath(StoreRoutes.PatternAdd),
             component: PatternAddComponent,
+            canActivate: [AmstoreCanActivatePage]
         },
         {
             path: getStoreRoutePath(StoreRoutes.PatternEdit),
             component: PatternAddComponent,
+            canActivate: [AmstoreCanActivatePage]
         },
         {
             path: getStoreRoutePath(StoreRoutes.Patterns),
             component: PatternsComponent,
+            canActivate: [AmstoreCanActivatePage]
         },
         {
             path: getStoreRoutePath(StoreRoutes.Jewelrys),
             component: JewelryComponent,
+            canActivate: [AmstoreCanActivatePage]
         },
         {
             path: getStoreRoutePath(StoreRoutes.Categories),
             component: CategoriesComponent,
+            canActivate: [AmstoreCanActivatePage]
         },
         {
             path: getStoreRoutePath(StoreRoutes.CategoryEdit),
             component: CategoryEditComponent,
+            canActivate: [AmstoreCanActivatePage]
         },
         {
             path: getStoreRoutePath(StoreRoutes.CategoryAdd),
             component: CategoryEditComponent,
+            canActivate: [AmstoreCanActivatePage]
         },
         {
             path: getStoreRoutePath(StoreRoutes.Sizes),
             component: SizesComponent,
+            canActivate: [AmstoreCanActivatePage]
         },
         {
             path: getStoreRoutePath(StoreRoutes.SizeEdit),
             component: SizeEditComponent,
+            canActivate: [AmstoreCanActivatePage]
         },
         {
             path: getStoreRoutePath(StoreRoutes.SizeAdd),
             component: SizeEditComponent,
+            canActivate: [AmstoreCanActivatePage]
         }
     ]
 }]
