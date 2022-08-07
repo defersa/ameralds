@@ -1,13 +1,16 @@
 from django.contrib.auth import authenticate, user_logged_in
+from django.contrib.auth.models import User
 from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework_jwt.serializers import jwt_payload_handler
 
+
 import jwt
 import requests
 
 from ameralds import env
+from ..models import Person
 
 
 class AmstoreAuthView(APIView):
@@ -25,7 +28,6 @@ class AmstoreAuthView(APIView):
         }
         recaptcha_response = requests.post('https://www.google.com/recaptcha/api/siteverify', data=recaptcha_data)
         recaptcha_response_result = recaptcha_response.json()
-        print(recaptcha_response_result)
 
         if recaptcha_response_result.get('success'):
             # Auth user
@@ -45,3 +47,30 @@ class AmstoreAuthView(APIView):
                     raise e
             return Response('Not correct payload', status=status.HTTP_400_BAD_REQUEST)
         return Response({'error': 'Is robot'})
+
+
+class AmstoreRegistrationView(APIView):
+    permission_classes = []
+
+    @classmethod
+    def post(cls, request):
+        same_email_user = User.objects.get(email=request.data['email'])
+        if same_email_user:
+            return Response({
+                "formError": {
+                    "emailBusy": True
+                }
+            })
+
+        new_user = User.objects.create(
+            username=request.data['email'],
+            email=request.data['email'],
+            password=request.data['password'],
+            first_name=request.data['firstName'],
+            last_name=request.data['lastName']
+        )
+        new_user.save()
+        new_person = Person.objects.create(user=new_user)
+
+
+        return Response('Not correct payload', status=status.HTTP_400_BAD_REQUEST)

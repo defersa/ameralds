@@ -120,6 +120,10 @@ export class ProfileService {
                 })));
     }
 
+    public postNewUser(value: unknown): Observable<unknown> {
+        return this.httpClient.post<ProfileInterfaceResponse>(getAction(HttpAuthActions.Registration, RestSuffixFragments.Auth), value);
+    }
+
 
     private tryRefreshToken(): void {
         if (

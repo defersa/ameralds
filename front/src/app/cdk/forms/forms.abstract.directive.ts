@@ -1,5 +1,5 @@
 import { Component, Directive, ElementRef, HostBinding, Input } from '@angular/core';
-import { AbstractControl, UntypedFormControl } from '@angular/forms';
+import { AbstractControl, UntypedFormControl, Validators } from '@angular/forms';
 import { BehaviorSubject, combineLatest, Subject, Subscription } from 'rxjs';
 import { startWith } from 'rxjs/operators';
 import { AmstoreColor, ThemePalette } from '../core/color';
@@ -46,6 +46,10 @@ export class AmstoreFormsBaseDirective extends AmstoreColor {
                 const errors: string | null = this.control.invalid ? getControlErrors(this.control.errors) : null;
                 this.errors$.next(errors);
             });
+
+        if(this.required) {
+            this._control.addValidators([Validators.required])
+        }
 
     };
 

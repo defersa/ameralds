@@ -35,7 +35,8 @@ export enum HttpActions {
 
 export enum HttpAuthActions {
     TokenAuth = 'login',
-    RefreshToken = 'refresh'
+    RefreshToken = 'refresh',
+    Registration = 'registration'
 }
 
 

@@ -1,6 +1,5 @@
-import { ChangeDetectionStrategy, Component, ElementRef, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { ChangeDetectionStrategy, Component, ElementRef, Input } from '@angular/core';
 import { AmstoreFormsBaseDirective } from '../forms.abstract.directive';
-import { IconsName } from "@am/cdk/icons/icons.service";
 
 @Component({
     selector: 'amstore-forms-input-password',
