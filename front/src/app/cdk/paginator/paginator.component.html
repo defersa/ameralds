@@ -1,17 +1,22 @@
-<button>
-    <amstore-icon iconName="left-arrow" [size]="20" ></amstore-icon>
+<button [disabled]="page === 1"
+        [class.disabled]="page === 1"
+        (click)="goToPage(page - 1)">
+    <amstore-icon iconName="left-arrow" [size]="20"></amstore-icon>
 </button>
 <button
     *ngFor="let p of pageList"
     [disabled]="p === page"
-    [class.paginator-disable]="p === page"
+    [class.paginator-current]="p === page"
     (click)="goToPage(p);">
     {{p}}
 </button>
-<button>
-    <amstore-icon iconName="ellipsis" [size]="20" ></amstore-icon>
-</button>
 
-<button>
+<!--<button>-->
+<!--    <amstore-icon iconName="ellipsis" [size]="20" ></amstore-icon>-->
+<!--</button>-->
+
+<button [disabled]="page === pageList.length"
+        [class.disabled]="page === pageList.length"
+        (click)="goToPage(page + 1)">
     <amstore-icon iconName="right-arrow" [size]="20" ></amstore-icon>
 </button>

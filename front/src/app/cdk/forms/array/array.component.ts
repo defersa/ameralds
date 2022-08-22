@@ -1,4 +1,12 @@
-import { ChangeDetectionStrategy, Component, ElementRef, Input, OnDestroy, ViewEncapsulation } from '@angular/core';
+import {
+    ChangeDetectionStrategy,
+    ChangeDetectorRef,
+    Component,
+    ElementRef,
+    Input,
+    OnDestroy,
+    ViewEncapsulation
+} from '@angular/core';
 import { AbstractControl, UntypedFormArray, UntypedFormControl, UntypedFormGroup, ValidatorFn } from '@angular/forms';
 import { AmstoreFormsBaseDirective, SelectOption } from '../forms.abstract.directive';
 import { ArrayComponentListService } from './array-component-list.service';
@@ -37,7 +45,7 @@ export class AmstoreFormArrayComponent extends AmstoreFormsBaseDirective impleme
     public set arrayComponentList(value: ArrayComponent[]) {
         this._arrayComponentList = value.map((item: ArrayComponent, index: number) => ({ order: index, ...item}));
     };
-    
+
     private _arrayComponentList: ArrayComponent[] = [];
 
     @Input()
@@ -53,8 +61,8 @@ export class AmstoreFormArrayComponent extends AmstoreFormsBaseDirective impleme
         return this.controlArray.controls as UntypedFormGroup[];
     }
 
-    constructor(public elementRef: ElementRef, private _arrayComponentListService: ArrayComponentListService) {
-        super(elementRef);
+    constructor(public elementRef: ElementRef, private _arrayComponentListService: ArrayComponentListService, private _changeDetectorRef: ChangeDetectorRef) {
+        super(elementRef, _changeDetectorRef);
     }
 
     public addFormGroup(value: Record<string, unknown>): void {

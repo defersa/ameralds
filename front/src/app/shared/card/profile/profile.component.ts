@@ -45,5 +45,9 @@ const USER_MOCK: ProfileInterface = {
     username: '',
     email: '',
     dateJoined: '',
-    isStaff: false
+    isStaff: false,
+    person: {
+        verify: false,
+        location: 'ru'
+    }
 }

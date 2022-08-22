@@ -26,6 +26,7 @@
 .amstore-header-logo {
     display: flex;
     flex-direction: row;
+    cursor: pointer;
 
     &-text {
         padding: get-spacing(default) 0 0 get-spacing(default);

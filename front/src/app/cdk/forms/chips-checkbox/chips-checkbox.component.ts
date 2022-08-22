@@ -31,7 +31,7 @@ export class AmstoreChipsCheckboxComponent extends AmstoreFormsBaseDirective imp
     constructor(public elementRef: ElementRef,
                 private _destroyed: AmstoreDestroyService,
                 private _changeDetectorRef: ChangeDetectorRef) {
-        super(elementRef);
+        super(elementRef, _changeDetectorRef);
     }
 
     public ngOnInit(): void {

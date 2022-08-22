@@ -18,8 +18,8 @@ export enum HttpActions {
     GetOwnPatterns = 'get-own-patterns',
 
     Category = 'category',
-    Categies = 'categories',
-    AllCategies = 'categories-all',
+    Categories = 'categories',
+    AllCategories = 'categories-all',
 
     Size = 'size',
     Sizes = 'sizes',
@@ -36,7 +36,9 @@ export enum HttpActions {
 export enum HttpAuthActions {
     TokenAuth = 'login',
     RefreshToken = 'refresh',
-    Registration = 'registration'
+    Registration = 'registration',
+    SendVerifyToken = 'send-verify-token',
+    Verify = 'verify'
 }
 
 

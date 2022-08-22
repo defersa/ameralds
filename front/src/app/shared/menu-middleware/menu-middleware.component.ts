@@ -2,14 +2,15 @@ import { Component, Injector, OnDestroy } from '@angular/core';
 import { ActivatedRoute, ActivationEnd, Router, Event } from '@angular/router';
 import { BehaviorSubject, Subject } from 'rxjs';
 import { filter, map, takeUntil } from 'rxjs/operators';
-import { AuthService } from 'src/app/services/auth.service';
 import { LangService } from 'src/app/services/lang.service';
 import { ProfileService } from 'src/app/services/profile.service';
-import { AccessEnum, RouterConfig } from 'src/app/utils/router-builder';
+import { AccessEnum, PartialRouterConfig, ROUTES_MAP, SectionEnum } from 'src/app/utils/router-builder';
+import { IconsName } from "@am/cdk/icons/icons.service";
 
 export type MenuListType = {
     label: string;
     path?: string;
+    icon?: IconsName;
 }
 
 @Component({
@@ -23,8 +24,8 @@ export class MenuMiddlewareComponent implements OnDestroy {
 
     public filters: unknown[] = [];
     public list: MenuListType[] = [];
-    private rawList: RouterConfig[] = [];
-    private menuType: 'store' | 'account' = 'store';
+    private rawList: PartialRouterConfig[] = [];
+    private menuType: SectionEnum = SectionEnum.Store;
 
 
     public currentPath$: BehaviorSubject<string> = new BehaviorSubject<string>('');
@@ -61,26 +62,31 @@ export class MenuMiddlewareComponent implements OnDestroy {
             });
     }
 
-    protected initList(value: RouterConfig[], menuType: 'account' | 'store'): void {
-        this.rawList = value.filter((item: RouterConfig) => !item.prefix);
+    protected initList(menuType: SectionEnum): void {
+        this.rawList = ROUTES_MAP[menuType].pages.filter((item: PartialRouterConfig) => !item.prefix);
         this.menuType = menuType;
         this.updateMenuList();
     }
 
     private updateMenuList(): void {
         const status: AccessEnum = this.profileService.authAndModerStatus$.getValue();
-        let list: RouterConfig[] = this.rawList;
+        let list: PartialRouterConfig[] = this.rawList;
 
         if (status === AccessEnum.Auth) {
-            list = this.rawList.filter((item: RouterConfig) => item.access !== AccessEnum.Moder);
+            list = this.rawList.filter((item: PartialRouterConfig) => item.access !== AccessEnum.Moder);
         }
         if (status === AccessEnum.None) {
-            list = this.rawList.filter((item: RouterConfig) => !item.access);
+            list = this.rawList.filter((item: PartialRouterConfig) => !item.access);
         }
+
         const dict: Record<string, string> = this.langService.langDictionary$.getValue().routes[this.menuType];
-        this.list = list.map((item: RouterConfig) => ({
-            path: item.path.map((path: string) =>  '/' + path).join(''),
-            label: dict[item.name]
+        this.list = list.map((item: PartialRouterConfig) => ({
+            path: [this.menuType, item.path]
+                .filter((item: string) => item)
+                .map((key: string) => '/' + key)
+                .join(''),
+            label: dict[item.path],
+            icon: item.icon
         }));
     }
 

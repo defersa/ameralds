@@ -1,16 +1,17 @@
 from django.contrib.auth import authenticate, user_logged_in
 from django.contrib.auth.models import User
 from rest_framework import status
+from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework_jwt.serializers import jwt_payload_handler
-
 
 import jwt
 import requests
 
 from ameralds import env
 from ..models import Person
+from ..emails.views import send_verify_email
 
 
 class AmstoreAuthView(APIView):
@@ -54,23 +55,62 @@ class AmstoreRegistrationView(APIView):
 
     @classmethod
     def post(cls, request):
-        same_email_user = User.objects.get(email=request.data['email'])
+        same_email_user = User.objects.filter(email=request.data['email']).first()
         if same_email_user:
             return Response({
                 "formError": {
-                    "emailBusy": True
+                    "email": {
+                        "emailBusy": True
+                    }
                 }
             })
 
-        new_user = User.objects.create(
+        new_user = User.objects.create_user(
             username=request.data['email'],
             email=request.data['email'],
-            password=request.data['password'],
-            first_name=request.data['firstName'],
-            last_name=request.data['lastName']
+            password=request.data['password']
         )
+
+        if request.data['firstName']:
+            new_user.first_name = request.data['firstName']
+        if request.data['lastName']:
+            new_user.first_name = request.data['lastName']
         new_user.save()
-        new_person = Person.objects.create(user=new_user)
+
+        new_person = Person.create()
+        new_person.user = new_user
+        new_person.location = 'ru'
+        new_person.save()
+
+        return Response({"result": True})
 
 
-        return Response('Not correct payload', status=status.HTTP_400_BAD_REQUEST)
+class AmstoreSendVerifyView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    @classmethod
+    def get(cls, request):
+        send_verify_email(request.user)
+        return Response({"result": True})
+
+
+class AmstoreVerifyView(APIView):
+    permission_classes = []
+
+    @classmethod
+    def post(cls, request):
+        user = User.objects.filter(username=request.data['user']).first()
+        if not user:
+            return Response({
+                "result": False
+            })
+        if not user.person.token_verify:
+            return Response({
+                "result": False
+            })
+        result = user.person.token_verify.verify(request.data['token'])
+        if result:
+            user.person.verify = True
+            user.person.token_verify = None
+            user.person.save()
+        return Response({"result": result})

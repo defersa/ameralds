@@ -24,6 +24,10 @@ export type ProfileInterfaceResponse = {
         email: string;
         date_joined: string;
         is_staff: boolean;
+        person: {
+            verify: boolean;
+            location: 'ru' | 'en';
+        }
     }
 }
 
@@ -33,4 +37,8 @@ export type ProfileInterface = {
     email: string;
     dateJoined: string;
     isStaff: boolean;
+    person: {
+        verify: boolean;
+        location: 'ru' | 'en';
+    }
 }

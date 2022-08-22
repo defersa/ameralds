@@ -18,6 +18,8 @@
                 <h3>Свойства:</h3>
                 <div class="amstore-row">
                     <amstore-chip *ngIf="user.isStaff" color="accent">Админ</amstore-chip>
+                    <amstore-chip [color]="user.person.verify ? 'accent' : 'warn'">{{user.person.verify ? 'Подтвержденный' : 'Не подтвержденный' }}</amstore-chip>
+                    <amstore-chip color="primary">{{user.person.location}}</amstore-chip>
                 </div>
             </div>
 
@@ -31,5 +33,11 @@
         </div>
     </div>
 
-    <amstore-button color="warn" (click)="logout()">Выйти</amstore-button>
+    <div class="amstore-card-container-line align-items-end">
+        <amstore-button color="warn" (click)="logout()">Выйти</amstore-button>
+    </div>
+
+    <div class="amstore-card-container-line align-items-end">
+        <ng-content></ng-content>
+    </div>
 </amstore-panel>

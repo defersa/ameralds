@@ -41,8 +41,8 @@ export class AmstoreLoginComponent extends RecaptchaDirective {
     ) {
         super();
         this.authForm = new UntypedFormGroup({
-            username: new UntypedFormControl('', [Validators.required]),
-            password: new UntypedFormControl('', [Validators.required])
+            username: new UntypedFormControl('', []),
+            password: new UntypedFormControl('', [])
         });
 
         this.authForm.valueChanges.subscribe(() => {

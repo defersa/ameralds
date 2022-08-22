@@ -1,4 +1,4 @@
-import { Component, ElementRef, Input, OnInit, ViewEncapsulation } from '@angular/core';
+import { Component, Input, ViewEncapsulation } from '@angular/core';
 import { AmstoreFormsBaseDirective, SelectOption } from '../forms.abstract.directive';
 
 @Component({
@@ -17,9 +17,5 @@ export class AmstoreSelectComponent extends AmstoreFormsBaseDirective {
 
     @Input()
     public items: SelectOption[] | null | undefined = [];
-
-    constructor(public elementRef: ElementRef) {
-        super(elementRef)
-    }
 
 }

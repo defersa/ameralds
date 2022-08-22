@@ -21,5 +21,6 @@ export enum AccountRoutes {
 
 export enum AuthRoutes {
     Auth = 'auth',
-    Registration = 'registration'
+    Registration = 'registration',
+    Verify = 'verify'
 }

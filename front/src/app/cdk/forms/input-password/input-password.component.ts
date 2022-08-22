@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, ElementRef, Input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, ElementRef, Injector, Input } from '@angular/core';
 import { AmstoreFormsBaseDirective } from '../forms.abstract.directive';
 
 @Component({
@@ -13,10 +13,6 @@ export class AmstoreInputPasswordComponent extends AmstoreFormsBaseDirective {
     @Input()
     public name: string = '';
 
-
-    constructor(public elementRef: ElementRef) {
-        super(elementRef)
-    }
 
     public switchType(): void {
         this.type = this.type === 'password' ? 'text' : 'password';

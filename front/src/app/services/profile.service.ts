@@ -24,6 +24,8 @@ import {
     ProfileInterface,
     ProfileInterfaceResponse
 } from "@am/interface/profile.interface";
+import { AuthRegistrationRequest } from "@am/interface/request/auth-request.interface";
+import { ResultRequest } from "@am/interface/request.interface";
 
 declare var grecaptcha: ReCAPTCHA;
 
@@ -120,8 +122,16 @@ export class ProfileService {
                 })));
     }
 
-    public postNewUser(value: unknown): Observable<unknown> {
-        return this.httpClient.post<ProfileInterfaceResponse>(getAction(HttpAuthActions.Registration, RestSuffixFragments.Auth), value);
+    public postNewUser(value: unknown): Observable<AuthRegistrationRequest> {
+        return this.httpClient.post<AuthRegistrationRequest>(getAction(HttpAuthActions.Registration, RestSuffixFragments.Auth), value);
+    }
+
+    public sendVerify(): Observable<unknown> {
+         return this.httpClient.get<unknown>(getAction(HttpAuthActions.SendVerifyToken, RestSuffixFragments.Auth));
+    }
+
+    public verifyProfile(data: {user: string; token: string;}): Observable<ResultRequest> {
+        return this.httpClient.post<ResultRequest>(getAction(HttpAuthActions.Verify, RestSuffixFragments.Auth), data);
     }
 
 

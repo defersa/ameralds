@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { RouterModule } from "@angular/router";
 
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -20,7 +21,8 @@ import { AmstoreLoginComponent } from './login/login.component';
 
         MatDialogModule,
         MatFormFieldModule,
-        MatInputModule
+        MatInputModule,
+        RouterModule
     ]
 })
 export class AmstoreProfileModule { }

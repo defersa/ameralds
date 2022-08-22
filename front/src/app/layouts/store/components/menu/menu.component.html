@@ -3,7 +3,7 @@
     <div class="amstore-menu-list">
         <amstore-button-menu *ngFor="let item of list" [routerLink]="item.path"
             [active]="item.path === (currentPath$ | async)">
-            <amstore-icon iconName="pattern" [size]="24" color="primary"></amstore-icon>
+            <amstore-icon [iconName]="item.icon || 'profile'" [size]="24" color="primary"></amstore-icon>
             <span>{{item.label}}</span>
         </amstore-button-menu>
     </div>

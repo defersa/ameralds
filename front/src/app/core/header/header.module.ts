@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { AmstoreCdkModule } from '@am/cdk/cdk.module';
 
 import { HeaderComponent } from './header.component';
+import { RouterModule } from "@angular/router";
 
 
 
@@ -10,7 +11,8 @@ import { HeaderComponent } from './header.component';
     declarations: [HeaderComponent],
     imports: [
         CommonModule,
-        AmstoreCdkModule
+        AmstoreCdkModule,
+        RouterModule
     ],
     exports: [HeaderComponent]
 })

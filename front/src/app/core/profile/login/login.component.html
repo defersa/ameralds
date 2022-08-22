@@ -1,12 +1,12 @@
 <h1>Войти</h1>
 
-<amstore-forms-input color="primary" type="email" [control]="username" name="username">
+<amstore-forms-input color="primary" type="email" [control]="username" name="username" [required]="true">
     <amstore-forms-label>Адрес почты</amstore-forms-label>
 </amstore-forms-input>
 
-<amstore-forms-input color="primary" [type]="passwordType" suffixName="setting" (onSuffixClick)="changePasswordType()" [control]="password" name="password">
+<amstore-forms-input-password color="primary" [control]="password" name="password" [required]="true">
     <amstore-forms-label>Пароль</amstore-forms-label>
-</amstore-forms-input>
+</amstore-forms-input-password>
 
 <span *ngIf="error" class="amstore-dialog-login__error">{{error}}</span>
 

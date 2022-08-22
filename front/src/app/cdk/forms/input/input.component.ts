@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, ElementRef, EventEmitter, Input, Output } from '@angular/core';
+import { ChangeDetectionStrategy, Component, ElementRef, EventEmitter, Injector, Input, Output } from '@angular/core';
 import { AmstoreFormsBaseDirective } from '../forms.abstract.directive';
 import { IconsName } from "@am/cdk/icons/icons.service";
 
@@ -26,10 +26,6 @@ export class AmstoreInputComponent extends AmstoreFormsBaseDirective {
 
     @Output()
     public onSuffixClick: EventEmitter<void> = new EventEmitter<void>();
-
-    constructor(public elementRef: ElementRef) {
-        super(elementRef)
-    }
 
     public emitSuffixClick(): void {
         this.onSuffixClick.emit();

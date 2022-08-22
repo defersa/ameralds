@@ -1,4 +1,4 @@
-import { Component, Directive, ElementRef, HostBinding, Input } from '@angular/core';
+import { ChangeDetectorRef, Component, Directive, ElementRef, HostBinding, Input } from '@angular/core';
 import { AbstractControl, UntypedFormControl, Validators } from '@angular/forms';
 import { BehaviorSubject, combineLatest, Subject, Subscription } from 'rxjs';
 import { startWith } from 'rxjs/operators';
@@ -45,6 +45,7 @@ export class AmstoreFormsBaseDirective extends AmstoreColor {
             .subscribe(() => {
                 const errors: string | null = this.control.invalid ? getControlErrors(this.control.errors) : null;
                 this.errors$.next(errors);
+                this.changeDetector.markForCheck();
             });
 
         if(this.required) {
@@ -75,7 +76,7 @@ export class AmstoreFormsBaseDirective extends AmstoreColor {
 
     protected defaultColor: ThemePalette = 'primary';
 
-    constructor(public elementRef: ElementRef) {
+    constructor(public elementRef: ElementRef, protected changeDetector: ChangeDetectorRef) {
         super(elementRef)
     }
 

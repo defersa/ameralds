@@ -8,7 +8,8 @@ const ErrorTemplates: Record<string, TransformFunc> = {
     auth: () => '',
     notEmail: () => 'Проверьте написание почты.',
     notEqualPassword: () => 'Пароли не совпадают!',
-    notComplexity: () => 'Слишком простой пароль! Он должен содержать минимум: 8 символов, заглавные и строчные латинские символы, числа.'
+    notComplexity: () => 'Слишком простой пароль! Он должен содержать минимум: 8 символов, заглавные и строчные латинские символы, числа.',
+    emailBusy: () => 'Данный email уже занят!'
 }
 
 export function getControlErrors(errors: ValidationErrors | null): string | null {

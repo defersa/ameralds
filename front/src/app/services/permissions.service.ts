@@ -1,7 +1,9 @@
 import { Injectable } from '@angular/core';
 import { Router, Event, NavigationEnd } from '@angular/router';
 import { filter } from 'rxjs/operators';
-import { AccessEnum, ACCOUNT_ROUTES, RouterConfig, STORE_ROUTES } from '../utils/router-builder';
+import {
+    AccessEnum, PartialRouterConfig, ROUTES_MAP, SectionEnum,
+} from '../utils/router-builder';
 import { ProfileService } from './profile.service';
 
 @Injectable({
@@ -34,10 +36,21 @@ export class PermissionsService {
     public canActivate(url: string): boolean {
         const urlMap: string[] = url
             .split('/')
+            .map((item: string) => item.replace(/[?#](.*)/g, ''))
             .filter((item: string) => !Number(item))
             .filter((item: string) => item !== '');
 
-        const route: RouterConfig | undefined = [...ACCOUNT_ROUTES, ...STORE_ROUTES].find((item: RouterConfig) => PermissionsService.checkArrayEqual(item.path, urlMap));
+        if(urlMap.length === 0) {
+            return true;
+        }
+
+        if(urlMap.length === 1) {
+            urlMap.unshift(SectionEnum.Store)
+        }
+
+        const route: PartialRouterConfig | undefined = ROUTES_MAP[urlMap[0] as SectionEnum].pages
+            .find((item: PartialRouterConfig) => item.path === urlMap[1]);
+
         if (route === undefined) {
             console.warn('Unusual route');
             return true;

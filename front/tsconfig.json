@@ -25,6 +25,10 @@
                 "src/app/cdk/*"
             ],
 
+            "@am/core/*": [
+                "src/app/core/*"
+            ],
+
             "@am/shared/*": [
                 "src/app/shared/*"
             ],
