@@ -21,6 +21,9 @@
             "dom"
         ],
         "paths": {
+            "@am/root/*": [
+                "src/app/*"
+            ],
             "@am/cdk/*": [
                 "src/app/cdk/*"
             ],

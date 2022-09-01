@@ -36,12 +36,12 @@ export class AmastoreLanguageComponent implements OnInit {
     constructor(private langService: LangService) { }
 
     ngOnInit(): void {
-        this.langService.lang.subscribe((lang: LangType) => this.currentType = lang);
+        this.langService.lang$.subscribe((lang: LangType) => this.currentType = lang);
     }
 
     public setLang(lang: LangType): void {
         this.close();
-        this.langService.lang.next(lang);
+        this.langService.lang$.next(lang);
     }
 
     public toggle(): void {

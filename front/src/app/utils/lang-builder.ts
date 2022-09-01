@@ -17,7 +17,7 @@ export type LangDictionary = {
     }
 }
 
-export const RU_LANG: LangDictionary = {
+export const RU_LANG_ROUTE_MAP: LangDictionary = {
     routes: {
         [SectionEnum.Store]: {
             'patterns': 'Схемы',
@@ -48,11 +48,15 @@ export const RU_LANG: LangDictionary = {
         },
         [SectionEnum.Admin]: {
             [AdminRoutes.Goods]: 'Корзина админа',
+            [AdminRoutes.Patterns]: 'Схемы',
+            [AdminRoutes.PatternCard]: 'Карточка схемы',
+            [AdminRoutes.PatternEdit]: 'Изменение схемы',
+            [AdminRoutes.PatternAdd]: 'Добавление схемы',
         }
     }
 }
 
-export const EN_LANG: LangDictionary = {
+export const EN_LANG_ROUTE_MAP: LangDictionary = {
     routes: {
         [SectionEnum.Store]: {
             'patterns': 'Patterns',
@@ -83,6 +87,10 @@ export const EN_LANG: LangDictionary = {
         },
         [SectionEnum.Admin]: {
             [AdminRoutes.Goods]: 'Admin goods',
+            [AdminRoutes.Patterns]: 'Patterns',
+            [AdminRoutes.PatternCard]: 'Patterns card',
+            [AdminRoutes.PatternEdit]: 'Patterns edit',
+            [AdminRoutes.PatternAdd]: 'Patterns add',
         }
     }
 }

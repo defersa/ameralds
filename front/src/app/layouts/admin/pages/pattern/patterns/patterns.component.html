@@ -1,0 +1,6 @@
+<amstore-filter (onSetFilters)="setFilter($event)" [filters]="filters" color="special"></amstore-filter>
+
+<amstore-paginated-page (queryEvent)="nextPage($event)" [pageCount]="pageCount">
+    <amstore-snapshot-pattern *ngFor="let item of items" [data]="item" (clickOnHeader)="navigateToChild(item.id)">
+    </amstore-snapshot-pattern>
+</amstore-paginated-page>

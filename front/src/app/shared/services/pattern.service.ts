@@ -8,9 +8,7 @@ import { filter, map } from 'rxjs/operators';
 import {
     PageRequest,
     PatternMaxType,
-    PatternRequest,
     PatternSaveResultResponse,
-    SmallPattern
 } from 'src/app/interface/pattern.interface';
 import { getAction, HttpActions } from 'src/app/utils/action-builder';
 import { MapImage } from '../../layouts/store/utils/images';

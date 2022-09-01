@@ -40,7 +40,11 @@ export enum AuthRoutes {
 }
 
 export enum AdminRoutes {
-    Goods = 'goods'
+    Goods = 'goods',
+    Patterns = 'patterns',
+    PatternCard = 'pattern-card',
+    PatternEdit = 'pattern-edit',
+    PatternAdd = 'pattern-add',
 }
 
 export enum AccessEnum {
@@ -136,6 +140,23 @@ export const ROUTES_MAP: Record<SectionEnum, RouterConfig> = {
         suffix: SectionEnum.Admin,
         pages: [
             {path: AdminRoutes.Goods},
+            {
+                path: AdminRoutes.Patterns,
+                icon: 'pattern',
+            },
+            {
+                path: AdminRoutes.PatternCard,
+                prefix: ':id'
+            },
+            {
+                path: AdminRoutes.PatternEdit,
+                prefix: ':id',
+                access: AccessEnum.Moder
+            },
+            {
+                path: AdminRoutes.PatternAdd,
+                access: AccessEnum.Moder
+            },
         ]
     },
     [SectionEnum.Account]: {

@@ -25,8 +25,6 @@ export const routes: Routes = [{
         {
             path: '',
             redirectTo: StoreRoutes.Patterns,
-            component: PatternsComponent,
-            canActivate: [AmstoreCanActivatePage]
         },
         {
             path: StoreRoutes.Patterns,

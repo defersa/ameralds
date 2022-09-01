@@ -63,8 +63,7 @@ $button-round-border: 2px;
             @include amstore-button-round-border-color(green);
         }
 
-        &,
-        .amstore-button-round-badge {
+        &, .amstore-button-round-badge {
             @include amstore-button-round-color(green);
         }
     }
@@ -74,8 +73,7 @@ $button-round-border: 2px;
             @include amstore-button-round-border-color(blue);
         }
 
-        &,
-        .amstore-button-round-badge {
+        &, .amstore-button-round-badge {
             @include amstore-button-round-color(blue);
         }
     }
@@ -85,9 +83,18 @@ $button-round-border: 2px;
             @include amstore-button-round-border-color(red);
         }
 
-        &,
-        .amstore-button-round-badge {
+        &, .amstore-button-round-badge {
             @include amstore-button-round-color(red);
+        }
+    }
+
+    &.amstore-special {
+        &.amstore-round-image {
+            @include amstore-button-round-border-color(turquoise);
+        }
+
+        &, .amstore-button-round-badge {
+            @include amstore-button-round-color(turquoise);
         }
     }
 

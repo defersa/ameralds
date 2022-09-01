@@ -1,6 +1,6 @@
 import { Directive, ElementRef, Input } from '@angular/core';
 
-export type ThemePalette = 'primary' | 'accent' | 'warn' | 'contrast' | undefined;
+export type ThemePalette = 'primary' | 'accent' | 'warn' | 'special' | 'contrast' | undefined;
 
 @Directive({selector: 'abstract-color'})
 export class AmstoreColor {

@@ -11,6 +11,7 @@ import { LangType } from "@am/interface/lang.interface";
 import { CategoryType } from "@am/interface/category.interface";
 import { SIZE_UNIT } from "@am/utils/constants";
 import { AmstoreDestroyService } from "@am/utils/destroy.service";
+import { ThemePalette } from "@am/cdk/core/color";
 
 @Component({
     selector: 'amstore-filter',
@@ -23,12 +24,15 @@ import { AmstoreDestroyService } from "@am/utils/destroy.service";
 })
 export class AmstoreFilterComponent implements OnInit {
 
-    public lang$: BehaviorSubject<LangType> = this._langService.lang;
+    public lang$: BehaviorSubject<LangType> = this._langService.lang$;
     public sizeUnit$: Observable<string> = this.lang$.pipe(map((lang: LangType) => SIZE_UNIT[lang]));
     public categoriesList$: Observable<OptionType[]> = this._categoriesList();
     public sizesList$: Observable<OptionType[]> = this._getSizeList();
 
     public filterForm: UntypedFormGroup = AmstoreFilterComponent._getFilterModel();
+
+    @Input()
+    public color?: ThemePalette;
 
     @Input()
     public set filters(value: Record<string, unknown>) {

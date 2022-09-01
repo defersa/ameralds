@@ -28,6 +28,10 @@
     &.amstore-warn {
         @include amstore-panel-color(red);
     }
+
+    &.amstore-special {
+        @include amstore-panel-color(turquoise);
+    }
 }
 
 .amstore-panel {

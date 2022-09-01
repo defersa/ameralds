@@ -38,6 +38,10 @@
         @include amstore-button-menu-color(red);
     }
 
+    &.amstore-special {
+        @include amstore-button-menu-color(turquoise);
+    }
+
     @include get-amstore-font("body", 16, null, null);
 }
 

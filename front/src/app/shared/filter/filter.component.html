@@ -1,4 +1,4 @@
-<amstore-panel color="primary">
+<amstore-panel [color]="color || 'primary'">
     <amstore-panel-header class="amstore-filter-header">
         Фильтры
         <amstore-button *ngIf="!isEmpty" (click)="clearFilters($event)">

@@ -4,8 +4,7 @@ import { SectionEnum } from 'src/app/utils/router-builder';
 
 @Component({
     selector: 'amstore-menu',
-    templateUrl: './menu.component.html',
-    styleUrls: ['./menu.component.scss']
+    templateUrl: './menu.component.html'
 })
 export class MenuComponent extends MenuMiddlewareComponent {
 
