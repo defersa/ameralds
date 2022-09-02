@@ -13,6 +13,7 @@ import { AmstoreInfoModule } from './info/info.module';
 import { AmstoreSlideModule } from './slide/slide.module';
 import { AmstorePanelModule } from "./panel/panel.module";
 import { AmstoreDividerModule } from "./divider/divider.module";
+import { AmstoreSpinnerModule } from "./spinner/spinner.module";
 
 
 
@@ -28,7 +29,8 @@ const CDK_MODULES: any[] = [
     AmstoreSlideModule,
     AmstorePanelModule,
     AmstoreDividerModule,
-    MatSnackBarModule
+    MatSnackBarModule,
+    AmstoreSpinnerModule
 ]
 
 @NgModule({

@@ -1,5 +1,5 @@
 import { Component, Input, OnInit, ViewEncapsulation } from '@angular/core';
-import { FormControl } from '@angular/forms';
+import { UntypedFormControl } from '@angular/forms';
 
 @Component({
     selector: 'amstore-slide',
@@ -19,7 +19,7 @@ export class AmstoreSlideComponent implements OnInit {
     public size: 'small' | 'medium' | 'large' = 'medium';
 
     @Input()
-    public formControl: FormControl = new FormControl();
+    public formControl: UntypedFormControl = new UntypedFormControl();
 
     constructor() { }
 

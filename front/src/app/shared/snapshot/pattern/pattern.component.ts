@@ -69,7 +69,7 @@ export class AmstoreSnapshotPatternComponent extends AmstoreSnapshotBaseDirectiv
     }
 
     public ngOnInit(): void {
-        this.langService.lang.pipe(takeUntil(this.destroyed))
+        this.langService.lang$.pipe(takeUntil(this.destroyed))
             .subscribe((lang: LangType) => this._lang = lang);
 
         combineLatest([

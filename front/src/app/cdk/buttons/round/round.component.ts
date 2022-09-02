@@ -2,7 +2,7 @@ import { Component, ElementRef, HostBinding, Input, OnInit } from '@angular/core
 import { AmstoreButtonBaseDirective } from '../base.abstract.directive';
 
 @Component({
-    selector: 'button[amstore-button-round]',
+    selector: 'button[amstore-button-round], a[amstore-button-round]',
     templateUrl: './round.component.html',
     styleUrls: ['./round.component.scss'],
     host: {

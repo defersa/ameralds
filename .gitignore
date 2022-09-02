@@ -135,4 +135,6 @@ env.py
 /back/static
 
 # Ide
+front/.idea
 .idea
+.vscode

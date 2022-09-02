@@ -10,7 +10,7 @@ import { CoreModule } from './core/core.module';
 import { AuthService } from './services/auth.service';
 import { GoodsService } from './services/goods.service';
 import { ProfileService } from './services/profile.service';
-import { RouterService } from './services/router.service';
+import { PermissionsService } from '@am/services/permissions.service';
 
 @NgModule({
     declarations: [
@@ -27,7 +27,7 @@ import { RouterService } from './services/router.service';
         AuthService,
         GoodsService,
         ProfileService,
-        RouterService
+        PermissionsService
     ],
     bootstrap: [AppComponent]
 })

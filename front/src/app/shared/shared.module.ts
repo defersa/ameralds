@@ -27,7 +27,6 @@ const SHARED_MODULES: any[] = [
         ...SHARED_MODULES
     ],
     exports: SHARED_MODULES,
-    declarations: []
 })
 export class AmstoreSharedModule {
 }

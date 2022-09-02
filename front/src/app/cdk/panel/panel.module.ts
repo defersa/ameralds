@@ -1,13 +1,14 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { AmstorePanelComponent, AmstorePanelHeaderComponent } from './panel.component';
+import { AmstorePanelExpandComponent, AmstorePanelHeaderComponent } from './panel-expand/panel-expand.component';
 import { AmstoreIconModule } from "@am/cdk/icons/icons.module";
 import { AmstoreDividerModule } from "@am/cdk/divider/divider.module";
+import { AmstorePanelBasicComponent } from './panel-basic/amstore-panel-basic.component';
 
 
 @NgModule({
-    declarations: [AmstorePanelComponent, AmstorePanelHeaderComponent],
-    exports: [AmstorePanelComponent, AmstorePanelHeaderComponent],
+    declarations: [AmstorePanelExpandComponent, AmstorePanelHeaderComponent, AmstorePanelBasicComponent],
+    exports: [AmstorePanelExpandComponent, AmstorePanelHeaderComponent, AmstorePanelBasicComponent],
     imports: [
         CommonModule,
         AmstoreIconModule,

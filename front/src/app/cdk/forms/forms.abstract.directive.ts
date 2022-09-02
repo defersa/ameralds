@@ -1,5 +1,5 @@
-import { Component, Directive, ElementRef, HostBinding, Input } from '@angular/core';
-import { AbstractControl, FormControl } from '@angular/forms';
+import { ChangeDetectorRef, Component, Directive, ElementRef, HostBinding, Input } from '@angular/core';
+import { AbstractControl, UntypedFormControl, Validators } from '@angular/forms';
 import { BehaviorSubject, combineLatest, Subject, Subscription } from 'rxjs';
 import { startWith } from 'rxjs/operators';
 import { AmstoreColor, ThemePalette } from '../core/color';
@@ -20,8 +20,13 @@ export class AmstoreFormsBaseDirective extends AmstoreColor {
     }
 
     @Input()
+    public required: boolean = false;
+
+    @Input()
     public set nullControl(value: AbstractControl | null) {
-        this.control = value || new FormControl();
+        if(value) {
+            this.control = value;
+        }
     };
 
     @Input()
@@ -40,15 +45,20 @@ export class AmstoreFormsBaseDirective extends AmstoreColor {
             .subscribe(() => {
                 const errors: string | null = this.control.invalid ? getControlErrors(this.control.errors) : null;
                 this.errors$.next(errors);
+                this.changeDetector.markForCheck();
             });
+
+        if(this.required) {
+            this._control.addValidators([Validators.required])
+        }
 
     };
 
-    private _control: AbstractControl = new FormControl();
+    protected _control: AbstractControl = new UntypedFormControl();
     private _controlSubscription: Subscription | null = null;
 
-    public get formControl(): FormControl {
-        return this.control as FormControl;
+    public get formControl(): UntypedFormControl {
+        return this.control as UntypedFormControl;
     }
 
     public errors$: BehaviorSubject<string | null> = new BehaviorSubject<string | null>(null);
@@ -66,7 +76,7 @@ export class AmstoreFormsBaseDirective extends AmstoreColor {
 
     protected defaultColor: ThemePalette = 'primary';
 
-    constructor(public elementRef: ElementRef) {
+    constructor(public elementRef: ElementRef, protected changeDetector: ChangeDetectorRef) {
         super(elementRef)
     }
 

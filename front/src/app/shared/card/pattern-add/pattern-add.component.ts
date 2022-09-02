@@ -24,7 +24,7 @@ import {
     PatternSaveSizeResult
 } from '@am/interface/pattern.interface';
 import { ArrayComponent } from '@am/cdk/forms/array/array.component';
-import { AbstractControl, FormArray, FormControl, FormGroup, Validators } from '@angular/forms';
+import { AbstractControl, UntypedFormArray, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { SizesService } from '@am/shared/services/sizes.service';
 import { SizeType } from '@am/interface/size.interface';
 import { ArrayValidatorFns } from '@am/cdk/forms/array/array-validators-fn';
@@ -71,9 +71,9 @@ export class AmstorePatternAddCardComponent extends AmstoreCardDirective impleme
 
     private _data: PatternMaxType | null = null;
 
-    public patternForm: FormGroup;
+    public patternForm: UntypedFormGroup;
 
-    public sizeArrayControl: FormArray = new FormArray([]);
+    public sizeArrayControl: UntypedFormArray = new UntypedFormArray([]);
     public sizeArrayComponentList: ArrayComponent[] = [];
     public sizeArrayModel: Record<string, unknown>[] = [];
 
@@ -90,18 +90,18 @@ export class AmstorePatternAddCardComponent extends AmstoreCardDirective impleme
                 protected viewer: AmstoreViewerService) {
         super(viewer);
 
-        this.patternForm = new FormGroup({
-            name: new FormGroup({
-                en: new FormControl(null, [Validators.required]),
-                ru: new FormControl(null, [Validators.required]),
+        this.patternForm = new UntypedFormGroup({
+            name: new UntypedFormGroup({
+                en: new UntypedFormControl(null, [Validators.required]),
+                ru: new UntypedFormControl(null, [Validators.required]),
             }),
-            price: new FormGroup({
-                en: new FormControl(null, [Validators.required]),
-                ru: new FormControl(null, [Validators.required]),
+            price: new UntypedFormGroup({
+                en: new UntypedFormControl(null, [Validators.required]),
+                ru: new UntypedFormControl(null, [Validators.required]),
             }),
-            hidden: new FormControl(null, [Validators.required]),
-            category: new FormControl(null, [Validators.required]),
-            colors: new FormControl(null, [Validators.required])
+            hidden: new UntypedFormControl(null, [Validators.required]),
+            category: new UntypedFormControl(null, [Validators.required]),
+            colors: new UntypedFormControl(null, [Validators.required])
         });
     }
 
@@ -111,8 +111,8 @@ export class AmstorePatternAddCardComponent extends AmstoreCardDirective impleme
         this.initSizes();
     }
 
-    public getLangControl(groupName: string, controlName: string): FormControl {
-        return (this.patternForm.get(groupName) as FormGroup).get(controlName) as FormControl;
+    public getLangControl(groupName: string, controlName: string): UntypedFormControl {
+        return (this.patternForm.get(groupName) as UntypedFormGroup).get(controlName) as UntypedFormControl;
     }
 
     private _fillPatternForm(value: PatternMaxType): void {

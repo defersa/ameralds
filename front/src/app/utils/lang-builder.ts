@@ -1,21 +1,25 @@
-import { StoreRoutes, AccountRoutes } from "./router-builder";
+import { StoreRoutes, AccountRoutes, SectionEnum, AuthRoutes, AdminRoutes } from "./router-builder";
 
 export type LangDictionary = {
     routes: {
-        store: {
+        [SectionEnum.Store]: {
             [key in StoreRoutes]: string;
         },
-        account: {
+        [SectionEnum.Account]: {
             [key in AccountRoutes]: string;
+        },
+        [SectionEnum.Admin]: {
+            [key in AdminRoutes]: string;
+        },
+        [SectionEnum.Auth]: {
+            [key in AuthRoutes]: string;
         }
     }
 }
 
-export const RU_LANG: LangDictionary = {
+export const RU_LANG_ROUTE_MAP: LangDictionary = {
     routes: {
-        store: {
-            '': 'Главная',
-            'account': 'Аккаунт',
+        [SectionEnum.Store]: {
             'patterns': 'Схемы',
             'pattern-card': 'Карточка схемы',
             'pattern-edit': 'Изменение схемы',
@@ -31,22 +35,30 @@ export const RU_LANG: LangDictionary = {
             'size-edit': 'Изменить размер',
             'size-add': 'Создать размер'
         },
-        account: {
-            '': 'Главная',
-            'account': 'Личный кабинет',
+        [SectionEnum.Account]: {
             'goods': 'Корзина',
             'orders': 'Заказы',
             'patterns': 'Купленные схемы',
-            'pattern-card': 'Купленная схема'
+            'pattern-card': 'Купленная схема',
+            'profile': 'Профиль'
+        },
+        [SectionEnum.Auth]: {
+            [AuthRoutes.Registration]: 'Регистрация',
+            [AuthRoutes.Verify]: 'Подтверждение',
+        },
+        [SectionEnum.Admin]: {
+            [AdminRoutes.Goods]: 'Корзина админа',
+            [AdminRoutes.Patterns]: 'Схемы',
+            [AdminRoutes.PatternCard]: 'Карточка схемы',
+            [AdminRoutes.PatternEdit]: 'Изменение схемы',
+            [AdminRoutes.PatternAdd]: 'Добавление схемы',
         }
     }
 }
 
-export const EN_LANG: LangDictionary = {
+export const EN_LANG_ROUTE_MAP: LangDictionary = {
     routes: {
-        store: {
-            '': 'Main',
-            'account': 'Personal',
+        [SectionEnum.Store]: {
             'patterns': 'Patterns',
             'pattern-card': 'Pattern',
             'pattern-edit': 'Pattern edit',
@@ -62,13 +74,23 @@ export const EN_LANG: LangDictionary = {
             'size-edit': 'Edit size',
             'size-add': 'Add size'
         },
-        account: {
-            '': 'Main',
-            'account': 'Account',
+        [SectionEnum.Account]: {
             'goods': 'Goods',
             'orders': 'Orders',
-            'patterns': 'Own patterns',
-            'pattern-card': 'Pattern'
+            'patterns': 'Bought patterns',
+            'pattern-card': 'Pattern',
+            'profile': 'Profile'
+        },
+        [SectionEnum.Auth]: {
+            [AuthRoutes.Registration]: 'Registration',
+            [AuthRoutes.Verify]: 'Verify',
+        },
+        [SectionEnum.Admin]: {
+            [AdminRoutes.Goods]: 'Admin goods',
+            [AdminRoutes.Patterns]: 'Patterns',
+            [AdminRoutes.PatternCard]: 'Patterns card',
+            [AdminRoutes.PatternEdit]: 'Patterns edit',
+            [AdminRoutes.PatternAdd]: 'Patterns add',
         }
     }
 }

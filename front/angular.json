@@ -133,7 +133,6 @@
       }
     }
   },
-  "defaultProject": "amstore",
   "cli": {
     "analytics": "e8dc741e-5dc3-4c36-9e60-e01f4c482f08"
   }

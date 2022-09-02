@@ -30,3 +30,4 @@ export type GoodsStatusResult = {
     patterns: {id: number}[];
     goods: GoodsCard;
 }
+

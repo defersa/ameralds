@@ -1,0 +1,7 @@
+{% extends "email-wrapper.html" %}
+
+{% block content %}
+    <h1>Поздравляем с регистрацией!</h1>
+    <p>Для верификации аккаунта перейдите по ссылке ниже:</p>
+    <a href="{{ href }}">{{ href }}</a>
+{% endblock %}

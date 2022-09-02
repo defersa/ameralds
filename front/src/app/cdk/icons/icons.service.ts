@@ -10,7 +10,8 @@ export type IconsName =
     'message' | 'chat' | 'sale' | 'time' | 'status' | 'card' | 'coupon' | 'price' |
     'chevrone-down' | 'chevrone-up' | 'cross' | 'ellipsis' | 'heart' | 'pattern' | 'jewelry' |
     'left-arrow' | 'right-arrow' |
-    'upload' | 'download' | 'trash' | 'refresh';
+    'upload' | 'download' | 'trash' | 'refresh' |
+    'eye-off' | 'eye-on';
 
 const ICONS_SRC: Record<IconsName, string> = {
     'login': "NI Login.svg",
@@ -49,7 +50,10 @@ const ICONS_SRC: Record<IconsName, string> = {
     'upload': "EVA Upload.svg",
     'trash': "EVA Trash.svg",
     'download': "EVA Download.svg",
-    'refresh': "EVA Refresh.svg"
+    'refresh': "EVA Refresh.svg",
+
+    'eye-off': "Eye-off.svg",
+    'eye-on': "Eye-on.svg"
 };
 
 @Injectable({

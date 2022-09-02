@@ -15,5 +15,12 @@ export enum AccountRoutes {
     Goods = 'goods',
     Orders = 'orders',
     Patterns = 'patterns',
+    Profile  = 'profile',
     PatternCard = 'pattern-card/:id',
+}
+
+export enum AuthRoutes {
+    Auth = 'auth',
+    Registration = 'registration',
+    Verify = 'verify'
 }

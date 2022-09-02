@@ -4,7 +4,11 @@
 
 export const environment = {
     endpoint: 'http://localhost:8000',
-    production: false
+    // endpoint: 'http://ameralds.com',
+    production: false,
+    recaptcha: {
+      siteKey: '6LcIUBkhAAAAACw9rG3WftPnVX_buq_we6xEWtxB',
+    },
 };
 
 /*

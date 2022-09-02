@@ -51,10 +51,6 @@ export class AmstoreUploadFileComponent extends AmstoreFormsBaseDirective implem
 
     public name: string = '';
 
-    constructor(public elementRef: ElementRef) {
-        super(elementRef)
-    }
-
     public ngOnInit(): void {
         this.control.valueChanges
             .pipe(
@@ -76,7 +72,7 @@ export class AmstoreUploadFileComponent extends AmstoreFormsBaseDirective implem
         } else if (value?.id) {
             this.name = value.name;
             this.state = 'saved';
-            
+
             this.savedFile = value;
         } else {
             this.name = "Пусто";

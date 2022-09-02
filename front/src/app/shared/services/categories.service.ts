@@ -38,7 +38,7 @@ export class CategoriesService {
 
 
     public getCategories(page: number): Observable<PaginatedResponse<CategoryType>> {
-        return this.httpClient.get<PaginatedResponse<CategoryType>>(getAction(HttpActions.Categies) + page);
+        return this.httpClient.get<PaginatedResponse<CategoryType>>(getAction(HttpActions.Categories) + page);
     }
 
     public getCategoriesAllUniversal(): Observable<OptionType[]> {
@@ -112,7 +112,7 @@ export class CategoriesService {
     }
 
     private _requestCategoriesAll(): Observable<CategoryType[]> {
-        return this.httpClient.get<{ items: CategoryType[] }>(getAction(HttpActions.AllCategies))
+        return this.httpClient.get<{ items: CategoryType[] }>(getAction(HttpActions.AllCategories))
             .pipe(
                 map((result: { items: CategoryType[] }) => result.items),
                 tap((result: CategoryType[]) => this.categoriesList = result)

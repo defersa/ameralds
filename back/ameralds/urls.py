@@ -16,19 +16,11 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 
-from rest_framework_jwt.views import obtain_jwt_token, refresh_jwt_token 
-
 # rest api view
 from django.conf.urls import include
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    
-    # auth
-    path(r'token-auth/', obtain_jwt_token),
-    path(r'token-refresh/', refresh_jwt_token),
-
     # app 'api' route
     path('api/', include('api.urls')),
-    
 ]

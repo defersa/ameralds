@@ -1,4 +1,4 @@
-.amstore-root {
+ .amstore-root {
     display: flex;
     flex-direction: column;
     margin: auto;
@@ -12,5 +12,9 @@
 
     @media screen and (min-width: 1920px) {
         max-width: 1680px;
+    }
+
+    .amstore-body {
+        flex-grow: 1;
     }
 }

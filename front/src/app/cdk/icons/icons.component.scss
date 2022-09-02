@@ -2,10 +2,10 @@
 
 @mixin amstore-icon-color($theme) {
     .amstore-icon-figure {
-        fill: get-amstore-color($theme, dark);
+        fill: get-amstore-color($theme, deep);
     }
     .amstore-icon-figure-stroke {
-        stroke: get-amstore-color($theme, dark);
+        stroke: get-amstore-color($theme, deep);
     }
 }
 

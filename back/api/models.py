@@ -3,6 +3,7 @@ from django.db import models
 from django.contrib.auth.models import User
 
 import os
+import binascii
 
 
 class LangCharFieldShort(models.Model):
@@ -199,8 +200,36 @@ class PatternSize(models.Model):
         return str(self.pk)
 
 
+class Token(models.Model):
+    value = models.CharField(max_length=100)
+
+    @classmethod
+    def create(cls):
+        token = cls()
+        token.value = binascii.hexlify(os.urandom(20)).decode()
+        return token
+
+    def verify(self, token):
+        if token == self.value:
+            super(Token, self).delete()
+            return True
+        else:
+            return False
+
+    def __str__(self):
+        return str(self.pk)
+
+
 class Person(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
+
+    verify = models.BooleanField(verbose_name='Потвержденный аккаунт', default=False)
+
+    token_verify = models.ForeignKey(Token,
+                                     on_delete=models.SET_NULL,
+                                     related_name="user_verify",
+                                     blank=True,
+                                     null=True)
 
     bonus_coints_ru = models.FloatField(default=0)
     bonus_coints_en = models.FloatField(default=0)
@@ -210,6 +239,14 @@ class Person(models.Model):
     patterns = models.ManyToManyField(
         Pattern,
         blank=True)
+
+    @classmethod
+    def create(cls):
+        person = cls()
+        person.token_verify = Token.create()
+        person.token_verify.save()
+        return person
+
 
     def __str__(self):
         return str(self.user.username)

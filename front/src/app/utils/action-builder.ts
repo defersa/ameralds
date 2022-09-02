@@ -18,8 +18,8 @@ export enum HttpActions {
     GetOwnPatterns = 'get-own-patterns',
 
     Category = 'category',
-    Categies = 'categories',
-    AllCategies = 'categories-all',
+    Categories = 'categories',
+    AllCategories = 'categories-all',
 
     Size = 'size',
     Sizes = 'sizes',
@@ -34,19 +34,31 @@ export enum HttpActions {
 }
 
 export enum HttpAuthActions {
-    GetToken = 'token-auth',
-    RefreshToken = 'token-refresh'
+    TokenAuth = 'login',
+    RefreshToken = 'refresh',
+    Registration = 'registration',
+    SendVerifyToken = 'send-verify-token',
+    Verify = 'verify'
 }
 
-export enum HttpRootFragments {
-    Core = '/',
-    Api = '/api/'
+
+export enum HttpProfileActions {
+    Own = 'own'
 }
 
-type ActionsUnit = HttpActions | HttpAuthActions;
 
-export function getAction(action: ActionsUnit, root: HttpRootFragments = HttpRootFragments.Api): string {
-    return environment.endpoint + root + action + '/';
+export enum RestSuffixFragments {
+    Default = '/',
+    Auth = '/auth/',
+    Profile = '/profile/'
+}
+
+type ActionsUnit = HttpActions | HttpAuthActions | HttpProfileActions;
+
+const REST_PREFIX: string = '/api';
+
+export function getAction(action: ActionsUnit, suffix: RestSuffixFragments = RestSuffixFragments.Default): string {
+    return environment.endpoint + REST_PREFIX + suffix + action + '/';
 }
 export function getStaticUrl(url: string): string {
     return environment.endpoint + url;

@@ -1,10 +1,14 @@
-import { Component, OnInit } from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
+import { Component } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
+
 import { AuthService } from 'src/app/services/auth.service';
-import { ISmallProfile, ProfileService } from 'src/app/services/profile.service';
+import { ISmallProfile } from "@am/interface/profile.interface";
+import { ProfileService } from "@am/services/profile.service";
 
 import { AmstoreLoginComponent } from './login/login.component';
+import { DialogService } from "../dialog/dialog.service";
+import { RouterService } from "@am/services/router.service";
+import { AccountRoutes, AuthRoutes, SectionEnum } from "@am/utils/router-builder";
 
 
 @Component({
@@ -15,7 +19,10 @@ import { AmstoreLoginComponent } from './login/login.component';
         class: 'amstore-profile'
     }
 })
-export class ProfileComponent implements OnInit {
+export class ProfileComponent {
+
+    public linkToProfile: string[] = this._navigation.generateLink(SectionEnum.Account, AccountRoutes.Profile);
+    public linkToRegistration: string[] = this._navigation.generateLink(SectionEnum.Auth, AuthRoutes.Registration);
 
     public get godmode(): BehaviorSubject<boolean> {
         return this.profileService.moderStatus$;
@@ -38,22 +45,19 @@ export class ProfileComponent implements OnInit {
     constructor(
         private authService: AuthService,
         private profileService: ProfileService,
-        private _dialog: MatDialog
+        private _dialog: DialogService,
+        private _navigation: RouterService
     ) {
     }
 
-    public ngOnInit(): void {
-    }
-
     public login(): void {
-        this._dialog.open( AmstoreLoginComponent, {
+        this._dialog.openCustomDialog(AmstoreLoginComponent, {
             panelClass: "amstore-dialog-login-panel",
-            minWidth: '350px'
+            minWidth: '400px'
         });
     }
 
     public logout(): void {
         this.authService.logout();
     }
-
 }

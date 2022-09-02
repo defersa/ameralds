@@ -8,66 +8,78 @@ import { JewelryCardComponent } from './pages/jewelry-card/jewelry-card.componen
 import { PatternsComponent } from './pages/pattern/patterns/patterns.component';
 import { PatternCardComponent } from './pages/pattern/pattern-card/pattern-card.component';
 import { PatternAddComponent } from './pages/pattern/pattern-add/pattern-add.component';
-import { getStoreRoutePath, StoreRoutes } from 'src/app/utils/router-builder';
+import { SectionEnum, StoreRoutes } from 'src/app/utils/router-builder';
 import { AmstoreCdkModule } from '@am/cdk/cdk.module';
 import { AmstoreSharedModule } from '@am/shared/shared.module';
 import { CategoriesComponent } from './pages/category/categories/categories.component';
 import { CategoryEditComponent } from './pages/category/category-edit/category-edit.component';
 import { SizesComponent } from './pages/sizes/sizes/sizes.component';
 import { SizeEditComponent } from './pages/sizes/size-edit/size-edit.component';
+import { AmstoreCanActivatePage } from "../../store.guard";
 
 
 export const routes: Routes = [{
-    path: '',
+    path: SectionEnum.Store,
     component: StoreComponent,
     children: [
         {
             path: '',
-            component: PatternsComponent,
+            redirectTo: StoreRoutes.Patterns,
         },
         {
-            path: getStoreRoutePath(StoreRoutes.PatternCard),
+            path: StoreRoutes.Patterns,
+            component: PatternsComponent,
+            canActivate: [AmstoreCanActivatePage]
+        },
+        {
+            path: StoreRoutes.PatternCard + '/:id',
             component: PatternCardComponent,
+            canActivate: [AmstoreCanActivatePage]
         },
         {
-            path: getStoreRoutePath(StoreRoutes.PatternAdd),
+            path: StoreRoutes.PatternAdd,
             component: PatternAddComponent,
+            canActivate: [AmstoreCanActivatePage]
         },
         {
-            path: getStoreRoutePath(StoreRoutes.PatternEdit),
+            path: StoreRoutes.PatternEdit + '/:id',
             component: PatternAddComponent,
+            canActivate: [AmstoreCanActivatePage]
         },
         {
-            path: getStoreRoutePath(StoreRoutes.Patterns),
-            component: PatternsComponent,
-        },
-        {
-            path: getStoreRoutePath(StoreRoutes.Jewelrys),
+            path: StoreRoutes.Jewelrys,
             component: JewelryComponent,
+            canActivate: [AmstoreCanActivatePage]
         },
         {
-            path: getStoreRoutePath(StoreRoutes.Categories),
+            path: StoreRoutes.Categories,
             component: CategoriesComponent,
+            canActivate: [AmstoreCanActivatePage]
         },
         {
-            path: getStoreRoutePath(StoreRoutes.CategoryEdit),
+            path: StoreRoutes.CategoryEdit + '/:id',
             component: CategoryEditComponent,
+            canActivate: [AmstoreCanActivatePage]
         },
         {
-            path: getStoreRoutePath(StoreRoutes.CategoryAdd),
+            path: StoreRoutes.CategoryAdd,
             component: CategoryEditComponent,
+            canActivate: [AmstoreCanActivatePage]
         },
         {
-            path: getStoreRoutePath(StoreRoutes.Sizes),
+            path: StoreRoutes.Sizes,
             component: SizesComponent,
+            canActivate: [AmstoreCanActivatePage]
         },
         {
-            path: getStoreRoutePath(StoreRoutes.SizeEdit),
+            path: StoreRoutes.SizeEdit + '/:id',
             component: SizeEditComponent,
+            canActivate: [AmstoreCanActivatePage]
         },
         {
-            path: getStoreRoutePath(StoreRoutes.SizeAdd),
+            path: StoreRoutes.SizeAdd,
             component: SizeEditComponent,
+            canActivate: [AmstoreCanActivatePage]
         }
     ]
 }]

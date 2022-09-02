@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {FormControl, FormGroup} from '@angular/forms';
+import {UntypedFormControl, UntypedFormGroup} from '@angular/forms';
 import {ActivatedRoute} from '@angular/router';
 import {CategoriesService} from 'src/app/shared/services/categories.service';
 import {CategoryType} from 'src/app/interface/category.interface';
@@ -17,18 +17,18 @@ export class CategoryEditComponent implements OnInit {
     public id: number | undefined;
     public isEdit: boolean;
 
-    public form: FormGroup = new FormGroup({
-        id: new FormControl(),
-        ru: new FormControl(),
-        en: new FormControl()
+    public form: UntypedFormGroup = new UntypedFormGroup({
+        id: new UntypedFormControl(),
+        ru: new UntypedFormControl(),
+        en: new UntypedFormControl()
     });
 
-    public get controlNameRu(): FormControl {
-        return this.form.controls['ru'] as FormControl;
+    public get controlNameRu(): UntypedFormControl {
+        return this.form.controls['ru'] as UntypedFormControl;
     }
 
-    public get controlNameEn(): FormControl {
-        return this.form.controls['en'] as FormControl;
+    public get controlNameEn(): UntypedFormControl {
+        return this.form.controls['en'] as UntypedFormControl;
     }
 
     constructor(

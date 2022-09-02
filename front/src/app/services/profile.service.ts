@@ -1,22 +1,36 @@
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable, Subject } from 'rxjs';
+import { BehaviorSubject, from, Observable, Subject } from 'rxjs';
 import { LocalStorageService } from '../core/services/local-storage.service';
-import { getAction, HttpActions, HttpAuthActions, HttpRootFragments } from '../utils/action-builder';
-import { LangDictionary, RU_LANG } from '../utils/lang-builder';
+import {
+    getAction,
+    HttpActions,
+    HttpAuthActions,
+    HttpProfileActions,
+    RestSuffixFragments
+} from '../utils/action-builder';
 import { AccessEnum } from '../utils/router-builder';
 import { AuthService } from './auth.service';
 import { GoodsService } from './goods.service';
+import { ReCAPTCHA } from "@am/interface/recapcha";
+import { environment } from "../../environments/environment";
+import { map, switchMap } from "rxjs/operators";
 
-const LOCAL_MODER_NAME: string = "godmode";
+import * as moment from 'moment';
+import {
+    AuthRequestPayload,
+    AuthResponse,
+    ISmallProfile,
+    ProfileInterface,
+    ProfileInterfaceResponse
+} from "@am/interface/profile.interface";
+import { AuthRegistrationRequest } from "@am/interface/request/auth-request.interface";
+import { ResultRequest } from "@am/interface/request.interface";
 
-export interface ISmallProfile {
-    username: string;
-    email: string;
-    godmode: boolean;
-    goods: any;
-    patterns: { id: number }[];
-}
+declare var grecaptcha: ReCAPTCHA;
+
+const LOCAL_MODER_NAME: string = "isStaff";
+
 
 @Injectable({
     providedIn: 'root'
@@ -32,8 +46,9 @@ export class ProfileService {
     public authAndModerStatus$: BehaviorSubject<AccessEnum> = new BehaviorSubject<AccessEnum>(AccessEnum.None);
 
     private get localModerStatus(): boolean {
-        return this.localStorage.getVariable(LOCAL_MODER_NAME) ? true : false;
+        return !!this.localStorage.getVariable(LOCAL_MODER_NAME);
     }
+
     private set localModerStatus(status: boolean) {
         status ?
             this.localStorage.setVariable(LOCAL_MODER_NAME, String(true)) :
@@ -82,15 +97,41 @@ export class ProfileService {
             this.boughtPatterns$.next([]);
         });
     }
+
     private updateAuthAndModerStatus(): void {
         const status: AccessEnum = this.moderStatus$.getValue() ? AccessEnum.Moder :
             this.authService.authStatus.getValue() ? AccessEnum.Auth : AccessEnum.None;
         this.authAndModerStatus$.next(status);
     }
 
+    public authWithRecaptchaToken(value: AuthRequestPayload): Observable<AuthResponse> {
+        return from(grecaptcha.execute(environment.recaptcha.siteKey, {action: 'submit'}))
+            .pipe(
+                switchMap((token: string) =>
+                    this.httpClient.post<{ token: string }>(getAction(HttpAuthActions.TokenAuth, RestSuffixFragments.Auth), {token, ...value}))
+            )
+    }
 
-    public getTokenRequest(value: { username: string, password: string }): Observable<{ token: string }> {
-        return this.httpClient.post<{ token: string }>(getAction(HttpAuthActions.GetToken, HttpRootFragments.Core), value);
+    public getOwnProfile(): Observable<ProfileInterface> {
+        return this.httpClient.get<ProfileInterfaceResponse>(getAction(HttpProfileActions.Own, RestSuffixFragments.Profile))
+            .pipe(
+                map((response: ProfileInterfaceResponse) => ({
+                    ...response.user,
+                    dateJoined: moment(response.user.date_joined).format("YYYY.MM.DD HH:mm"),
+                    isStaff: response.user.is_staff
+                })));
+    }
+
+    public postNewUser(value: unknown): Observable<AuthRegistrationRequest> {
+        return this.httpClient.post<AuthRegistrationRequest>(getAction(HttpAuthActions.Registration, RestSuffixFragments.Auth), value);
+    }
+
+    public sendVerify(): Observable<unknown> {
+         return this.httpClient.get<unknown>(getAction(HttpAuthActions.SendVerifyToken, RestSuffixFragments.Auth));
+    }
+
+    public verifyProfile(data: {user: string; token: string;}): Observable<ResultRequest> {
+        return this.httpClient.post<ResultRequest>(getAction(HttpAuthActions.Verify, RestSuffixFragments.Auth), data);
     }
 
 
@@ -103,7 +144,7 @@ export class ProfileService {
             const oldToken: Record<string, string> = {
                 token: this.authService.authToken
             };
-            this.httpClient.post(getAction(HttpAuthActions.RefreshToken, HttpRootFragments.Core), oldToken)
+            this.httpClient.post(getAction(HttpAuthActions.RefreshToken, RestSuffixFragments.Auth), oldToken)
                 .subscribe(
                     (result: unknown) => {
                         this.authService.setExpirationDelta();

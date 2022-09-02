@@ -4,7 +4,6 @@ import { BehaviorSubject, Subject } from 'rxjs';
 
 import { PatternService } from '@am/shared/services/pattern.service';
 import { PatternMaxType } from '@am/interface/pattern.interface';
-import { GoodsService } from '@am/services/goods.service';
 import { ProfileService } from '@am/services/profile.service';
 
 type PatterButtonStatus = {
@@ -30,16 +29,11 @@ export class PatternCardComponent implements OnInit, OnDestroy {
         class: ''
     }
 
-    public get moderStatus$(): BehaviorSubject<boolean> {
-        return this.profileService.moderStatus$;
-    }
-
     protected destroyed: Subject<void> = new Subject<void>();
 
     constructor(
         private route: ActivatedRoute,
         private patternService: PatternService,
-        private profileService: ProfileService,
     ) {
         this.id = Number(this.route.snapshot.paramMap.get('id'));
     }

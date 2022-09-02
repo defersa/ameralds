@@ -1,11 +1,12 @@
-import { Component, ElementRef, Input } from '@angular/core';
-import { FormControl } from '@angular/forms';
+import { ChangeDetectionStrategy, Component, ElementRef, EventEmitter, Injector, Input, Output } from '@angular/core';
 import { AmstoreFormsBaseDirective } from '../forms.abstract.directive';
+import { IconsName } from "@am/cdk/icons/icons.service";
 
 @Component({
     selector: 'amstore-forms-input',
     templateUrl: './input.component.html',
-    styleUrls: ['./input.component.scss']
+    styleUrls: ['./input.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AmstoreInputComponent extends AmstoreFormsBaseDirective {
     @Input()
@@ -20,7 +21,13 @@ export class AmstoreInputComponent extends AmstoreFormsBaseDirective {
     @Input()
     public name: string = '';
 
-    constructor(public elementRef: ElementRef) {
-        super(elementRef)
+    @Input()
+    public suffixName: IconsName | undefined;
+
+    @Output()
+    public onSuffixClick: EventEmitter<void> = new EventEmitter<void>();
+
+    public emitSuffixClick(): void {
+        this.onSuffixClick.emit();
     }
 }

@@ -1,7 +1,5 @@
-import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable } from 'rxjs';
-import { getAction, HttpAuthActions, HttpRootFragments } from 'src/app/utils/action-builder';
+import { BehaviorSubject } from 'rxjs';
 import { LocalStorageService } from '../core/services/local-storage.service';
 
 const AUTH_TOKEN_NAME = 'authToken';
@@ -13,7 +11,7 @@ const REFRESH_EXPIRATION_DELTA = 'refreshExpirationDelta';
 })
 export class AuthService {
 
-    public authStatus: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(this.authToken ? true : false);
+    public authStatus: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(!!this.authToken);
 
     public get authToken(): string {
         return this.localStorage.getVariable(AUTH_TOKEN_NAME) as string;
@@ -35,8 +33,8 @@ export class AuthService {
     ) {
     }
 
-    public setToken(tokenObject: { token: string }): void {
-        this.authToken = tokenObject.token;
+    public setToken(token: string): void {
+        this.authToken = token;
         this.setExpirationDelta();
         this.setRefreshExpirationDelta();
     }
@@ -50,12 +48,12 @@ export class AuthService {
 
 
     public setExpirationDelta(): void {
-        const nextExpiration: Date = new Date();;
+        const nextExpiration: Date = new Date();
         this.localStorage.setVariable(EXPIRATION_DELTA, String(nextExpiration.setDate(nextExpiration.getDate() + 7)));
     }
 
     public setRefreshExpirationDelta(): void {
-        const nextExpiration: Date = new Date();;
+        const nextExpiration: Date = new Date();
         this.localStorage.setVariable(REFRESH_EXPIRATION_DELTA, String(nextExpiration.setDate(nextExpiration.getDate() + 7 * 8)));
     }
 }

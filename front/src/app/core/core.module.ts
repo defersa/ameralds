@@ -11,7 +11,7 @@ import { AmastoreLanguageComponent } from './language/language.component';
 import { AmstoreHeaderModule } from './header/header.module';
 import { AmstoreGoodsModule } from './goods-snap/goods.module';
 import { AmstoreProfileModule } from './profile/profile.module';
-
+import { DialogModule } from "./dialog/dialog.module";
 
 
 @NgModule({
@@ -29,7 +29,8 @@ import { AmstoreProfileModule } from './profile/profile.module';
         AmstoreCdkModule,
         AmstoreHeaderModule,
         AmstoreGoodsModule,
-        AmstoreProfileModule
+        AmstoreProfileModule,
+        DialogModule
     ],
     exports: [
         AmastoreLanguageComponent,
@@ -38,4 +39,5 @@ import { AmstoreProfileModule } from './profile/profile.module';
         AmstoreProfileModule
     ]
 })
-export class CoreModule { }
+export class CoreModule {
+}

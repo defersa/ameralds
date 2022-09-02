@@ -8,9 +8,20 @@
         color:  get-amstore-color(gray, deep);
         background: get-amstore-color(gray, slight);
 
-        &.paginator-disable {
+        &.paginator-current {
             color:  get-amstore-color(gray, white);
             background: get-amstore-color($theme, dark);
+        }
+
+        &.disabled {
+            cursor: default;
+            color:  get-amstore-color(gray, light);
+            .amstore-icon .amstore-icon-figure {
+                fill: get-amstore-color(gray, light);
+            }
+            .amstore-icon .amstore-icon-figure {
+                stroke: get-amstore-color(gray, light);
+            }
         }
     }
 }
