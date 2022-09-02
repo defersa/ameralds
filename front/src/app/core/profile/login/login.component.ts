@@ -1,5 +1,5 @@
 import { HttpErrorResponse } from '@angular/common/http';
-import { Component, OnInit, ViewEncapsulation } from '@angular/core';
+import {Component, HostListener, OnInit, ViewEncapsulation} from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { MatDialogRef } from '@angular/material/dialog';
 import { AuthService } from 'src/app/services/auth.service';
@@ -51,6 +51,13 @@ export class AmstoreLoginComponent implements OnInit {
                 (error: HttpErrorResponse) => {
                     this.error = true;
                 });
+    }
+
+    @HostListener('keydown', ['$event'])
+    private _onKeyDown(event: KeyboardEvent): void {
+        if(event.key === 'Enter') {
+            this.login();
+        }
     }
 
 }

@@ -2,7 +2,6 @@ import { Component, Injector, OnDestroy } from '@angular/core';
 import { ActivatedRoute, ActivationEnd, Router, Event } from '@angular/router';
 import { BehaviorSubject, Subject } from 'rxjs';
 import { filter, map, takeUntil } from 'rxjs/operators';
-import { AuthService } from 'src/app/services/auth.service';
 import { LangService } from 'src/app/services/lang.service';
 import { ProfileService } from 'src/app/services/profile.service';
 import { AccessEnum, RouterConfig } from 'src/app/utils/router-builder';
