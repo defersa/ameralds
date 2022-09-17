@@ -25,7 +25,7 @@ export class PatternDownloadComponent extends AbstractPatternCard {
     }
 
     public downloadColor(): void {
-        this.patternService.downloadColor(this.data.id)
+        this.patternService.downloadColor(this.pattern.id)
             .subscribe((item: Blob) => {
                 const name: string = this.title + '-colors.jpg';
                 downloadBlobFile(item, name);

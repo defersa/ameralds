@@ -9,6 +9,7 @@ import { Subject } from "rxjs";
 import { LangService } from "@am/services/lang.service";
 import { takeUntil } from "rxjs/operators";
 
+export type SizeWithControl = { value: number; control: UntypedFormControl; id: number; }
 
 @Directive({
     selector: 'abstract-pattern-card',
@@ -16,32 +17,32 @@ import { takeUntil } from "rxjs/operators";
 export class AbstractPatternCard implements OnDestroy {
 
     /** Lang getters */
-    private _lang: LangType = 'ru';
+    protected _lang: LangType = 'ru';
 
     public get sizeUnit(): string {
         return SIZE_UNIT[this._lang];
     }
 
     public get title(): string {
-        return this.data.name[this._lang];
+        return this.pattern.name[this._lang];
     };
 
-    public sizesWithControl: { value: number; control: UntypedFormControl; id: number; }[] = [];
+    public sizesWithControl: SizeWithControl[] = [];
 
     /** Pattern input */
     @Input()
-    public set data(value: PatternMaxType) {
+    public set pattern(value: PatternMaxType) {
         this.sizesWithControl = value.sizes.map((item: PattenSizeFiles) => ({
             value: item.size.value,
             control: new UntypedFormControl(),
             id: item.id
         }));
-        this._data = value;
+        this._pattern = value;
     };
-    public get data(): PatternMaxType {
-        return this._data;
+    public get pattern(): PatternMaxType {
+        return this._pattern;
     };
-    private _data: PatternMaxType = EMPTY_PATTERN;
+    protected _pattern: PatternMaxType = EMPTY_PATTERN;
 
     /** Subjects */
     protected destroyed: Subject<void> = new Subject<void>();

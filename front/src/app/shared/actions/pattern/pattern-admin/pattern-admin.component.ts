@@ -1,22 +1,21 @@
-import { Component, Input, OnDestroy } from '@angular/core';
-import { PattenSizeFiles, PatternMaxType } from "@am/interface/pattern.interface";
+import { Component, Injector, Input } from '@angular/core';
 import { FormGroup, UntypedFormControl } from "@angular/forms";
-import { AdminService } from "@am/services/admin.service";
-import { CartPattern } from "@am/interface/cart.interface";
 import { Subject } from "rxjs";
 import { takeUntil } from "rxjs/operators";
-import { EMPTY_PATTERN } from "@am/shared/mocks/pattern";
 
-type SizeWithControl = { value: number; control: UntypedFormControl; id: number; }
+import { PattenSizeFiles, PatternMaxType } from "@am/interface/pattern.interface";
+import { AdminService } from "@am/services/admin.service";
+import { CartPattern } from "@am/interface/cart.interface";
+import { AbstractPatternCard, SizeWithControl } from "@am/shared/actions/pattern/pattern.abstract";
+
 
 @Component({
     selector: 'amstore-pattern-admin',
     templateUrl: './pattern-admin.component.html',
     styleUrls: ['./pattern-admin.component.scss']
 })
-export class PatternAdminComponent implements OnDestroy {
+export class PatternAdminComponent extends AbstractPatternCard {
     public formGroup: FormGroup = new FormGroup({});
-    public sizesWithControl: SizeWithControl[] = [];
     public colorControl: UntypedFormControl = new UntypedFormControl(false);
 
     @Input()
@@ -25,25 +24,14 @@ export class PatternAdminComponent implements OnDestroy {
         this.setFormControl(value);
     }
 
-    public get pattern(): PatternMaxType {
-        return this._pattern || EMPTY_PATTERN;
-    }
-
-    private _pattern?: PatternMaxType;
-
     public inCart: boolean = false;
     public canAdd: boolean = false;
 
     public destroyOldPattern: Subject<void> = new Subject<void>();
-    public destroyed: Subject<void> = new Subject<void>();
 
     constructor(
-        private _admin: AdminService
-    ) { }
-
-    ngOnDestroy(): void {
-        this.destroyed.next();
-        this.destroyed.complete();
+        private _admin: AdminService, private _injector: Injector) {
+        super(_injector);
     }
 
     public setFormControl(value: PatternMaxType): void {
