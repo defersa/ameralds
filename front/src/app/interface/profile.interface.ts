@@ -1,5 +1,5 @@
 
-export interface ISmallProfile {
+export interface IUser {
     username: string;
     email: string;
     godmode: boolean;
@@ -12,9 +12,11 @@ export type AuthRequestPayload = {
     password: string;
 }
 
-export type AuthResponse = {
+export interface IAuthResponse {
+    name?: string;
+    access?: string;
+    refresh?: string;
     error?: string;
-    token?: string;
 }
 
 export type ProfileInterfaceResponse = {
@@ -31,7 +33,7 @@ export type ProfileInterfaceResponse = {
     }
 }
 
-export type ProfileInterface = {
+export type IProfile = {
     id: number;
     username: string;
     email: string;
@@ -41,4 +43,8 @@ export type ProfileInterface = {
         verify: boolean;
         location: 'ru' | 'en';
     }
+}
+
+export type IRefreshToken = {
+    access: string;
 }

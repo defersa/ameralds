@@ -1,59 +1,108 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
-import { LocalStorageService } from '../core/services/local-storage.service';
+import { IAuthResponse, IRefreshToken } from "@am/interface/profile.interface";
+import { getAction, HttpAuthActions, RestSuffixFragments } from "@am/utils/action-builder";
+import { HttpClient, HttpErrorResponse } from "@angular/common/http";
+import { UBehaviorSubject } from "@am/utils/u-behavior.subject";
+import { localStorage } from "@am/decorators/local.decorator";
+import { Router } from "@angular/router";
 
-const AUTH_TOKEN_NAME = 'authToken';
-const EXPIRATION_DELTA = 'expirationDelta'
-const REFRESH_EXPIRATION_DELTA = 'refreshExpirationDelta';
+
+const AUTH_TOKEN_NAME: string = 'authToken';
+const REFRESH_TOKEN_NAME: string = 'refreshToken';
+const EXPIRATION_DELTA: string = 'expirationDelta'
+const REFRESH_EXPIRATION_DELTA: string = 'refreshExpirationDelta';
+
+const TOKEN_TIME_ALIVE_DAYS: number = 7;
 
 @Injectable({
     providedIn: 'root'
 })
 export class AuthService {
+    @localStorage(AUTH_TOKEN_NAME)
+    private localAuthToken!: string;
 
-    public authStatus: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(!!this.authToken);
+    @localStorage(REFRESH_TOKEN_NAME)
+    private localRefreshToken!: string;
 
-    public get authToken(): string {
-        return this.localStorage.getVariable(AUTH_TOKEN_NAME) as string;
-    }
+    @localStorage(EXPIRATION_DELTA)
+    private localExpirationDelta!: string;
 
-    public set authToken(token: string) {
-        this.localStorage.setVariable(AUTH_TOKEN_NAME, token);
-        this.authStatus.next(true);
-    }
-    public get expirationDelta(): number {
-        return Number(this.localStorage.getVariable(EXPIRATION_DELTA));
-    }
-    public get refreshExpirationDelta(): number {
-        return Number(this.localStorage.getVariable(REFRESH_EXPIRATION_DELTA));
-    }
+    @localStorage(REFRESH_EXPIRATION_DELTA)
+    private localRefreshExpirationDelta!: string;
+
+
+    public readonly authStatus$: UBehaviorSubject<boolean> = new UBehaviorSubject<boolean>(!!this.localAuthToken);
+    public readonly token$: BehaviorSubject<string> = new BehaviorSubject<string>(this.localAuthToken);
+
 
     constructor(
-        private localStorage: LocalStorageService
+        private httpClient: HttpClient,
+        private router: Router,
     ) {
     }
 
-    public setToken(token: string): void {
-        this.authToken = token;
+    public setToken(tokens: IAuthResponse): void {
+        this.setAuthToken(tokens.access);
+        this.localRefreshToken = tokens.refresh;
+
         this.setExpirationDelta();
         this.setRefreshExpirationDelta();
     }
 
     public logout(): void {
-        this.authStatus.next(false);
-        this.localStorage.removeVariable(AUTH_TOKEN_NAME);
-        this.localStorage.removeVariable(EXPIRATION_DELTA);
-        this.localStorage.removeVariable(REFRESH_EXPIRATION_DELTA);
+        this.token$.next(null);
+        this.authStatus$.next(false);
+
+        this.localAuthToken = '';
+        this.localRefreshToken = '';
+        this.localExpirationDelta = '';
+        this.localRefreshExpirationDelta = '';
+
+        this.router.navigate(['/']);
+    }
+
+    public setAuthToken(token: string): void {
+        this.token$.next(token);
+        this.localAuthToken = token;
+        this.authStatus$.next(true);
     }
 
 
-    public setExpirationDelta(): void {
+    public setExpirationDelta(rememberMe: boolean = true): void {
         const nextExpiration: Date = new Date();
-        this.localStorage.setVariable(EXPIRATION_DELTA, String(nextExpiration.setDate(nextExpiration.getDate() + 7)));
+        this.localExpirationDelta = String(nextExpiration.setDate(nextExpiration.getDate() + AuthService.getDaysOfRemember(rememberMe)));
     }
 
-    public setRefreshExpirationDelta(): void {
+    public setRefreshExpirationDelta(rememberMe: boolean = true): void {
         const nextExpiration: Date = new Date();
-        this.localStorage.setVariable(REFRESH_EXPIRATION_DELTA, String(nextExpiration.setDate(nextExpiration.getDate() + 7 * 8)));
+        this.localRefreshExpirationDelta = String(nextExpiration.setDate(nextExpiration.getDate() + AuthService.getDaysOfRemember(rememberMe)));
+    }
+
+    public static getDaysOfRemember(flag: boolean): number {
+        return flag ? TOKEN_TIME_ALIVE_DAYS : 0;
+    }
+
+    public tryRefreshToken(): void {
+        if (
+            this.authStatus$.getValue() &&
+            Number(this.localExpirationDelta) > Date.now() &&
+            Number(this.localRefreshExpirationDelta) > Date.now()
+        ) {
+            const refreshToken: Record<string, string> = { refresh: this.localRefreshToken };
+            this.httpClient.post<IRefreshToken>(getAction(HttpAuthActions.RefreshToken, RestSuffixFragments.Auth), refreshToken)
+                .subscribe(
+                    (result: IRefreshToken) => {
+                        this.setExpirationDelta();
+                        this.setAuthToken(result.access);
+                    },
+                    (error: HttpErrorResponse) => {
+                        console.log(error.message);
+                        this.logout();
+                    });
+            return;
+        }
+
+        this.logout();
     }
 }

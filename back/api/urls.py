@@ -1,7 +1,7 @@
 from django.urls import path, include
 
-from . import views, patterns, goods, fileview, orders, patternFile, auth
-from .general import sizes, categories
+from . import views, patterns, goods, fileview, orders, patternFile
+
 
 urlpatterns = [
     path('profile/', views.Profile.as_view()),
@@ -30,17 +30,8 @@ urlpatterns = [
     path('get-images/<int:page>', fileview.GetImages.as_view()),
 
     path('get-orders/<int:page>', orders.Orders.as_view()),
-    
-    path('category/<int:pk>', categories.CategoryEditView.as_view()),
-    path('category/', categories.CategoryEditView.as_view()),
-    path('categories/<int:page>', categories.CategoriesView.as_view()),
-    path('categories-all/', categories.CategoriesAllView.as_view()),
-    
-    path('size/<int:pk>', sizes.SizesEditView.as_view()),
-    path('size/', sizes.SizesEditView.as_view()),
-    path('sizes/<int:page>', sizes.SizesView.as_view()),
-    path('sizes-all/', sizes.SizesAllView.as_view()),
-    
+
+
     path('pattern-size-file/', patternFile.PatternSizeFileView.as_view()),
     path('pattern-colors-file/', patternFile.PatternColorFileView.as_view()),
     
@@ -51,5 +42,7 @@ urlpatterns = [
 
     path('auth/', include('api.auth.urls')),
     path('profile/', include('api.profile.urls')),
+    path('sizes/', include('api.sizes.urls')),
+    path('categories/', include('api.categories.urls')),
     
 ]

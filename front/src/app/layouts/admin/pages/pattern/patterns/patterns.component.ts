@@ -1,18 +1,17 @@
-import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { Component, OnDestroy, ViewChild } from '@angular/core';
 import { Subject } from 'rxjs';
 
 import { FilterQuery, PaginatedPageComponent } from '@am/shared/paginated-page/paginated-page.component';
 import { PageRequest, PatternMaxType } from '@am/interface/pattern.interface';
 import { PatternService } from '@am/shared/services/pattern.service';
 
-import { NavigatorService } from "../../../navigator.service";
 
 @Component({
     selector: 'app-patterns',
     templateUrl: './patterns.component.html',
     styleUrls: ['./patterns.component.scss']
 })
-export class PatternsComponent implements OnInit, OnDestroy {
+export class PatternsComponent implements OnDestroy {
     @ViewChild(PaginatedPageComponent)
     private _paginatedPageComponent: PaginatedPageComponent | undefined;
 
@@ -25,11 +24,7 @@ export class PatternsComponent implements OnInit, OnDestroy {
 
     constructor(
         private pattern: PatternService,
-        private _navigator: NavigatorService
     ) {
-    }
-
-    ngOnInit(): void {
     }
 
     ngOnDestroy(): void {
@@ -52,10 +47,6 @@ export class PatternsComponent implements OnInit, OnDestroy {
                 this.pageCount = next.pageCount;
                 this.items = next.items;
             });
-    }
-
-    public navigateToChild(id: number): void {
-        this._navigator.goToCard(id);
     }
 
     public setFilter(event: Record<string, unknown>): void {

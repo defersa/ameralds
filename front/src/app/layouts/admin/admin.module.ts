@@ -2,15 +2,15 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { AmstoreAdminComponent } from './admin.component';
 import { RouterModule, Routes } from "@angular/router";
-import { MenuComponent } from "./components/menu/menu.component";
 import { AmstoreCdkModule } from "@am/cdk/cdk.module";
 import { AmstoreSharedModule } from "@am/shared/shared.module";
-import { AdminRoutes } from "@am/utils/router-builder";
-import { AmstoreCanActivatePage } from "@am/root/store.guard";
 import { PatternsComponent } from "@am/root/layouts/admin/pages/pattern/patterns/patterns.component";
 import { PatternCardComponent } from "@am/root/layouts/admin/pages/pattern/pattern-card/pattern-card.component";
 import { PatternAddComponent } from "@am/root/layouts/admin/pages/pattern/pattern-add/pattern-add.component";
 import { PatternModule } from "@am/shared/actions/pattern/pattern.module";
+import { MenuModule } from "@am/shared/menu/menu.module";
+import { AMSTORE_SECTION_CONFIG } from "@am/shared/menu/menu.component";
+import { adminConfig } from "@am/root/layouts/admin/section.config";
 
 
 export const routes: Routes = [{
@@ -19,28 +19,32 @@ export const routes: Routes = [{
     children: [
         {
             path: '',
-            redirectTo: AdminRoutes.Patterns,
+            redirectTo: 'patterns',
         },
         {
-            path: AdminRoutes.Patterns,
+            path: 'patterns',
             component: PatternsComponent,
-            canActivate: [AmstoreCanActivatePage]
         },
         {
-            path: AdminRoutes.PatternCard + '/:id',
-            component: PatternCardComponent,
-            canActivate: [AmstoreCanActivatePage]
+            path: 'pattern-card/:id',
+            component: PatternCardComponent
         },
         {
-            path: AdminRoutes.PatternAdd,
+            path: 'pattern-add',
             component: PatternAddComponent,
-            canActivate: [AmstoreCanActivatePage]
         },
         {
-            path: AdminRoutes.PatternEdit + '/:id',
+            path: 'pattern-edit/:id',
             component: PatternAddComponent,
-            canActivate: [AmstoreCanActivatePage]
         },
+        {
+            path: 'sizes',
+            loadChildren: () => import('./modules/sizes/sizes.module').then(m => m.SizesModule),
+        },
+        {
+            path: 'categories',
+            loadChildren: () => import('./modules/categories/categories.module').then(m => m.CategoriesModule),
+        }
     ]
 }];
 
@@ -53,7 +57,6 @@ const PAGES = [
 @NgModule({
     declarations: [
         AmstoreAdminComponent,
-        MenuComponent,
         ...PAGES,
     ],
     imports: [
@@ -61,7 +64,11 @@ const PAGES = [
         RouterModule.forChild(routes),
         AmstoreCdkModule,
         AmstoreSharedModule,
-        PatternModule
+        PatternModule,
+        MenuModule,
+    ],
+    providers: [
+        { provide: AMSTORE_SECTION_CONFIG, useValue: adminConfig},
     ]
 })
 export class AdminModule {

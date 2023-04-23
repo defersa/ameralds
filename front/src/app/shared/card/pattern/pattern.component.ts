@@ -12,18 +12,15 @@ import { LangService } from '@am/services/lang.service';
 import { ProfileService } from '@am/services/profile.service';
 
 
-import { GoodsCard, GoodsModifire, ProductType } from '@am/interface/goods.intreface';
 import { ImageModelSmall } from '@am/interface/image.interface';
-import { PattenSizeFiles, PatternMaxType } from '@am/interface/pattern.interface';
+import { PatternMaxType } from '@am/interface/pattern.interface';
 import { IdName } from '@am/interface/request.interface';
 import { LangType } from '@am/interface/lang.interface';
 
 import { AmstoreCardDirective } from '../card.directive';
 import { CategoryType } from '@am/interface/category.interface';
 import { SIZE_UNIT } from "@am/utils/constants";
-import { AccessEnum } from "@am/utils/router-builder";
 import { PatternService } from "@am/shared/services/pattern.service";
-import { downloadBlobFile } from "@am/utils/file-utils";
 import { EMPTY_PATTERN } from "@am/shared/mocks/pattern";
 
 @Component({

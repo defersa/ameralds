@@ -69,7 +69,7 @@
     }
 
     &.amstore-button-default-medium {
-        padding: get-spacing(1) get-spacing(4);
+        padding: get-spacing(2) get-spacing(4);
         border-radius: 6px;
         min-width: 130px;
         @include get-amstore-font("body", 16, null, null);

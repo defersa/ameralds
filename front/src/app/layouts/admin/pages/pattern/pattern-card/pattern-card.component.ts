@@ -1,17 +1,14 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, inject, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { BehaviorSubject, Subject } from 'rxjs';
+import { Observable, Subject } from 'rxjs';
 
 import { PatternService } from '@am/shared/services/pattern.service';
 import { PatternMaxType } from '@am/interface/pattern.interface';
 import { ProfileService } from '@am/services/profile.service';
-import { NavigatorService } from "@am/root/layouts/admin/navigator.service";
+import { map } from "rxjs/operators";
+import { UserEnum } from "@am/utils/router-builder";
+import { Location } from "@angular/common";
 
-type PatterButtonStatus = {
-    label: string;
-    action: () => void;
-    class: string;
-}
 
 @Component({
     selector: 'amstore-pattern-page',
@@ -24,23 +21,17 @@ export class PatternCardComponent implements OnInit, OnDestroy {
 
     public id: number;
 
-    public button: PatterButtonStatus = {
-        label: '',
-        action: () => { },
-        class: ''
-    }
-
-    public get moderStatus$(): BehaviorSubject<boolean> {
-        return this.profileService.moderStatus$;
-    }
+    public isModer$: Observable<boolean> = this.profileService.userStatus$
+        .pipe(map((item: UserEnum) => item === UserEnum.Moder));
 
     protected destroyed: Subject<void> = new Subject<void>();
+
+    protected readonly location: Location = inject(Location);
 
     constructor(
         private route: ActivatedRoute,
         private patternService: PatternService,
         private profileService: ProfileService,
-        private _navigator: NavigatorService,
     ) {
         this.id = Number(this.route.snapshot.paramMap.get('id'));
     }
@@ -56,13 +47,6 @@ export class PatternCardComponent implements OnInit, OnDestroy {
     }
 
     public getBack(): void {
-        this._navigator.getBack();
+        this.location.back();
     }
-
-
-    public goToEdit(): void {
-        this._navigator.goToEdit(this.id);
-    }
-
-
 }

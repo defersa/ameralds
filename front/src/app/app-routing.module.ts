@@ -1,24 +1,27 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { SectionEnum } from "@am/utils/router-builder";
+import { AdminGuard } from "@am/core/guards/admin.guard";
+import { AuthGuard } from "@am/core/guards/auth.guard";
 
 
 export const routes: Routes = [
     {
-        path: SectionEnum.Store,
-        loadChildren: () => import('./layouts/store/store.module').then(m => m.StoreModule)
+        path: '',
+        loadChildren: () => import('./layouts/store/store.module').then(m => m.StoreModule),
     },
     {
-        path: SectionEnum.Account,
-        loadChildren: () => import('./layouts/account/account.module').then(m => m.AccountModule)
+        path: 'account',
+        loadChildren: () => import('./layouts/account/account.module').then(m => m.AccountModule),
+        canActivate: [AuthGuard],
     },
     {
-        path: SectionEnum.Auth,
+        path: 'auth',
         loadChildren: () => import('./layouts/auth/auth.module').then(m => m.AuthModule)
     },
     {
-        path: SectionEnum.Admin,
-        loadChildren: () => import('./layouts/admin/admin.module').then(m => m.AdminModule)
+        path: 'admin',
+        loadChildren: () => import('./layouts/admin/admin.module').then(m => m.AdminModule),
+        canActivate: [AdminGuard],
     }
 ]
 

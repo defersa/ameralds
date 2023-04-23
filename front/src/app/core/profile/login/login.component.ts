@@ -1,11 +1,11 @@
 import { HttpErrorResponse } from '@angular/common/http';
-import { Component, OnInit, ViewEncapsulation } from '@angular/core';
+import { Component, ViewEncapsulation } from '@angular/core';
 import { UntypedFormControl, UntypedFormGroup, ValidationErrors, Validators } from '@angular/forms';
 import { MatDialogRef } from '@angular/material/dialog';
 import { RecaptchaDirective } from "../../recaptcha/recaptcha.directive";
 import { AuthService } from "@am/services/auth.service";
 import { ProfileService } from "@am/services/profile.service";
-import { AuthResponse } from "@am/interface/profile.interface";
+import { IAuthResponse } from "@am/interface/profile.interface";
 
 
 @Component({
@@ -59,12 +59,13 @@ export class AmstoreLoginComponent extends RecaptchaDirective {
         }
         this._profileService.authWithRecaptchaToken(this.authForm.value)
             .subscribe(
-                (result: AuthResponse) => {
-                    if (result.token) {
-                        this._authService.setToken(result.token);
+                (result: IAuthResponse) => {
+                    if (result.access) {
+                        this._authService.setToken(result);
                         this._matDialogRef.close();
                     }
-                    if (result.error || !result.token) {
+
+                    if (result.error || !result.access) {
                         this.error = result.error || 'Неизвестная ошибка, попробуйте позже';
                     }
                 },

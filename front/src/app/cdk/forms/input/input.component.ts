@@ -1,6 +1,7 @@
-import { ChangeDetectionStrategy, Component, ElementRef, EventEmitter, Injector, Input, Output } from '@angular/core';
+import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from '@angular/core';
 import { AmstoreFormsBaseDirective } from '../forms.abstract.directive';
-import { IconsName } from "@am/cdk/icons/icons.service";
+import { IconsName } from "@am/cdk/icons/icons.map";
+
 
 @Component({
     selector: 'amstore-forms-input',
@@ -18,8 +19,6 @@ export class AmstoreInputComponent extends AmstoreFormsBaseDirective {
     }
     private _type: string = 'text';
 
-    @Input()
-    public name: string = '';
 
     @Input()
     public suffixName: IconsName | undefined;

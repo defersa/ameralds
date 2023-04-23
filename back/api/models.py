@@ -6,6 +6,7 @@ import os
 import binascii
 
 
+# Локализация
 class LangCharFieldShort(models.Model):
     en = models.CharField(max_length=200, verbose_name="En", blank=True, default="")
     ru = models.CharField(max_length=200, verbose_name="Ru", blank=True, default="")
@@ -14,6 +15,7 @@ class LangCharFieldShort(models.Model):
         return str(self.en + ' ' + self.ru)
 
 
+# Локализация валют
 class LangIntegerField(models.Model):
     en = models.IntegerField(verbose_name="En", blank=True, default=0)
     ru = models.IntegerField(verbose_name="Ru", blank=True, default=0)
@@ -22,6 +24,7 @@ class LangIntegerField(models.Model):
         return str(str(self.en) + '$ ' + str(self.ru) + 'Р')
 
 
+# Изображение
 class Image(models.Model):
     name = models.CharField(max_length=200, verbose_name="Исходное название файла", default="")
     index = models.IntegerField(verbose_name="Номер в очереди", blank=True, default=0)
@@ -51,6 +54,7 @@ class Image(models.Model):
         ordering = ['index', 'pk']
 
 
+# Категория
 class Category(models.Model):
     name = models.OneToOneField(LangCharFieldShort, on_delete=models.CASCADE)
     name_en = models.CharField(max_length=200, verbose_name="Имя категории en", blank=True)
@@ -60,7 +64,6 @@ class Category(models.Model):
         verbose_name="Дата создании категории", auto_now_add=True)
 
     def create(self, en, ru):
-        print(en, ru)
         lang = LangCharFieldShort(en=en, ru=ru)
         lang.save()
         return self.objects.create(name=lang)
@@ -69,6 +72,7 @@ class Category(models.Model):
         return str(self.name.ru + ' ' + self.name.en)
 
 
+# Размер
 class Size(models.Model):
     value = models.PositiveIntegerField(default=0)
     create_date = models.DateTimeField(
@@ -78,6 +82,7 @@ class Size(models.Model):
         return str(self.value)
 
 
+# Файлы
 class PrivateFile(models.Model):
     name = models.CharField(max_length=200, verbose_name="Название файла", default="")
     file = models.FileField(
@@ -92,6 +97,7 @@ class PrivateFile(models.Model):
         return str(self.name)
 
 
+# Украшения
 class Jewelry(models.Model):
     name = models.CharField(max_length=200, verbose_name="Имя украшения")
     description = models.CharField(
@@ -122,6 +128,7 @@ class Jewelry(models.Model):
         return str(self.name)
 
 
+# Схема
 class Pattern(models.Model):
     name = models.OneToOneField(
         LangCharFieldShort,
@@ -175,6 +182,7 @@ class Pattern(models.Model):
         return str(self.name)
 
 
+# Файлы разных размеров схем
 class PatternSize(models.Model):
     pattern = models.ForeignKey(Pattern, on_delete=models.CASCADE, related_name="sizes")
     size = models.ForeignKey(Size, on_delete=models.CASCADE)
@@ -200,6 +208,7 @@ class PatternSize(models.Model):
         return str(self.pk)
 
 
+# Токен
 class Token(models.Model):
     value = models.CharField(max_length=100)
 
@@ -220,6 +229,7 @@ class Token(models.Model):
         return str(self.pk)
 
 
+# Профиль
 class Person(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
 
@@ -241,17 +251,17 @@ class Person(models.Model):
         blank=True)
 
     @classmethod
-    def create(cls):
-        person = cls()
+    def create(cls, *args, **kwargs):
+        person = cls(*args, **kwargs)
         person.token_verify = Token.create()
         person.token_verify.save()
         return person
-
 
     def __str__(self):
         return str(self.user.username)
 
 
+# Рейтинг
 class JewelryRating(models.Model):
     score = models.IntegerField(verbose_name="Оценка", default=0)
 
@@ -264,6 +274,7 @@ class JewelryRating(models.Model):
         return str(self.pk)
 
 
+# Рейтинг
 class PatternRating(models.Model):
     score = models.IntegerField(verbose_name="Оценка", default=0)
 
@@ -276,6 +287,7 @@ class PatternRating(models.Model):
         return str(self.pk)
 
 
+# Заказ
 class Order(models.Model):
     status = models.IntegerField()
 
@@ -309,6 +321,7 @@ class Order(models.Model):
         return str(self.pk)
 
 
+# Промокод
 class Promo(models.Model):
     active = models.BooleanField()
 

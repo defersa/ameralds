@@ -4,11 +4,10 @@ from rest_framework.response import Response
 from rest_framework import serializers, generics
 from rest_framework.decorators import permission_classes
 
-from django.http import HttpResponse, StreamingHttpResponse, FileResponse
-from django.core.files import File as FileWrapper
+from django.http import FileResponse
 
 from .models import PrivateFile, PatternSize, Pattern
-from .general.sizes import SizesSerializer
+from .sizes.serializers import SizesSerializer
 
 
 class PrivateFileSerializer(serializers.HyperlinkedModelSerializer):

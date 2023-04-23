@@ -68,6 +68,7 @@ export class AmstoreImagesEditComponent implements OnInit {
         if (i === this.selectedImages.length - 1) {
             return;
         }
+
         [this.selectedImages[i + 1], this.selectedImages[i]] = [this.selectedImages[i], this.selectedImages[i + 1]];
     }
     public addImage(image: ImageModel): void {
@@ -98,7 +99,7 @@ export class AmstoreImagesEditComponent implements OnInit {
     public upload(): void {
         if (!this.file) return;
 
-        this.imagesService.uploadImages(this.file)
+        this.imagesService.uploadImage(this.file)
             .subscribe((result: ImageAddRequest) => {
                 const uploadImageElem = ((this.uploadImageRef as ElementRef).nativeElement as HTMLImageElement);
                 uploadImageElem.src = '';

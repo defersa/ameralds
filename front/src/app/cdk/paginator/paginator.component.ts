@@ -1,5 +1,6 @@
-import { Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewEncapsulation } from '@angular/core';
+import { Component, ElementRef, EventEmitter, Input, Output, ViewEncapsulation } from '@angular/core';
 import { AmstoreColor } from '../core/color';
+
 
 const PAGES_AROUND: number = 4;
 
@@ -49,25 +50,23 @@ export class AmstorePaginatorComponent extends AmstoreColor {
         super(elementRef)
     }
 
-    ngOnInit(): void {
-    }
-
     public goToPage(page: number): void {
         this.page = page;
         this.goToPageEvent.emit(page);
     }
 
     public setPageList(): void {
-        this.pageList = [];
-        this.pageList.push(
-            ...Array.from(Array(PAGES_AROUND))
-                .map((item: null, index: number) => this.page - PAGES_AROUND + index)
-                .filter((item: number) => item > 0));
+        this.pageList = [this.page];
 
-        this.pageList.push(
-            ...Array.from(Array(PAGES_AROUND + 1))
-                .map((item: null, index: number) => this.page + index)
-                .filter((item: number) => item <= this.pageCount));
+        while (this.pageList.length < PAGES_AROUND
+        && (1 !== this.pageList[0] || this.pageCount !== this.pageList[this.pageList.length - 1])) {
+            if (1 !== this.pageList[0]) {
+                this.pageList.unshift(this.pageList[0] - 1);
+            }
 
+            if (this.pageCount !== this.pageList[this.pageList.length - 1]) {
+                this.pageList.push(this.pageList[this.pageList.length - 1] + 1);
+            }
+        }
     }
 }

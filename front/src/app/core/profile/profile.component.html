@@ -1,5 +1,5 @@
 <ng-container *ngIf="authStatus | async; else noAuth">
-    <a amstore-button-round roundSide="left" [routerLink]="linkToProfile">
+    <a amstore-button-round roundSide="left" [routerLink]="['/', 'account']">
         <amstore-icon iconName="profile" [size]="20" [contrast]="true"></amstore-icon>
         <span class="header-button-label">Профиль</span>
     </a>
@@ -15,7 +15,7 @@
         <amstore-icon iconName="login" [size]="20" [contrast]="true"></amstore-icon>
         <span class="header-button-label">Войти</span>
     </button>
-    <a amstore-button-round roundSide="right" [routerLink]="linkToRegistration">
+    <a amstore-button-round roundSide="right" [routerLink]="['auth', 'registration']">
         <span class="header-button-label">Регистрация</span>
         <amstore-icon iconName="registration" [size]="20" [contrast]="true"></amstore-icon>
     </a>

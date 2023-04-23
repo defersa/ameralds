@@ -1,4 +1,4 @@
-import {Component, ElementRef, Injector, Input, OnDestroy, OnInit} from '@angular/core';
+import { Component, Injector, Input, OnDestroy, OnInit } from '@angular/core';
 import { combineLatest, Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
@@ -6,7 +6,7 @@ import { expandAnimation } from '@am/cdk/animations/expand';
 import { LangType } from '@am/interface/lang.interface';
 import { GoodsCard, ProductLite } from '@am/interface/goods.intreface';
 import { ImageModelSmall } from '@am/interface/image.interface';
-import { PattenSizeFiles, PatternMaxType, SmallPattern } from '@am/interface/pattern.interface';
+import { PattenSizeFiles, PatternMaxType } from '@am/interface/pattern.interface';
 import { IdName } from '@am/interface/request.interface';
 import { GoodsService } from '@am/services/goods.service';
 import { LangService } from '@am/services/lang.service';
@@ -27,7 +27,8 @@ import { CategoryType } from "@am/interface/category.interface";
 })
 export class AmstoreSnapshotPatternComponent extends AmstoreSnapshotBaseDirective implements OnDestroy, OnInit {
     @Input()
-    public data: PatternMaxType = MOCK_PATTERN;
+    public data: PatternMaxType;
+
     public status: 'buy' | 'remove' | 'bought' = 'buy';
     public showSale: boolean = false;
 
@@ -53,11 +54,11 @@ export class AmstoreSnapshotPatternComponent extends AmstoreSnapshotBaseDirectiv
     };
 
     public get categories(): IdName[] {
-        return this.data.category?.map((item: CategoryType) => ({id: item.id, name: item.name[this._lang]}));
+        return this.data.category?.map((item: CategoryType) => ({ id: item.id, name: item.name[this._lang] }));
     }
 
     public get sizes(): PattenSizeFiles[] {
-        return this.data.sizes || [{ id: 0, value: '49.5' }]
+        return this.data?.sizes || [];
     }
 
     public get price(): string {
@@ -95,16 +96,3 @@ export class AmstoreSnapshotPatternComponent extends AmstoreSnapshotBaseDirectiv
     }
 
 }
-
-const MOCK_PATTERN: PatternMaxType = {
-    id: 0,
-    name: {ru: 'default', en: 'default'},
-    price: {ru: 0, en: 0},
-    description: '',
-    colors: {id: 0},
-    sizes: [],
-    create_date: '',
-    hidden: false,
-    images: [],
-    category: []
-};

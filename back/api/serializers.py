@@ -11,18 +11,6 @@ class IdNameSerializer(serializers.Serializer):
     name = serializers.CharField()
 
 
-class LangShortSerializer(serializers.HyperlinkedModelSerializer):
-    class Meta:
-        model = LangCharFieldShort
-        fields = ['en', 'ru']
-
-
-class LangNumberSerializer(serializers.HyperlinkedModelSerializer):
-    class Meta:
-        model = LangIntegerField
-        fields = ['en', 'ru']
-
-
 class RatingSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = PatternRating

@@ -1,3 +1,64 @@
+@import "typography.scss";
+@import "theming-var.scss";
+
+
 @mixin amstore-box-shadow() {
     box-shadow: 0 0 8px rgb(17 17 17 / 30%);
+}
+
+@mixin mobile {
+    @media screen and (max-width: 500px) {
+        @content;
+    }
+}
+
+@mixin tablet {
+    @media screen and (min-height: 500px) {
+        @content;
+    }
+}
+
+@mixin tablet-only {
+    @media screen and (min-width: 500px) and (max-width: 992px) {
+        @content;
+    }
+}
+
+@mixin portable {
+    @media screen and (max-width: 992px) {
+        @content;
+    }
+}
+
+@mixin desktop-s {
+    @media screen and (min-width: 992px) {
+        @content;
+    }
+}
+
+@mixin desktop-l {
+    @media screen and (min-width: 1375px) {
+        @content;
+    }
+}
+
+@mixin link {
+    cursor: pointer;
+    color: get-amstore-color(blue, deep);
+    text-decoration: underline;
+    @include get-amstore-font();
+
+    &:hover {
+        color: get-amstore-color(blue, dark);
+    }
+
+    &:active {
+        color: get-amstore-color(blue, middle);
+    }
+
+    &[disabled="true"] {
+        color: get-amstore-color(blue, deep);
+        cursor: default;
+        pointer-events: none;
+    }
 }

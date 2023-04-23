@@ -1,7 +1,6 @@
-import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, from, Observable, Subject } from 'rxjs';
-import { LocalStorageService } from '../core/services/local-storage.service';
+import { BehaviorSubject, from, Observable, of } from 'rxjs';
 import {
     getAction,
     HttpActions,
@@ -9,7 +8,7 @@ import {
     HttpProfileActions,
     RestSuffixFragments
 } from '../utils/action-builder';
-import { AccessEnum } from '../utils/router-builder';
+import { UserEnum } from '../utils/router-builder';
 import { AuthService } from './auth.service';
 import { GoodsService } from './goods.service';
 import { ReCAPTCHA } from "@am/interface/recapcha";
@@ -19,41 +18,30 @@ import { map, switchMap } from "rxjs/operators";
 import * as moment from 'moment';
 import {
     AuthRequestPayload,
-    AuthResponse,
-    ISmallProfile,
-    ProfileInterface,
+    IAuthResponse,
+    IUser,
+    IProfile,
     ProfileInterfaceResponse
 } from "@am/interface/profile.interface";
 import { AuthRegistrationRequest } from "@am/interface/request/auth-request.interface";
 import { ResultRequest } from "@am/interface/request.interface";
+import { UBehaviorSubject } from "@am/utils/u-behavior.subject";
+import { localStorage } from "@am/decorators/local.decorator";
+
 
 declare var grecaptcha: ReCAPTCHA;
 
-const LOCAL_MODER_NAME: string = "isStaff";
-
+const USER_STATUS_STORAGE_KEY: string = "user_status";
 
 @Injectable({
     providedIn: 'root'
 })
 export class ProfileService {
+    @localStorage(USER_STATUS_STORAGE_KEY)
+    public localUserStatus!: string;
 
-    public profile$: BehaviorSubject<ISmallProfile | null> =
-        new BehaviorSubject<ISmallProfile | null>(null);
-
-    public moderStatus$: BehaviorSubject<boolean> =
-        new BehaviorSubject<boolean>(false);
-
-    public authAndModerStatus$: BehaviorSubject<AccessEnum> = new BehaviorSubject<AccessEnum>(AccessEnum.None);
-
-    private get localModerStatus(): boolean {
-        return !!this.localStorage.getVariable(LOCAL_MODER_NAME);
-    }
-
-    private set localModerStatus(status: boolean) {
-        status ?
-            this.localStorage.setVariable(LOCAL_MODER_NAME, String(true)) :
-            this.localStorage.removeVariable(LOCAL_MODER_NAME);
-    }
+    public profile$: BehaviorSubject<IUser> = new BehaviorSubject<IUser>(null);
+    public userStatus$: UBehaviorSubject<UserEnum> = new UBehaviorSubject<UserEnum>(this.localUserStatus as UserEnum || UserEnum.Unauthorized);
 
     public set rawBoughtPatterns(value: { id: number }[]) {
         this.boughtPatterns$.next(value.map((item: { id: number }) => item.id))
@@ -66,53 +54,38 @@ export class ProfileService {
     public boughtPatterns$: BehaviorSubject<number[]> =
         new BehaviorSubject<number[]>([]);
 
-
     constructor(
         private authService: AuthService,
         private goodsService: GoodsService,
-        private localStorage: LocalStorageService,
-        private httpClient: HttpClient
+        private httpClient: HttpClient,
     ) {
-        this.tryRefreshToken();
 
-        this.moderStatus$.subscribe((status: boolean) => this.localModerStatus = status);
-        this.moderStatus$.next(this.localModerStatus);
+        this.authService.authStatus$
+            .pipe(
+                switchMap((status: boolean) =>
+                    status ?
+                        this.httpClient.get<IUser>(getAction(HttpActions.Profile)) :
+                        of(null)))
+            .subscribe((profile: IUser | null) => {
+                this.profile$.next(profile ?? null);
 
-        this.moderStatus$.subscribe(() => this.updateAuthAndModerStatus());
-        this.authService.authStatus.subscribe((status: boolean) => {
-            this.updateAuthAndModerStatus();
-            if (status) {
-                this.httpClient.get<ISmallProfile>(
-                    getAction(HttpActions.Profile))
-                    .subscribe((result: ISmallProfile) => {
-                        this.profile$.next(result);
-                        this.goodsService.goods = result.goods;
-                        this.rawBoughtPatterns = result.patterns;
-                        this.moderStatus$.next(result.godmode);
-                    });
-                return;
-            }
-            this.profile$.next(null);
-            this.moderStatus$.next(false);
-            this.boughtPatterns$.next([]);
-        });
+                this.userStatus$.next(this._getUserStatusByProfile(profile));
+                this.localUserStatus = this.userStatus$.getValue();
+
+                this.goodsService.goods = profile?.goods ?? null;
+                this.rawBoughtPatterns = profile?.patterns ?? [];
+            });
     }
 
-    private updateAuthAndModerStatus(): void {
-        const status: AccessEnum = this.moderStatus$.getValue() ? AccessEnum.Moder :
-            this.authService.authStatus.getValue() ? AccessEnum.Auth : AccessEnum.None;
-        this.authAndModerStatus$.next(status);
-    }
-
-    public authWithRecaptchaToken(value: AuthRequestPayload): Observable<AuthResponse> {
+    public authWithRecaptchaToken(value: AuthRequestPayload): Observable<IAuthResponse> {
         return from(grecaptcha.execute(environment.recaptcha.siteKey, {action: 'submit'}))
             .pipe(
                 switchMap((token: string) =>
-                    this.httpClient.post<{ token: string }>(getAction(HttpAuthActions.TokenAuth, RestSuffixFragments.Auth), {token, ...value}))
-            )
+                    this.httpClient.post<IAuthResponse>(getAction(HttpAuthActions.TokenAuth, RestSuffixFragments.Auth), {token, ...value}))
+            );
     }
 
-    public getOwnProfile(): Observable<ProfileInterface> {
+    public getOwnProfile(): Observable<IProfile> {
         return this.httpClient.get<ProfileInterfaceResponse>(getAction(HttpProfileActions.Own, RestSuffixFragments.Profile))
             .pipe(
                 map((response: ProfileInterfaceResponse) => ({
@@ -134,28 +107,13 @@ export class ProfileService {
         return this.httpClient.post<ResultRequest>(getAction(HttpAuthActions.Verify, RestSuffixFragments.Auth), data);
     }
 
-
-    private tryRefreshToken(): void {
-        if (
-            this.authService.authStatus &&
-            this.authService.expirationDelta > Date.now() &&
-            this.authService.refreshExpirationDelta > Date.now()
-        ) {
-            const oldToken: Record<string, string> = {
-                token: this.authService.authToken
-            };
-            this.httpClient.post(getAction(HttpAuthActions.RefreshToken, RestSuffixFragments.Auth), oldToken)
-                .subscribe(
-                    (result: unknown) => {
-                        this.authService.setExpirationDelta();
-                        this.authService.authToken = (result as Record<string, string>).token;
-                    },
-                    (error: HttpErrorResponse) => {
-                        console.log(error.message);
-                        this.authService.logout();
-                    });
-            return;
+    private _getUserStatusByProfile(value: IUser | null): UserEnum {
+        if (!value) {
+            return UserEnum.Unauthorized;
         }
-        this.authService.logout();
+
+        return value.godmode ?
+            UserEnum.Moder :
+            UserEnum.Authorized;
     }
 }

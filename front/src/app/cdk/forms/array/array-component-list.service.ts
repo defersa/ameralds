@@ -10,9 +10,9 @@ export class ArrayComponentListService {
 
     constructor() { }
 
-    public getControls(name: string): UntypedFormControl[] | undefined {
+    public getControls(name: string): UntypedFormControl[] {
         if (!this._controlObj[name]) {
-           return;
+           return [];
         }
         return this._controlObj[name];
     }

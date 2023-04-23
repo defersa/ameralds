@@ -10,9 +10,6 @@ import { AmstoreFormsBaseDirective } from '../forms.abstract.directive';
 export class AmstoreInputPasswordComponent extends AmstoreFormsBaseDirective {
     public type: 'text' | 'password' = 'password';
 
-    @Input()
-    public name: string = '';
-
 
     public switchType(): void {
         this.type = this.type === 'password' ? 'text' : 'password';

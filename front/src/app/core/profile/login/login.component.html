@@ -1,18 +1,18 @@
 <h1>Войти</h1>
 
-<amstore-forms-input color="primary" type="email" [control]="username" name="username" [required]="true">
+<amstore-forms-input color="primary" type="email" [control]="username" name="username" autocomplete="username" [required]="true">
     <amstore-forms-label>Адрес почты</amstore-forms-label>
 </amstore-forms-input>
 
-<amstore-forms-input-password color="primary" [control]="password" name="password" [required]="true">
+<amstore-forms-input-password color="primary" [control]="password" name="password" autocomplete="password" [required]="true">
     <amstore-forms-label>Пароль</amstore-forms-label>
 </amstore-forms-input-password>
 
 <span *ngIf="error" class="amstore-dialog-login__error">{{error}}</span>
 
 <div class="container">
-<div class="row justify-content-between">
-    <amstore-button (click)="login()" color="primary">Забыли пароль?</amstore-button>
-    <amstore-button (click)="login()" color="accent">Войти</amstore-button>
-</div>
+    <div class="row justify-content-between">
+        <amstore-button (click)="login()" color="primary">Забыли пароль?</amstore-button>
+        <amstore-button (click)="login()" color="accent">Войти</amstore-button>
+    </div>
 </div>

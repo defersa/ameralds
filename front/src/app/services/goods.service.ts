@@ -5,9 +5,10 @@ import { tap } from 'rxjs/operators';
 import { AuthService } from './auth.service';
 import { LocalStorageService } from '../core/services/local-storage.service';
 import { getAction, HttpActions } from '../utils/action-builder';
-import { GoodsCard, ProductLite, PriceLocation, ProductType, GoodsModifire, GoodsStatusResult } from '../interface/goods.intreface';
-import { PatternMaxType, SmallPattern } from '../interface/pattern.interface';
+import { GoodsCard, ProductLite, ProductType, GoodsModifire, GoodsStatusResult } from '../interface/goods.intreface';
+import { PatternMaxType } from '../interface/pattern.interface';
 import { MapImage } from '../layouts/store/utils/images';
+
 
 const LOCAL_GOODS_NAME: string = 'localGoods';
 
@@ -17,10 +18,15 @@ const LOCAL_GOODS_NAME: string = 'localGoods';
 export class GoodsService {
 
     public set goods(value: GoodsCard) {
+        if (!value) {
+            return;
+        }
+
         value.patterns = value.patterns.map((item: PatternMaxType) => {
             item.images = item.images.map(MapImage);
             return item;
         });
+
         this.goods$.next(value);
     }
 
@@ -62,7 +68,7 @@ export class GoodsService {
     }
 
     public addProduct(type: ProductType, product: ProductLite | PatternMaxType): Observable<any> {
-        if (this.authService.authStatus.value) {
+        if (this.authService.authStatus$.value) {
             return this.httpClient
                 .post<GoodsModifire>(getAction(HttpActions.AddProduct), { id: product.id, productType: type })
                 .pipe( tap((request: GoodsModifire) => this.goods = request.goods));
@@ -77,7 +83,7 @@ export class GoodsService {
         });
     }
     public removeProduct(type: ProductType, id: number): Observable<any> {
-        if (this.authService.authStatus.value) {
+        if (this.authService.authStatus$.value) {
             return this.httpClient
                 .post<GoodsModifire>(getAction(HttpActions.RemoveProduct), { id: id, productType: type })
                 .pipe( tap((request: GoodsModifire) => this.goods = request.goods));

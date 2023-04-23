@@ -10,6 +10,7 @@ import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
 import { AuthService } from './services/auth.service';
 
+
 const UNAUTHORIZED_STATUS = 401;
 
 @Injectable()
@@ -20,7 +21,8 @@ export class StoreInterceptor implements HttpInterceptor {
     ) { }
 
     intercept(request: HttpRequest<unknown>, next: HttpHandler): Observable<HttpEvent<unknown>> {
-        const token: string = this.authService.authToken;
+        const token: string = this.authService.token$.getValue();
+
         if (token) {
             const cloned = request.clone({
                 headers: request.headers.set("Authorization",

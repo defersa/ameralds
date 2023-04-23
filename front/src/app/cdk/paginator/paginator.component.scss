@@ -44,6 +44,10 @@
         margin: 0 get-spacing(1);
 
         @include get-amstore-font("heading", 24, null, null);
+
+        &.over-hundred {
+            @include get-amstore-font("heading", 16);
+        }
     }
 
     svg {

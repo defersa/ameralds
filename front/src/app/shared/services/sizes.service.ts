@@ -1,116 +1,79 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { MatSnackBar } from '@angular/material/snack-bar';
-import { ActivatedRoute, Params, Router } from '@angular/router';
 
-import { Observable, of } from 'rxjs';
+import { Observable, OperatorFunction, pipe } from 'rxjs';
 import { map, tap } from 'rxjs/operators';
 
 import { SizeType } from 'src/app/interface/size.interface';
-import { IdName, PaginatedResponse, ResultRequest } from 'src/app/interface/request.interface';
-import { getAction, HttpActions } from 'src/app/utils/action-builder';
-import { getStoreNavigatePath, StoreRoutes } from 'src/app/utils/router-builder';
+import {
+    IItemResponse,
+    IListResponse,
+    PaginatedResponse,
+    ResultRequest
+} from 'src/app/interface/request.interface';
+import { UB } from 'src/app/utils/action-builder';
 import { OptionType } from "@am/interface/cdk.interface";
+import { BehaviorObservable, GetDataAction, GetOptionsObservable } from "@am/utils/data-action.subject";
+import { SnackService } from "@am/shared/services/snackbar.service";
 
 
 @Injectable({
     providedIn: 'root'
 })
 export class SizesService {
-
-    public sizesList: OptionType[] = [];
-
-    public get queryParams(): Params | null {
-        return this._queryParams;
-    }
-
-    public set queryParams(value: Params | null) {
-        this._queryParams = value;
-    }
-
-    private _queryParams: Params | null = null;
+    public sizes$: BehaviorObservable<SizeType[]> = GetDataAction([], () => this.getAllSizes());
+    public sizesList$: Observable<OptionType[]> = GetOptionsObservable(this.sizes$);
 
     constructor(
         private httpClient: HttpClient,
-        private route: ActivatedRoute,
-        private snackBar: MatSnackBar,
-        private router: Router
+        private snack: SnackService,
     ) {
     }
 
 
     public getSizes(page: number): Observable<PaginatedResponse<SizeType>> {
-        return this.httpClient.get<PaginatedResponse<SizeType>>(getAction(HttpActions.Sizes) + page);
+        return this.httpClient.get<PaginatedResponse<SizeType>>(UB(['api', 'sizes', 'paginated']), {
+            params: {
+                page
+            }
+        });
     }
 
     public getSize(id: number): Observable<SizeType> {
-        return this.httpClient.get<{ size: SizeType }>(getAction(HttpActions.Size) + id)
-            .pipe(map((result: { size: SizeType }) => result.size));
+        return this.httpClient.get<IItemResponse<SizeType>>(UB(['api', 'sizes', id]))
+            .pipe(map((result: IItemResponse<SizeType>) => result.item));
     }
 
-    public getSizesAll(): Observable<OptionType[]> {
-        return this.sizesList.length ? of(this.sizesList) : this.getAllSizes()
-            .pipe(
-                map((result: { items: SizeType[] }) => result.items.map((item: SizeType) => ({
-                    label: String(item.value),
-                    value: item.id
-                }))),
-                tap((result: OptionType[]) => this.sizesList = result));
+    public getAllSizes(): Observable<SizeType[]> {
+        return this.httpClient.get<IListResponse<SizeType>>(UB(['api', 'sizes', 'all']))
+            .pipe(map((result: IListResponse<SizeType>) => result.items));
     }
 
-    public getAllSizes(): Observable<{ items: SizeType[] }> {
-        return this.httpClient.get<{ items: SizeType[] }>(getAction(HttpActions.AllSizes));
+
+    public editSize(values: Record<string, unknown>): Observable<ResultRequest> {
+        return this.httpClient
+            .patch<ResultRequest>(UB(['api', 'sizes']), values)
+            .pipe(this.retakeAndMessage('Размер изменен!'));
     }
 
-    public goToSizeAdd(): void {
-        this.router.navigate(['/' + getStoreNavigatePath(StoreRoutes.SizeAdd)], {
-            relativeTo: this.route,
-            skipLocationChange: false
-        });
+    public saveSize(values: Record<string, unknown>): Observable<IItemResponse<SizeType>> {
+        return this.httpClient
+            .post<IItemResponse<SizeType>>(UB(['api', 'sizes']), values)
+            .pipe(this.retakeAndMessage('Размер добавлен!'));
     }
 
-    public goToSizeEdit(id: number): void {
-        this.router.navigate([getStoreNavigatePath(StoreRoutes.SizeEdit, id)], {
-            relativeTo: this.route,
-            skipLocationChange: false
-        });
+    public deleteSize(id: number): Observable<ResultRequest> {
+        return this.httpClient
+            .delete<ResultRequest>(UB(['api', 'sizes', id]))
+            .pipe(this.retakeAndMessage('Размер изменен!'));
     }
 
-    public goToSizes(): void {
-        this.router.navigate([getStoreNavigatePath(StoreRoutes.Sizes)], {
-            relativeTo: this.route,
-            skipLocationChange: false
-        });
+    private retakeAndMessage<T extends { result: boolean }>(message: string): OperatorFunction<T, T> {
+        return pipe(
+            this.snack.getSnackTap(message),
+            tap(() => {
+                this.sizes$.retake();
+            })
+        )
     }
-
-    public editSize(values: Record<string, unknown>): void {
-        this.httpClient
-            .patch<ResultRequest>(getAction(HttpActions.Size), values)
-            .subscribe((response: ResultRequest) => {
-                if (response.result) {
-                    this.snackBar.open('Размер изменен!', undefined, { duration: 5000 });
-                }
-            });
-    }
-
-    public saveSize(values: Record<string, unknown>): void {
-        this.httpClient
-            .post<IdName>(getAction(HttpActions.Size), values)
-            .subscribe((response: IdName) => {
-                this.router.navigate([getStoreNavigatePath(StoreRoutes.SizeEdit, response.id)], {
-                    relativeTo: this.route,
-                    skipLocationChange: false
-                })
-                this.snackBar.open('Размер добавлен!', undefined, { duration: 5000 });
-            });
-    }
-
-    public deleteSize(id: number): void {
-        this.httpClient.delete<ResultRequest>(getAction(HttpActions.Size) + id)
-            .subscribe((response: ResultRequest) => {
-                this.goToSizes();
-                this.snackBar.open('Размер удален!', undefined, { duration: 5000 });
-            });
-    }
-
 }

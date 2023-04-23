@@ -2,6 +2,7 @@ import { Component, ElementRef, Inject, OnInit, ViewChild } from '@angular/core'
 import { MAT_DIALOG_DATA, MatDialogRef } from "@angular/material/dialog";
 import { ImageType } from "@am/interface/image.interface";
 
+
 export type IndexedImage = { image: ImageType; index: number; };
 export type IndexedBlob = { image: File; src: string; index: number; };
 

@@ -22,7 +22,7 @@ export class ImagesService {
         return this.httpClient.get<ImageModelRequest>(getAction(HttpActions.GetImages) + page);
     }
 
-    public uploadImages(file: File): Observable<ImageAddRequest> {
+    public uploadImage(file: File): Observable<ImageAddRequest> {
         const data: FormData = new FormData();
         data.append('file', file);
         data.append('title', 'file');

@@ -1,9 +1,9 @@
-import { ThemePalette } from '@am/cdk/core/color';
 import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { Subject } from 'rxjs';
 import { FilterQuery, PaginatedPageComponent } from '@am/shared/paginated-page/paginated-page.component';
 import { PageRequest, PatternMaxType, SmallPattern } from '@am/interface/pattern.interface';
 import { PatternService } from '@am/shared/services/pattern.service';
+
 
 @Component({
     selector: 'app-patterns',

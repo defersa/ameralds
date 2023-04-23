@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Observable } from "rxjs";
 
 import { ProfileService } from "@am/services/profile.service";
-import { ProfileInterface } from "@am/interface/profile.interface";
+import { IProfile } from "@am/interface/profile.interface";
 import { DialogService } from "@am/core/dialog/dialog.service";
 
 @Component({
@@ -12,7 +12,7 @@ import { DialogService } from "@am/core/dialog/dialog.service";
 })
 export class ProfileComponent implements OnInit {
 
-    public user$?: Observable<ProfileInterface>;
+    public user$?: Observable<IProfile>;
 
     constructor(
         private _profile: ProfileService,

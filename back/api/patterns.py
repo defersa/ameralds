@@ -5,19 +5,18 @@ from django.core.paginator import Paginator
 from django.db.models import QuerySet, Q
 
 from django.template.loader import get_template
-from django.template import Context
-
 from rest_framework import serializers, status
 from rest_framework.permissions import IsAdminUser, IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
 from .fileview import ImageSerializer
-from .general.categories import CategorySerializer
-from .general.sizes import Size
-from .models import Pattern, LangCharFieldShort, LangIntegerField, Image
+from .categories.serializers import CategorySerializer
+from .models import Pattern, LangCharFieldShort, LangIntegerField, Image, Size
 from .patternFile import PatternSize, PatternSizeSerializer, PrivateFileSerializer
-from .serializers import LangNumberSerializer, LangShortSerializer
+
+from .lang.serializers import LangShortSerializer, LangNumberSerializer
+
 
 PATTERNS_ON_LIST = 5
 

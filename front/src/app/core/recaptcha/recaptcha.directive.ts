@@ -22,6 +22,7 @@ export class RecaptchaDirective implements OnInit, OnDestroy {
     public ngOnDestroy() {
         if(this.script) {
             document.documentElement.removeChild(this.script);
+            document.querySelector('.grecaptcha-badge')?.remove();
         }
     }
 }

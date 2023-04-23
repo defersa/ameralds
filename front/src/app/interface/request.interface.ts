@@ -16,7 +16,13 @@ export type PaginatedResponse<T> = {
     pageCount: number;
     items: T[];
 }
-export type ItemRequest<T> = {
+
+export type IItemResponse<T> = {
     result: boolean;
     item: T;
+}
+
+export type IListResponse<T> = {
+    result: boolean;
+    items: T[];
 }

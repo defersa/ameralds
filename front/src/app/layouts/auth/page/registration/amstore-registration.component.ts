@@ -4,8 +4,9 @@ import { CustomValidatorFns } from "@am/cdk/forms/custom-validators-fn";
 import { ProfileService } from "@am/services/profile.service";
 import { formAsyncErrorHandler } from "@am/cdk/forms/form-async-error.handler";
 import { AuthRegistrationRequest } from "@am/interface/request/auth-request.interface";
-import { RouterService } from "@am/services/router.service";
 import { DialogService } from "@am/core/dialog/dialog.service";
+import { fromPromise } from "rxjs/internal-compatibility";
+import { Router } from "@angular/router";
 
 @Component({
     selector: 'amstore-registration',
@@ -19,8 +20,8 @@ export class AmstoreRegistrationComponent implements OnInit {
 
     constructor(
         private _profileService: ProfileService,
-        private _routerService: RouterService,
         private _dialogService: DialogService,
+        private _router: Router,
     ) {
         const passwordControl: UntypedFormControl = new UntypedFormControl(null, [CustomValidatorFns.getPasswordComplexity]);
         this.regForm = new UntypedFormGroup({
@@ -45,7 +46,7 @@ export class AmstoreRegistrationComponent implements OnInit {
             this._profileService.postNewUser(this.regForm.value)
         ).subscribe((response: AuthRegistrationRequest) => {
             if (response.result) {
-                this._routerService.goToRoot()
+                fromPromise(this._router.navigate(['/']))
                     .subscribe(() =>
                         this._dialogService.openDialog({
                             maxWidth: '400px',
@@ -56,6 +57,7 @@ export class AmstoreRegistrationComponent implements OnInit {
                             }
                         }));
             }
-        }, () => {});
+        }, () => {
+        });
     }
 }

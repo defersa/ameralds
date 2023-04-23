@@ -80,11 +80,11 @@ class ImageManager(APIView):
 
         image_big: Image = image_original.resize((
             round(1080 * image_rate),
-            1080), Image.ANTIALIAS)
+            1080), Image.ANTIALIAS).convert('RGB')
 
         image_small: Image = image_original.resize((
             round(480 * image_rate),
-            480), Image.ANTIALIAS)
+            480), Image.ANTIALIAS).convert('RGB')
 
         filename = ''.join(random.choices(
             string.ascii_uppercase + string.digits, k=30)) + '.jpg'

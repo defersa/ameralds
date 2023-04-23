@@ -1,6 +1,7 @@
-import { Component, ElementRef, Input, OnInit } from '@angular/core';
+import { Component, ElementRef, Input } from '@angular/core';
 import { AmstoreColor, ThemePalette } from '../core/color';
-import { IconsName } from '../icons/icons.service';
+import { IconsName } from "@am/cdk/icons/icons.map";
+
 
 type StatusInfo = 'success' | 'alert' | 'error';
 const STATUS_MAP: Record<StatusInfo, ThemePalette> = {

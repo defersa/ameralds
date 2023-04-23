@@ -7,22 +7,39 @@ export class CustomValidatorFns {
                 return null;
             }
             if (Number(control.value) < value) {
-                return {minValue: {current: control.value, expected: value}};
+                return { minValue: { current: control.value, expected: value } };
             }
             return null;
         }
     }
+
     public static getNotUniqValue: (values: unknown[]) => ValidatorFn = function (values: unknown[]): ValidatorFn {
         return (control: AbstractControl) => {
             if (!control) {
                 return null;
             }
             if (values.includes(control.value)) {
-                return {notUniq: {value: control.value}};
+                return { notUniq: { value: control.value } };
             }
             return null;
         }
     }
+
+    public static getNotUniqBehaviorValue: <T>(subject: { getValue: () => T[] }, fieldName: string) =>
+        ValidatorFn = function <T>(subject: { getValue: () => T[] }, fieldName: string): ValidatorFn {
+        return (control: AbstractControl) => {
+            const values: unknown[] = subject.getValue().map((item: T) => item[fieldName]);
+
+            if (!control) {
+                return null;
+            }
+            if (values.includes(control.value)) {
+                return { notUniq: { value: control.value } };
+            }
+            return null;
+        }
+    }
+
     public static isEmail: ValidatorFn = (control: AbstractControl) => {
         if (!control) {
             return null;
@@ -33,7 +50,7 @@ export class CustomValidatorFns {
                 /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/));
 
         if (!isEmail) {
-            return {notEmail: true};
+            return { notEmail: true };
         }
 
         return null;
@@ -44,7 +61,7 @@ export class CustomValidatorFns {
                 return null;
             }
             if (originControl.value !== control.value) {
-                return {notEqualPassword: true};
+                return { notEqualPassword: true };
             }
             return null;
         }

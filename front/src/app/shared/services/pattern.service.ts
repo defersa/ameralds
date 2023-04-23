@@ -1,5 +1,5 @@
 import { LangType } from '@am/interface/lang.interface';
-import { ItemRequest, ResultRequest } from '@am/interface/request.interface';
+import { IItemResponse, ResultRequest } from '@am/interface/request.interface';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { ActivatedRoute, Params, Router } from '@angular/router';
@@ -49,16 +49,16 @@ export class PatternService {
 
     public getPattern(id: number): Observable<PatternMaxType> {
         return this.httpClient
-            .get<ItemRequest<PatternMaxType>>(getAction(HttpActions.Pattern), {params: {id: String(id)}})
+            .get<IItemResponse<PatternMaxType>>(getAction(HttpActions.Pattern), {params: {id: String(id)}})
             .pipe(
-                filter((value: ItemRequest<PatternMaxType>) => {
+                filter((value: IItemResponse<PatternMaxType>) => {
                     if (!value.result) {
                         this.getBack();
                         return false;
                     }
                     return true
                 }),
-                map((value: ItemRequest<PatternMaxType>) => {
+                map((value: IItemResponse<PatternMaxType>) => {
                     value.item.images = value.item.images.map(MapImage);
                     return value.item;
                 })
@@ -67,16 +67,16 @@ export class PatternService {
 
     public getPatternEdit(id: number): Observable<PatternMaxType> {
         return this.httpClient
-            .get<ItemRequest<PatternMaxType>>(getAction(HttpActions.PatternEdit), {params: {id: String(id)}})
+            .get<IItemResponse<PatternMaxType>>(getAction(HttpActions.PatternEdit), {params: {id: String(id)}})
             .pipe(
-                filter((value: ItemRequest<PatternMaxType>) => {
+                filter((value: IItemResponse<PatternMaxType>) => {
                     if (!value.result) {
                         this.getBack();
                         return false;
                     }
                     return true
                 }),
-                map((value: ItemRequest<PatternMaxType>) => {
+                map((value: IItemResponse<PatternMaxType>) => {
                     value.item.images = value.item.images.map(MapImage);
                     return value.item;
                 })

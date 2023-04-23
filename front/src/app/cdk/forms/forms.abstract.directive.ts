@@ -61,6 +61,12 @@ export class AmstoreFormsBaseDirective extends AmstoreColor {
         return this.control as UntypedFormControl;
     }
 
+    @Input()
+    public name: string = '';
+
+    @Input()
+    public autocomplete: string = '';
+
     public errors$: BehaviorSubject<string | null> = new BehaviorSubject<string | null>(null);
 
     @Input()

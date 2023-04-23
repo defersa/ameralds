@@ -1,5 +1,5 @@
 import { Component, Input, OnInit, ViewEncapsulation } from '@angular/core';
-import { ProfileInterface } from "@am/interface/profile.interface";
+import { IProfile } from "@am/interface/profile.interface";
 import { UntypedFormControl, UntypedFormGroup, Validators } from "@angular/forms";
 import { AuthService } from "@am/services/auth.service";
 
@@ -14,15 +14,15 @@ import { AuthService } from "@am/services/auth.service";
 })
 export class AmstoreProfileCardComponent implements OnInit {
     @Input()
-    public set user(value: ProfileInterface) {
+    public set user(value: IProfile) {
         this._user = value;
         this.mainFromGroup.setValue({
             username: value.username,
             email: value.email
         })
     }
-    public get user(): ProfileInterface { return this._user; }
-    private _user: ProfileInterface = USER_MOCK;
+    public get user(): IProfile { return this._user; }
+    private _user: IProfile = USER_MOCK;
 
     public mainFromGroup: UntypedFormGroup = new UntypedFormGroup({
         username: new UntypedFormControl({ value: '', disabled: true }, [Validators.required]),
@@ -40,7 +40,7 @@ export class AmstoreProfileCardComponent implements OnInit {
 
 }
 
-const USER_MOCK: ProfileInterface = {
+const USER_MOCK: IProfile = {
     id: 0,
     username: '',
     email: '',

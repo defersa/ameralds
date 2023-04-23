@@ -33,7 +33,6 @@ class SendMailView(APIView):
         msg.content_subtype = 'html'
         msg.send()
 
-
         return Response({
             'result': True
         })

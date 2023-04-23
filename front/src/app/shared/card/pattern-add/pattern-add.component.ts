@@ -1,4 +1,3 @@
-import { HttpClient } from '@angular/common/http';
 import {
     ChangeDetectionStrategy,
     ChangeDetectorRef,
@@ -31,7 +30,6 @@ import { ArrayValidatorFns } from '@am/cdk/forms/array/array-validators-fn';
 import { CategoriesService } from '@am/shared/services/categories.service';
 import { PatternService } from '@am/shared/services/pattern.service';
 
-
 import { AmstoreCardDirective } from '../card.directive';
 import { ResultRequest } from "@am/interface/request.interface";
 import { IndexedBlob, IndexedImage } from "@am/shared/viewer/image-list-editor/image-list-editor.component";
@@ -58,7 +56,7 @@ export class AmstorePatternAddCardComponent extends AmstoreCardDirective impleme
     private _savedImages: IndexedImage[] = [];
     private _blobImages: IndexedBlob[] = [];
 
-    public $categoryList: Observable<OptionType[]> | undefined;
+    public categoriesList$: Observable<OptionType[]>;
 
     @Input()
     public set data(value: PatternMaxType) {
@@ -106,7 +104,7 @@ export class AmstorePatternAddCardComponent extends AmstoreCardDirective impleme
     }
 
     public ngOnInit(): void {
-        this.$categoryList = this._categoriesService.getCategoriesAllUniversal();
+        this.categoriesList$ = this._categoriesService.categoriesList$;
 
         this.initSizes();
     }
@@ -130,8 +128,8 @@ export class AmstorePatternAddCardComponent extends AmstoreCardDirective impleme
     }
 
     public initSizes(): void {
-        this._sizeService.getAllSizes()
-            .subscribe((result: { items: SizeType[] }) => {
+        this._sizeService.sizes$
+            .subscribe((items: SizeType[]) => {
                 this.sizeArrayComponentList = [
                     {
                         name: 'id',
@@ -143,7 +141,7 @@ export class AmstorePatternAddCardComponent extends AmstoreCardDirective impleme
                         name: 'size',
                         component: 'select',
                         label: 'Размер',
-                        items: result.items.map((item: SizeType) => ({label: String(item.value), value: item.id})),
+                        items: items.map((item: SizeType) => ({label: String(item.value), value: item.id})),
                         classes: 'col-12',
                         validator: [Validators.required, this._arrayValidatorsFns.getNotUniqValue('size')]
                     },
@@ -216,7 +214,7 @@ export class AmstorePatternAddCardComponent extends AmstoreCardDirective impleme
         combineLatest([
             of(null),
             ...this.blobImages.map((image: IndexedBlob) => {
-                return this._imageService.uploadImages(image.image)
+                return this._imageService.uploadImage(image.image)
                     .pipe(map((item: ImageAddRequest) => ({id: item.image.id, index: image.index})));
             })
         ])
