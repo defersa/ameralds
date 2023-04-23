@@ -1,6 +1,6 @@
 import { HttpErrorResponse } from '@angular/common/http';
-import { Component, ViewEncapsulation } from '@angular/core';
-import { UntypedFormControl, UntypedFormGroup, ValidationErrors, Validators } from '@angular/forms';
+import { Component, HostListener, ViewEncapsulation } from '@angular/core';
+import { UntypedFormControl, UntypedFormGroup, ValidationErrors } from '@angular/forms';
 import { MatDialogRef } from '@angular/material/dialog';
 import { RecaptchaDirective } from "../../recaptcha/recaptcha.directive";
 import { AuthService } from "@am/services/auth.service";
@@ -71,8 +71,8 @@ export class AmstoreLoginComponent extends RecaptchaDirective {
                 },
                 (error: HttpErrorResponse) => {
                     this.error = 'Неверный логин или пароль';
-                    this.authForm.controls.username.setErrors({[this.errorName]: true});
-                    this.authForm.controls.password.setErrors({[this.errorName]: true});
+                    this.authForm.controls.username.setErrors({ [this.errorName]: true });
+                    this.authForm.controls.password.setErrors({ [this.errorName]: true });
                     this.authForm.markAsPristine();
                 }
             )
@@ -92,6 +92,13 @@ export class AmstoreLoginComponent extends RecaptchaDirective {
             ...error,
             [key]: error[key]
         }), {}) : null;
+    }
+
+    @HostListener('keydown', ['$event'])
+    private _onKeyDown(event: KeyboardEvent): void {
+        if (event.key === 'Enter') {
+            this.login();
+        }
     }
 
 }
