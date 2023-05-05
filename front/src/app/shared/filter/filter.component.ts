@@ -1,15 +1,13 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, inject, Input, OnInit, Output } from '@angular/core';
 import { AbstractControl, FormControl, FormGroup } from "@angular/forms";
 import { Observable } from "rxjs";
-import { map, takeUntil } from "rxjs/operators";
+import { takeUntil } from "rxjs/operators";
 
 import { SizesService } from "@am/shared/services/sizes.service";
 import { CategoriesService } from "@am/shared/services/categories.service";
 import { LangService } from "@am/services/lang.service";
 import { OptionType } from "@am/interface/cdk.interface";
-import { LangType } from "@am/interface/lang.interface";
-import { SIZE_UNIT } from "@am/utils/constants";
-import { AmstoreDestroyService } from "@am/utils/destroy.service";
+import { DestroySubject } from "@am/utils/destroy.service";
 import { ThemePalette } from "@am/cdk/core/color";
 
 
@@ -17,13 +15,12 @@ import { ThemePalette } from "@am/cdk/core/color";
     selector: 'amstore-filter',
     templateUrl: './filter.component.html',
     styleUrls: ['./filter.component.scss'],
-    providers: [AmstoreDestroyService],
+    providers: [DestroySubject],
     host: {
         class: 'amstore-filter'
     }
 })
 export class AmstoreFilterComponent implements OnInit {
-    public sizeUnit$: Observable<string> = this._langService.lang$.pipe(map((lang: LangType) => SIZE_UNIT[lang]));
 
     public categoriesList$: Observable<OptionType[]> = this._categoriesService.categoriesList$;
     public sizesList$: Observable<OptionType[]> = this._sizeService.sizesList$;
@@ -35,22 +32,24 @@ export class AmstoreFilterComponent implements OnInit {
         });
 
     @Input()
-    public color?: ThemePalette;
+    public color?: ThemePalette = 'primary';
 
     @Input()
-    public set filters(value: Record<string, unknown>) {
-        Object.keys(value).forEach((key: string) => {
-            this.filterForm.get(key)?.setValue(value[key]);
+    public set filters(filters: Record<string, unknown>) {
+        Object.entries(filters).forEach(([key, value]: [string, unknown]) => {
+            this.filterForm.get(key)?.setValue(value);
         });
-        this.isChanged = false;
-        this._filters = value;
-        this.isEmpty = !Boolean(Object.values(value).filter((value: unknown) => (value as string)?.length).length);
+
+        this._filters = filters;
+
+        this.checkIsEmpty();
     }
 
     private _filters: Record<string, unknown> = {};
 
     public isChanged: boolean = false;
     public isEmpty: boolean = false;
+    protected onDestroy: DestroySubject = inject(DestroySubject);
 
     @Output()
     public onSetFilters: EventEmitter<Record<string, unknown>> = new EventEmitter<Record<string, unknown>>();
@@ -59,20 +58,20 @@ export class AmstoreFilterComponent implements OnInit {
         private _langService: LangService,
         private _sizeService: SizesService,
         private _categoriesService: CategoriesService,
-        private _destroyed: AmstoreDestroyService
     ) {
     }
 
     public ngOnInit(): void {
         this.filterForm.valueChanges
-            .pipe(takeUntil(this._destroyed))
+            .pipe(takeUntil(this.onDestroy))
             .subscribe(() => this.isChanged = true);
     }
 
     public setFilters(): void {
-        const values: Record<string, unknown> = Object.entries(this.filterForm.getRawValue())
-            .filter(([key, value]: [string, unknown]) => (value as string)?.length)
-            .reduce((acc: Record<string, unknown>, [key, value]: [string, unknown]) => ({...acc, [key]: value}), {});
+        const values: Record<string, unknown> = this.filterForm.getRawValue();
+        this._filters = values;
+
+        this.checkIsEmpty();
 
         this.onSetFilters.emit(values);
     }
@@ -87,4 +86,11 @@ export class AmstoreFilterComponent implements OnInit {
         Object.values(this.filterForm.controls).forEach((item: AbstractControl) => item.setValue(null));
         this.setFilters();
     }
+
+    private checkIsEmpty(): void {
+        this.isChanged = false;
+        this.isEmpty = !Boolean(Object.values(this._filters).filter((value: unknown) => (value as string)?.length).length);
+    }
 }
+
+

@@ -1,10 +1,16 @@
 
 export interface IUser {
+    id: number;
     username: string;
     email: string;
-    godmode: boolean;
-    goods: any;
-    patterns: { id: number }[];
+    date_joined: string;
+    is_staff: boolean;
+    person: {
+        verify: boolean;
+        location: 'ru' | 'en';
+        goods?: any;
+        patterns?: { id: number }[];
+    }
 }
 
 export type AuthRequestPayload = {
@@ -17,32 +23,6 @@ export interface IAuthResponse {
     access?: string;
     refresh?: string;
     error?: string;
-}
-
-export type ProfileInterfaceResponse = {
-    user: {
-        id: number;
-        username: string;
-        email: string;
-        date_joined: string;
-        is_staff: boolean;
-        person: {
-            verify: boolean;
-            location: 'ru' | 'en';
-        }
-    }
-}
-
-export type IProfile = {
-    id: number;
-    username: string;
-    email: string;
-    dateJoined: string;
-    isStaff: boolean;
-    person: {
-        verify: boolean;
-        location: 'ru' | 'en';
-    }
 }
 
 export type IRefreshToken = {

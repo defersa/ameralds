@@ -5,7 +5,10 @@ from rest_framework.views import APIView
 from .serializers import UserSerializer
 
 
-class AmstoreOwnProfileView(APIView):
+MODER_NAME = 'moder'
+
+
+class ProfileView(APIView):
     permission_classes = [IsAuthenticated]
 
     @classmethod
@@ -14,6 +17,4 @@ class AmstoreOwnProfileView(APIView):
 
         user_data = UserSerializer(user).data
 
-        return Response({
-            'user': user_data
-        })
+        return Response(user_data)

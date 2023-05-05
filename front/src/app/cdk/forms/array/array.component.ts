@@ -10,6 +10,7 @@ import {
 import { AbstractControl, UntypedFormArray, UntypedFormControl, UntypedFormGroup, ValidatorFn } from '@angular/forms';
 import { AmstoreFormsBaseDirective, SelectOption } from '../forms.abstract.directive';
 import { ArrayComponentListService } from './array-component-list.service';
+import { DestroySubject } from "@am/utils/destroy.service";
 
 export type ArrayComponent = {
     name: string;
@@ -28,6 +29,7 @@ export type ArrayComponent = {
     styleUrls: ['./array.component.scss'],
     encapsulation: ViewEncapsulation.None,
     changeDetection: ChangeDetectionStrategy.OnPush,
+    providers: [DestroySubject],
     host: {
         class: 'amstore-form-array'
     }

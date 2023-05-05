@@ -1,6 +1,7 @@
 import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from '@angular/core';
 import { AmstoreFormsBaseDirective } from '../forms.abstract.directive';
 import { IconsName } from "@am/cdk/icons/icons.map";
+import { DestroySubject } from "@am/utils/destroy.service";
 
 
 @Component({
@@ -8,6 +9,7 @@ import { IconsName } from "@am/cdk/icons/icons.map";
     templateUrl: './input.component.html',
     styleUrls: ['./input.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
+    providers: [DestroySubject],
 })
 export class AmstoreInputComponent extends AmstoreFormsBaseDirective {
     @Input()

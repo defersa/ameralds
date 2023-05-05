@@ -48,14 +48,5 @@ export class PatternCardComponent implements OnInit, OnDestroy {
         this.destroyed.complete();
     }
 
-    public getBack(): void {
-        this.patternService.getBack();
-    }
-
-
-    public goToEdit(): void {
-        this.patternService.goToEdit(this.id);
-    }
-
 
 }

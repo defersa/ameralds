@@ -4,7 +4,7 @@ import { IAuthResponse, IRefreshToken } from "@am/interface/profile.interface";
 import { getAction, HttpAuthActions, RestSuffixFragments } from "@am/utils/action-builder";
 import { HttpClient, HttpErrorResponse } from "@angular/common/http";
 import { UBehaviorSubject } from "@am/utils/u-behavior.subject";
-import { localStorage } from "@am/decorators/local.decorator";
+import { LocalStorage } from "@am/decorators/local.decorator";
 import { Router } from "@angular/router";
 
 
@@ -19,16 +19,16 @@ const TOKEN_TIME_ALIVE_DAYS: number = 7;
     providedIn: 'root'
 })
 export class AuthService {
-    @localStorage(AUTH_TOKEN_NAME)
+    @LocalStorage(AUTH_TOKEN_NAME)
     private localAuthToken!: string;
 
-    @localStorage(REFRESH_TOKEN_NAME)
+    @LocalStorage(REFRESH_TOKEN_NAME)
     private localRefreshToken!: string;
 
-    @localStorage(EXPIRATION_DELTA)
+    @LocalStorage(EXPIRATION_DELTA)
     private localExpirationDelta!: string;
 
-    @localStorage(REFRESH_EXPIRATION_DELTA)
+    @LocalStorage(REFRESH_EXPIRATION_DELTA)
     private localRefreshExpirationDelta!: string;
 
 

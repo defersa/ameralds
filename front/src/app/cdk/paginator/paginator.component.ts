@@ -14,7 +14,6 @@ const PAGES_AROUND: number = 4;
     }
 })
 export class AmstorePaginatorComponent extends AmstoreColor {
-
     @Input()
     public get page(): number {
         return this._page;
@@ -31,12 +30,12 @@ export class AmstorePaginatorComponent extends AmstoreColor {
     @Input()
     public get pageCount(): number {
         return this._pageCount;
-    };
+    }
 
     public set pageCount(value: number) {
         this._pageCount = value;
         this.setPageList();
-    };
+    }
 
     private _pageCount: number = 1;
 
@@ -64,8 +63,10 @@ export class AmstorePaginatorComponent extends AmstoreColor {
                 this.pageList.unshift(this.pageList[0] - 1);
             }
 
-            if (this.pageCount !== this.pageList[this.pageList.length - 1]) {
-                this.pageList.push(this.pageList[this.pageList.length - 1] + 1);
+            const last: number = [...this.pageList].pop();
+
+            if (this.pageCount !== last) {
+                this.pageList.push(last + 1);
             }
         }
     }

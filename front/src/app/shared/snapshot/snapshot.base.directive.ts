@@ -23,8 +23,8 @@ export class AmstoreSnapshotBaseDirective extends AmstoreColor {
     private _isDark: boolean = false;
     private _viewer: AmstoreViewerService;
 
-    @Output()
-    public clickOnHeader: EventEmitter<void> = new EventEmitter<void>();
+    @Input()
+    public routerLink: (string | number)[];
 
     constructor(private _injector: Injector) {
         super(_injector.get(ElementRef));
@@ -37,9 +37,6 @@ export class AmstoreSnapshotBaseDirective extends AmstoreColor {
             this.elementRef.nativeElement.classList.remove(`amstore-snapshot-dark`);
     }
 
-    public clickOnHeaderAction() {
-        this.clickOnHeader.emit();
-    }
     public openViewer(images: ImageModelSmall[], index: number): void {
         this._viewer.openImageViewer(images, index);
     }

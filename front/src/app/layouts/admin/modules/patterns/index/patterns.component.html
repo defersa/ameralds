@@ -1,5 +1,5 @@
 <div class="amstore-actions-line">
-    <amstore-button [stroked]="true" color="primary" routerLink="/admin/pattern-add">
+    <amstore-button [stroked]="true" color="primary" [routerLink]="['create']">
         <amstore-icon iconName="setting" [size]="20"></amstore-icon>
         Добавить новую схему
     </amstore-button>
@@ -8,6 +8,6 @@
 <amstore-filter (onSetFilters)="setFilter($event)" [filters]="filters" color="special"></amstore-filter>
 
 <amstore-paginated-page (queryEvent)="nextPage($event)" [pageCount]="pageCount">
-    <amstore-snapshot-pattern *ngFor="let item of items" [data]="item" [routerLink]="['/', 'pattern-card', 'item.id']">
+    <amstore-snapshot-pattern *ngFor="let item of items" [data]="item" [routerLink]="['card', item.id]">
     </amstore-snapshot-pattern>
 </amstore-paginated-page>

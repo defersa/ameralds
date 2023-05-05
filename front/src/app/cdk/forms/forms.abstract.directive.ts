@@ -1,30 +1,35 @@
-import { ChangeDetectorRef, Component, Directive, ElementRef, HostBinding, Input } from '@angular/core';
-import { AbstractControl, UntypedFormControl, Validators } from '@angular/forms';
-import { BehaviorSubject, combineLatest, Subject, Subscription } from 'rxjs';
-import { startWith } from 'rxjs/operators';
+import { ChangeDetectorRef, Component, Directive, ElementRef, HostBinding, inject, Input } from '@angular/core';
+import { AbstractControl, FormControl, Validators } from '@angular/forms';
+import { BehaviorSubject, Subject } from 'rxjs';
+import { startWith, takeUntil } from 'rxjs/operators';
 import { AmstoreColor, ThemePalette } from '../core/color';
 import { getControlErrors } from './error-message-builder';
+import { DestroySubject } from "@am/utils/destroy.service";
+
 
 export type SelectOption = {
     label: string;
     value: string | number | null;
 }
 
-@Directive({ selector: 'forms-base' })
+@Directive({
+    selector: 'forms-base',
+    providers: [DestroySubject],
+})
 export class AmstoreFormsBaseDirective extends AmstoreColor {
     @HostBinding('class')
     protected classes: string = 'amstore-forms';
 
     public get isErrorState(): boolean {
-        return this.control.invalid && this.control.touched;
+        return this.control?.invalid && this?.control.touched;
     }
 
     @Input()
     public required: boolean = false;
 
     @Input()
-    public set nullControl(value: AbstractControl | null) {
-        if(value) {
+    public set nullControl(value: AbstractControl) {
+        if (value) {
             this.control = value;
         }
     };
@@ -35,30 +40,40 @@ export class AmstoreFormsBaseDirective extends AmstoreColor {
     };
 
     public set control(value: AbstractControl) {
-        if (this._controlSubscription) {
-            this._controlSubscription.unsubscribe();
+        if (this._controlChanged) {
+            this._controlChanged.next();
+            this._controlChanged.complete();
         }
 
+        this._controlChanged = new Subject<void>();
+
         this._control = value;
-        this._controlSubscription = this._control.statusChanges
-            .pipe(startWith(""))
+
+        this._control.statusChanges
+            .pipe(
+                startWith(""),
+                takeUntil(this._controlChanged),
+                takeUntil(this.onDestroy),
+            )
             .subscribe(() => {
                 const errors: string | null = this.control.invalid ? getControlErrors(this.control.errors) : null;
                 this.errors$.next(errors);
                 this.changeDetector.markForCheck();
             });
 
-        if(this.required) {
+        if (this.required) {
             this._control.addValidators([Validators.required])
         }
 
+        this.changeDetector.detectChanges();
     };
 
-    protected _control: AbstractControl = new UntypedFormControl();
-    private _controlSubscription: Subscription | null = null;
+    protected _control: AbstractControl = new FormControl();
+    protected _controlChanged: Subject<void>;
+    protected onDestroy: DestroySubject = inject(DestroySubject);
 
-    public get formControl(): UntypedFormControl {
-        return this.control as UntypedFormControl;
+    public get formControl(): FormControl {
+        return this.control as FormControl;
     }
 
     @Input()
@@ -73,6 +88,7 @@ export class AmstoreFormsBaseDirective extends AmstoreColor {
     public get isContrast(): boolean {
         return this._isContrast;
     }
+
     public set isContrast(value: boolean) {
         this._isContrast = value;
         this.classes = 'amstore-forms' + (this._isContrast ? ' is-contrast' : '');

@@ -10,7 +10,6 @@ export enum HttpActions {
     RemoveProduct = 'remove-product',
 
     UploadImage = 'upload-image-file',
-    GetImages = 'get-images',
 
     GoodsBuy = 'goods-buy',
 

@@ -1,5 +1,6 @@
 from rest_framework import serializers
-from .models import Jewelry, JewelryRating
+from ..models import Jewelry
+
 
 class JewelryPriceSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:

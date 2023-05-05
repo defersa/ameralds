@@ -1,4 +1,4 @@
-export function localStorage(name?: string): (target: Object, propertyKey: string) => void {
+export function LocalStorage(name?: string): (target: Object, propertyKey: string) => void {
     return function (target: Object, propertyKey: string) {
         const localName: string = name || propertyKey;
 

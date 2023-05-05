@@ -51,4 +51,8 @@
     &.amstore-warn {
         @include amstore-chip-color(red);
     }
+
+    &.amstore-special {
+        @include amstore-chip-color(turquoise);
+    }
 }

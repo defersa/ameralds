@@ -17,7 +17,6 @@ class SendMailView(APIView):
         email = request.data['email']
 
         pattern = Pattern.objects.get(pk=request.data['id'])
-
         html_template = get_template('email_template_ru.html')
 
         subject = 'Покупка схемы'

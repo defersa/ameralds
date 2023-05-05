@@ -3,7 +3,7 @@
 </div>
 <div class="amstore-snapshot-container">
     <div class="amstore-snapshot-container-header">
-        <h2 (click)="clickOnHeaderAction()">{{title}}</h2>
+        <h2 [routerLink]="routerLink">{{title}}</h2>
     </div>
     <div class="amstore-snapshot-container-line">
         <amstore-chip *ngFor="let category of categories" [isDark]="true">{{category.name}}</amstore-chip>
@@ -29,6 +29,6 @@
         <amstore-button color="warn" class="amstore-snapshot-container-sale" *ngIf="false" (click)="showSale = !showSale">
             <amstore-icon iconName="sale" [contrast]="true" [size]="24"></amstore-icon>
         </amstore-button>
-        <amstore-button (click)="clickOnHeaderAction()" color="primary">Подробнее</amstore-button>
+        <amstore-button [routerLink]="routerLink" color="primary">Подробнее</amstore-button>
     </div>
 </div>

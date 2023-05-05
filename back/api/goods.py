@@ -1,5 +1,6 @@
 from rest_framework import serializers
-from . import patterns, jewerly
+from .patterns.serializers import PatternsMinSerializer
+from .jewerelies.serializers import JewelryPriceSerializer
 from .models import Order, Pattern, Jewelry 
 from datetime import datetime
 
@@ -7,12 +8,12 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.views import APIView
 from rest_framework.response import Response
 
-from .serializers import IdSerializer
+from .common.serializers import IdSerializer
 
 
 class GoodsSelializer(serializers.HyperlinkedModelSerializer):
-    jewels = jewerly.JewelryPriceSerializer(many=True)
-    patterns = patterns.PatternsMinSerializer(many=True)
+    jewels = JewelryPriceSerializer(many=True)
+    patterns = PatternsMinSerializer(many=True)
 
     class Meta:
         model = Order

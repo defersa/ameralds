@@ -20,6 +20,7 @@ export const routes: Routes = [{
         {
             path: '',
             redirectTo: 'profile',
+            pathMatch: "full",
         },
         {
             path: 'profile',

@@ -233,9 +233,6 @@ export class AmstorePatternAddCardComponent extends AmstoreCardDirective impleme
             .subscribe(() => {
                 this._snackBar.open('Все сохранено.', undefined, {duration: 5000});
 
-                if (id) {
-                    this._patternService.goToEdit(id).then(() => window.location.reload());
-                }
             })
     }
 

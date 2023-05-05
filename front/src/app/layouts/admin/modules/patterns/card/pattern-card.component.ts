@@ -21,9 +21,6 @@ export class PatternCardComponent implements OnInit, OnDestroy {
 
     public id: number;
 
-    public isModer$: Observable<boolean> = this.profileService.userStatus$
-        .pipe(map((item: UserEnum) => item === UserEnum.Moder));
-
     protected destroyed: Subject<void> = new Subject<void>();
 
     protected readonly location: Location = inject(Location);
@@ -31,7 +28,6 @@ export class PatternCardComponent implements OnInit, OnDestroy {
     constructor(
         private route: ActivatedRoute,
         private patternService: PatternService,
-        private profileService: ProfileService,
     ) {
         this.id = Number(this.route.snapshot.paramMap.get('id'));
     }

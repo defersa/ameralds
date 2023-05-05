@@ -5,7 +5,6 @@ import { AmstoreIconModule } from '@am/cdk/icons/icons.module';
 import { AmstoreButtonDefaultModule } from '@am/cdk/buttons/default/default.module';
 import { AmstorePaginatorModule } from '@am/cdk/paginator/paginator.module';
 
-import { AmstoreImagesEditComponent } from './edit/edit.component';
 import { AmstoreViewerComponent } from './viewer.component';
 import { AmstoreImageListEditorComponent } from './image-list-editor/image-list-editor.component';
 import { AmstoreViewerDialogComponent } from "@am/shared/viewer/viewer-dialog/viewer-dialog.component";
@@ -14,7 +13,6 @@ import { AmstoreViewerDialogComponent } from "@am/shared/viewer/viewer-dialog/vi
 @NgModule({
     declarations: [
         AmstoreViewerComponent,
-        AmstoreImagesEditComponent,
         AmstoreImageListEditorComponent,
         AmstoreViewerDialogComponent
     ],

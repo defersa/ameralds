@@ -10,7 +10,7 @@ import { PatternService } from '@am/shared/services/pattern.service';
     templateUrl: './pattern-add.component.html',
     styleUrls: ['./pattern-add.component.scss']
 })
-export class PatternAddComponent implements OnInit {
+export class PatternAddComponent {
 
     public id: number;
 
@@ -27,15 +27,6 @@ export class PatternAddComponent implements OnInit {
         this.asyncPattern = !this.id ? of(EMPTY_PATTERN) :
             this.patternService.getPatternEdit(this.id);
     }
-
-    public ngOnInit(): void {
-    }
-
-
-    public goToCard(): void {
-        this.patternService.goToCard(this.id);
-    }
-
 }
 
 const EMPTY_PATTERN: PatternMaxType = {

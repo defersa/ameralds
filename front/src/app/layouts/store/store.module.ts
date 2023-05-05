@@ -21,10 +21,12 @@ export const routes: Routes = [{
         {
             path: '',
             redirectTo: 'patterns',
+            pathMatch: "full",
         },
         {
             path: 'patterns',
             component: PatternsComponent,
+            // matcher: ,
         },
         {
             path: 'pattern-card/:id',

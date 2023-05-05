@@ -1,7 +1,7 @@
 from django.urls import path
 
-from .views import AmstoreOwnProfileView
+from .views import ProfileView
 
 urlpatterns = [
-    path('own/', AmstoreOwnProfileView.as_view()),
+    path('', ProfileView.as_view())
 ]

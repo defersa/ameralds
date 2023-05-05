@@ -1,6 +1,9 @@
 from rest_framework import serializers
 
 from ..lang.serializers import LangNumberSerializer, LangShortSerializer
+from ..sizes.serializers import SizesSerializer
+from ..images.serializers import ImageSerializer
+from ..categories.serializers import CategorySerializer
 from ..models import PatternSize, Pattern, PrivateFile
 
 

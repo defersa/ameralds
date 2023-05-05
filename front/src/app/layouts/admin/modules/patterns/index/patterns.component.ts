@@ -42,7 +42,11 @@ export class PatternsComponent implements OnDestroy {
         };
         const page: number = query.page;
 
-        this.pattern.getPatterns(page, this.filters.categories as number[], this.filters.sizes as number[], this.filters.search as string)
+        this.pattern.getPatterns(
+            {
+                page,
+                ...this.filters,
+            })
             .subscribe((next: PageRequest) => {
                 this.pageCount = next.pageCount;
                 this.items = next.items;

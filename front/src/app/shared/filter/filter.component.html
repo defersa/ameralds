@@ -1,14 +1,14 @@
-<amstore-panel [color]="color || 'primary'">
+<amstore-panel [color]="color">
     <amstore-panel-header class="amstore-filter-header">
         Фильтры
-        <amstore-button *ngIf="!isEmpty" (click)="clearFilters($event)">
+        <amstore-button *ngIf="!isEmpty" (click)="clearFilters($event)" [color]="color">
             Очистить
             <amstore-icon [contrast]="true" [iconName]="'cross'" [size]="20"></amstore-icon>
         </amstore-button>
     </amstore-panel-header>
     <div class="row">
         <div class="col-6">
-            <amstore-forms-input [nullControl]="filterForm.get('search')">Поиск</amstore-forms-input>
+            <amstore-forms-input [control]="filterForm.get('search')">Поиск</amstore-forms-input>
         </div>
         <div class="col-6">
             <amstore-form-select>Сортировка</amstore-form-select>
@@ -16,19 +16,19 @@
     </div>
     <div class="row">
         <div class="col-12">
-            <amstore-chips-checkbox [items]="categoriesList$ | async" [nullControl]="filterForm.get('categories')">Категории</amstore-chips-checkbox>
+            <amstore-chips-checkbox [items]="categoriesList$ | async" [control]="filterForm.get('categories')" [color]="color">Категории</amstore-chips-checkbox>
         </div>
     </div>
     <div class="row">
         <div class="col-12">
-            <amstore-chips-checkbox [items]="sizesList$ | async" [nullControl]="filterForm.get('sizes')">Размер</amstore-chips-checkbox>
+            <amstore-chips-checkbox [items]="sizesList$ | async" [control]="filterForm.get('sizes')" [color]="color">Размер</amstore-chips-checkbox>
         </div>
     </div>
     <div class="row amstore-filter-buttons">
         <div class="col-12 text-right">
             <amstore-button *ngIf="!isEmpty" color="warn" (click)="clearFilters($event)">Очистить</amstore-button>
             <amstore-button [stroked]="true" color="warn" [disabled]="!isChanged" (click)="resetFilters()">Отменить</amstore-button>
-            <amstore-button [disabled]="!isChanged" (click)="setFilters()">Найти</amstore-button>
+            <amstore-button [disabled]="!isChanged" [color]="color" (click)="setFilters()">Найти</amstore-button>
         </div>
     </div>
 </amstore-panel>

@@ -1,11 +1,11 @@
 from django.urls import path
 
-from . import view
+from . import views
 
 
 urlpatterns = [
-    path('paginated/', view.CategoriesView.as_view()),
-    path('all/', view.CategoriesAllView.as_view()),
-    path('<int:pk>/', view.CategoryEditView.as_view()),
-    path('', view.CategoryEditView.as_view()),
+    path('paginated/', views.CategoriesView.as_view()),
+    path('all/', views.CategoriesAllView.as_view()),
+    path('<int:pk>/', views.CategoryEditView.as_view()),
+    path('', views.CategoryEditView.as_view()),
 ]

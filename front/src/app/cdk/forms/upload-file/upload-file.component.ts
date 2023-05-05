@@ -2,6 +2,7 @@ import { Component, ElementRef, Input, OnDestroy, OnInit, ViewChild, ViewEncapsu
 import { Subject } from 'rxjs';
 import { startWith, takeUntil } from 'rxjs/operators';
 import { AmstoreFormsBaseDirective } from '../forms.abstract.directive';
+import { DestroySubject } from "@am/utils/destroy.service";
 
 type FileStatus = 'empty' | 'uploaded' | 'saved';
 
@@ -16,6 +17,7 @@ const STATUS_LABEL: Record<FileStatus, string> = {
     templateUrl: './upload-file.component.html',
     styleUrls: ['./upload-file.component.scss'],
     encapsulation: ViewEncapsulation.None,
+    providers: [DestroySubject],
     host: {
         class: 'amstore-form-upload-file',
     }

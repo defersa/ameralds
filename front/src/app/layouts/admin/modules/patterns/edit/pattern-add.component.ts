@@ -27,9 +27,4 @@ export class PatternAddComponent {
         this.asyncPattern = !this.id ? of(EMPTY_PATTERN) :
             this.patternService.getPatternEdit(this.id);
     }
-
-    public goToCard(): void {
-        this.patternService.goToCard(this.id);
-    }
-
 }

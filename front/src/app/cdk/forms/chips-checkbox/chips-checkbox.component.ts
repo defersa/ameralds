@@ -2,14 +2,16 @@ import {
     ChangeDetectionStrategy,
     ChangeDetectorRef,
     Component,
-    ElementRef,
+    ElementRef, inject,
     Input,
-    OnInit,
+    OnChanges,
+    SimpleChanges,
     ViewEncapsulation
 } from '@angular/core';
 import { AmstoreFormsBaseDirective, SelectOption } from "@am/cdk/forms/forms.abstract.directive";
 import { startWith, takeUntil } from "rxjs/operators";
-import { AmstoreDestroyService } from "@am/utils/destroy.service";
+import { DestroySubject } from "@am/utils/destroy.service";
+
 
 @Component({
     selector: 'amstore-chips-checkbox',
@@ -17,40 +19,53 @@ import { AmstoreDestroyService } from "@am/utils/destroy.service";
     styleUrls: ['./chips-checkbox.component.scss'],
     encapsulation: ViewEncapsulation.None,
     changeDetection: ChangeDetectionStrategy.OnPush,
-    providers: [AmstoreDestroyService],
+    providers: [DestroySubject],
     host: {
         class: 'amstore-chips-checkbox'
     }
 })
-export class AmstoreChipsCheckboxComponent extends AmstoreFormsBaseDirective implements OnInit {
+export class AmstoreChipsCheckboxComponent extends AmstoreFormsBaseDirective implements OnChanges {
     @Input()
     public items: SelectOption[] | null | undefined = [];
 
-    public values: number[] = [];
+    public itemList: { checked: boolean; item: SelectOption }[] = [];
+
 
     constructor(public elementRef: ElementRef,
-                private _destroyed: AmstoreDestroyService,
                 private _changeDetectorRef: ChangeDetectorRef) {
         super(elementRef, _changeDetectorRef);
     }
 
-    public ngOnInit(): void {
-        this.control.valueChanges
-            .pipe(
-                takeUntil(this._destroyed),
-                startWith(this.control.value))
-            .subscribe((item: number[]) => {
-                this.values = item ?? [];
-                this._changeDetectorRef.markForCheck();
-            });
+    protected onDestroy: DestroySubject = inject(DestroySubject);
+
+    public ngOnChanges(changes: SimpleChanges): void {
+        if (changes.items?.currentValue || changes.control?.currentValue) {
+            this.updateItemList();
+        }
+
+        if (changes.control?.currentValue !== changes.control?.previousValue) {
+            this._control.valueChanges
+                .pipe(
+                    startWith(this._control.value),
+                    takeUntil(this._controlChanged),
+                    takeUntil(this.onDestroy),
+                )
+                .subscribe(() => this.updateItemList());
+        }
     }
 
-    public getState(value: number | string | null): 'selected' | 'none' {
-        return this.values.includes(value as number) ? 'selected' : 'none';
-    }
-
-    public change(state: 'selected' | 'none', value: number | string | null): void {
+    public change(checked: boolean, value: number | string): void {
+        const values: (number | string)[] = this.control.value ?? [];
         this.control.markAsTouched();
-        this.control.setValue(state === 'selected' ? this.values.filter((item: number) => value !== item) : [...this.values, value]);
+        this.control.setValue(checked ? values.filter((item: number) => value !== item) : [...values, value]);
+    }
+
+    public updateItemList(): void {
+        const values: number[] = this.control.value || [];
+
+        this.itemList = this.items.map((item: SelectOption) => ({
+            item,
+            checked: values.includes(item.value as number),
+        }))
     }
 }
