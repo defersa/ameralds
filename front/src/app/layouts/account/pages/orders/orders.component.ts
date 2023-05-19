@@ -1,7 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { tap } from 'rxjs/operators';
-import { FilterQuery } from 'src/app/shared/paginated-page/paginated-page.component';
-import { OrdersRequest, SmallOrders } from 'src/app/interface/order.interface';
+import { SmallOrders } from 'src/app/interface/order.interface';
 import { OrdersService } from '../../services/orders.service';
 
 @Component({
@@ -23,12 +21,4 @@ export class OrdersComponent implements OnInit {
     public ngOnInit(): void {
     }
 
-    public nextPage(query: FilterQuery): void {
-        this.ordersService.getOrders(query.page).
-            pipe(tap((next: OrdersRequest) => {
-                this.pageCount = next.pageCount;
-                this.page = next.page;
-            })).subscribe((next: OrdersRequest) =>
-                this.orders = next.orders);
-    }
 }

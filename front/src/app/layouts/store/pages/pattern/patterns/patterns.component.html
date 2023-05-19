@@ -1,6 +1,6 @@
 <amstore-filter (onSetFilters)="setFilterWithPage($event)" [filters]="filters"></amstore-filter>
 
-<amstore-snapshot-pattern *ngFor="let item of items$ | async" [data]="item" [routerLink]="['pattern-card', item.id]">
+<amstore-snapshot-pattern *ngFor="let item of items$ | async" [data]="item" [routerLink]="[item.id]">
 </amstore-snapshot-pattern>
 
 <amstore-paginator (goToPageEvent)="setFilter({page: $event})" [pageCount]="pageCount" [page]="page">

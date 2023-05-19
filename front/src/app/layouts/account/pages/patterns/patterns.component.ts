@@ -1,9 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-import { Subject } from 'rxjs';
-import { tap } from 'rxjs/operators';
-
-import { FilterQuery } from 'src/app/shared/paginated-page/paginated-page.component';
-import { PageRequest, PatternMaxType } from 'src/app/interface/pattern.interface';
+import { Component } from '@angular/core';
+import { PatternMaxType } from 'src/app/interface/pattern.interface';
 import { PatternsService } from '../../services/patterns.service';
 
 @Component({
@@ -11,12 +7,10 @@ import { PatternsService } from '../../services/patterns.service';
     templateUrl: './patterns.component.html',
     styleUrls: ['./patterns.component.scss']
 })
-export class PatternsComponent implements OnInit {
+export class PatternsComponent {
     public items: PatternMaxType[] = [];
     public pageCount: number = 1;
     public page: number = 1;
-
-    protected destroyed: Subject<void> = new Subject<void>();
 
 
     constructor(
@@ -28,19 +22,5 @@ export class PatternsComponent implements OnInit {
     }
 
 
-
-    public nextPage(query: FilterQuery): void {
-        this.patternsService.getPatterns(query.page).
-            pipe(tap((next: PageRequest) => {
-                this.pageCount = next.pageCount;
-                this.page = next.page;
-            })).subscribe((next: PageRequest) => {
-                this.items = next.items;
-            });
-    }
-
-    public navigateToChild(id: number): void {
-        // this.patternsService.goToCard(id);
-    }
 
 }

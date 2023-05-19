@@ -1,6 +1,26 @@
 @import "/src/app/styles/spacing.scss";
 @import "/src/app/styles/theming-var.scss";
 
+
+@mixin amstore-chip-checkbox-color($theme) {
+    .mat-checkbox-checked:not(.mat-checkbox-disabled).mat-accent .mat-ripple-element {
+        background: get-amstore-color($theme, middle);
+    }
+
+    .mat-checkbox-checked.mat-accent .mat-checkbox-background {
+        background-color: get-amstore-color($theme, dark);
+    }
+
+    .mat-checkbox-checked:not(.mat-checkbox-disabled).mat-accent .mat-ripple-element, .mat-checkbox:active:not(.mat-checkbox-disabled).mat-accent .mat-ripple-element {
+        background: get-amstore-color($theme, dark);
+    }
+
+    .mat-checkbox-frame {
+        border-color: get-amstore-color($theme, dark);
+        border-width: 1px;
+    }
+}
+
 .amstore-chips-checkbox {
     margin-bottom: get-spacing(2);
     display: block;
@@ -23,20 +43,19 @@
         margin-right: get-spacing(2);
     }
 
-    .mat-checkbox-checked:not(.mat-checkbox-disabled).mat-accent .mat-ripple-element {
-        background: get-amstore-color(green, middle);
+    &.amstore-primary {
+        @include amstore-chip-checkbox-color(green);
     }
 
-    .mat-checkbox-checked.mat-accent .mat-checkbox-background {
-        background-color: get-amstore-color(green, dark);
+    &.amstore-accent {
+        @include amstore-chip-checkbox-color(blue);
     }
 
-    .mat-checkbox-checked:not(.mat-checkbox-disabled).mat-accent .mat-ripple-element, .mat-checkbox:active:not(.mat-checkbox-disabled).mat-accent .mat-ripple-element {
-        background: get-amstore-color(green, dark);
+    &.amstore-warn {
+        @include amstore-chip-checkbox-color(red);
     }
 
-    .mat-checkbox-frame {
-        border-color: get-amstore-color(green, dark);
-        border-width: 1px;
+    &.amstore-special {
+        @include amstore-chip-checkbox-color(turquoise);
     }
 }

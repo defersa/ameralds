@@ -5,9 +5,10 @@
     </amstore-button>
 </div>
 
-<amstore-filter (onSetFilters)="setFilter($event)" [filters]="filters" color="special"></amstore-filter>
+<amstore-filter (onSetFilters)="setFilterWithPage($event)" [filters]="filters" color="special"></amstore-filter>
 
-<amstore-paginated-page (queryEvent)="nextPage($event)" [pageCount]="pageCount">
-    <amstore-snapshot-pattern *ngFor="let item of items" [data]="item" [routerLink]="['card', item.id]">
-    </amstore-snapshot-pattern>
-</amstore-paginated-page>
+<amstore-snapshot-pattern *ngFor="let item of items$ | async" [data]="item" [routerLink]="[item.id]">
+</amstore-snapshot-pattern>
+
+<amstore-paginator (goToPageEvent)="setFilter({page: $event})" [pageCount]="pageCount" [page]="page">
+</amstore-paginator>

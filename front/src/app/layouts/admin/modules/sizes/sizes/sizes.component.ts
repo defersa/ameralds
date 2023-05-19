@@ -1,32 +1,51 @@
 import { PaginatedResponse } from '@am/interface/request.interface';
 import { SizeType } from '@am/interface/size.interface';
-import { FilterQuery } from '@am/shared/paginated-page/paginated-page.component';
 import { SizesService } from '@am/shared/services/sizes.service';
 import { Component } from '@angular/core';
+import { Observable } from "rxjs";
+import { filter, map, switchMap } from "rxjs/operators";
+import { FilteredPage, FiltersSet } from "@am/shared/abstract/filtered-page";
+import { Params } from "@angular/router";
+import { DestroySubject } from "@am/utils/destroy.service";
 
 
 @Component({
-  selector: 'app-sizes',
-  templateUrl: './sizes.component.html',
-  styleUrls: ['./sizes.component.scss']
+    selector: 'app-sizes',
+    templateUrl: './sizes.component.html',
+    styleUrls: ['./sizes.component.scss'],
+    providers: [DestroySubject],
 })
-export class SizesComponent {
+export class SizesComponent extends FilteredPage {
+    public items$: Observable<SizeType[]> = this.filterSet$.pipe(
+        filter((result: FiltersSet) => !!result),
+        map((result: FiltersSet) => {
+            this.page = Number(result['page']) || 1;
 
-    public items: SizeType[] = [];
+            return this.page;
+        }),
+        switchMap((page: number) => this.sizes.getSizes(page)),
+        map((result: PaginatedResponse<SizeType>) => {
+                this.pageCount = result.pageCount;
+                return result.items;
+            }
+        ));
+
+
     public pageCount: number = 1;
-    public page: number = 1;
+    public page: number;
+    public filters: Record<string, unknown>;
 
     constructor(
         private sizes: SizesService
     ) {
+        super();
     }
 
-    public nextPage(query: FilterQuery): void {
-        this.sizes.getSizes(query.page)
-            .subscribe((next: PaginatedResponse<SizeType>) => {
-                this.pageCount = next.pageCount;
-                this.page = next.page;
-                this.items = next.items;
-            });
+    protected initFilters(query: Params): FiltersSet {
+        this.page = Number(query['page']) || 1;
+
+        return {
+            page: query['page']
+        };
     }
 }

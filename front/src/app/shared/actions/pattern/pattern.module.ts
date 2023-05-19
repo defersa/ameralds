@@ -14,7 +14,7 @@ import { PatternDownloadComponent } from './pattern-download/pattern-download.co
         AbstractPatternCard,
         PatternAdminComponent,
         PatternCartComponent,
-        PatternDownloadComponent
+        PatternDownloadComponent,
     ],
     exports: [
         PatternAdminComponent,

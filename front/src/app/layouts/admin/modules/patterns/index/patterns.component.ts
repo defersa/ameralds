@@ -1,62 +1,13 @@
-import { Component, OnDestroy, ViewChild } from '@angular/core';
-import { Subject } from 'rxjs';
-
-import { FilterQuery, PaginatedPageComponent } from '@am/shared/paginated-page/paginated-page.component';
-import { PageRequest, PatternMaxType } from '@am/interface/pattern.interface';
-import { PatternService } from '@am/shared/services/pattern.service';
+import { Component } from '@angular/core';
+import { DestroySubject } from "@am/utils/destroy.service";
+import { AbstractPatternsIndex } from "@am/shared/actions/pattern/pattern-index.abstract";
 
 
 @Component({
-    selector: 'app-patterns',
+    selector: 'admin-patterns',
     templateUrl: './patterns.component.html',
-    styleUrls: ['./patterns.component.scss']
+    styleUrls: ['./patterns.component.scss'],
+    providers: [DestroySubject],
 })
-export class PatternsComponent implements OnDestroy {
-    @ViewChild(PaginatedPageComponent)
-    private _paginatedPageComponent: PaginatedPageComponent | undefined;
-
-    public items: PatternMaxType[] = [];
-    public pageCount: number = 1;
-    public filters: Record<string, unknown> = {};
-
-    protected destroyed: Subject<void> = new Subject<void>();
-
-
-    constructor(
-        private pattern: PatternService,
-    ) {
-    }
-
-    ngOnDestroy(): void {
-        this.destroyed.next();
-        this.destroyed.complete();
-    }
-
-    public nextPage(query: FilterQuery): void {
-        const categories: number[] = (typeof query.categories === 'string' ? [query.categories] : query.categories as [])?.map((item: string) => Number(item)) || [];
-        const sizes: number[] = (typeof query.sizes === 'string' ? [query.sizes] : query.sizes as [])?.map((item: string) => Number(item)) || [];
-        this.filters = {
-            search: query.search ?? '',
-            categories,
-            sizes
-        };
-        const page: number = query.page;
-
-        this.pattern.getPatterns(
-            {
-                page,
-                ...this.filters,
-            })
-            .subscribe((next: PageRequest) => {
-                this.pageCount = next.pageCount;
-                this.items = next.items;
-            });
-    }
-
-    public setFilter(event: Record<string, unknown>): void {
-        if (this._paginatedPageComponent) {
-            this._paginatedPageComponent.page = 1;
-            this._paginatedPageComponent.setFilters(event);
-        }
-    }
+export class PatternsComponent extends AbstractPatternsIndex {
 }

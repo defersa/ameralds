@@ -1,6 +1,9 @@
 @import "/src/app/styles/theming-var.scss";
 @import "/src/app/styles/spacing.scss";
 
+@import "./checkbox/checkbox.component.scss";
+@import "./chips-checkbox/chips-checkbox.component.scss";
+
 $field-border-radius: 8px;
 
 @mixin amstore-forms-color-contrast($theme) {

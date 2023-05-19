@@ -3,28 +3,51 @@ import { FilterQuery } from '@am/shared/paginated-page/paginated-page.component'
 import { CategoriesService } from '@am/shared/services/categories.service';
 import { CategoryType } from '@am/interface/category.interface';
 import { PaginatedResponse } from '@am/interface/request.interface';
+import { FilteredPage, FiltersSet } from "@am/shared/abstract/filtered-page";
+import { Observable } from "rxjs";
+import { PageRequest } from "@am/interface/pattern.interface";
+import { filter, map, switchMap } from "rxjs/operators";
+import { Params } from "@angular/router";
+import { DestroySubject } from "@am/utils/destroy.service";
 
 
 @Component({
-    selector: 'app-categories',
+    selector: 'admin-categories',
     templateUrl: './categories.component.html',
-    styleUrls: ['./categories.component.scss']
+    styleUrls: ['./categories.component.scss'],
+    providers: [DestroySubject],
 })
-export class CategoriesComponent {
+export class CategoriesComponent extends FilteredPage {
+    public items$: Observable<CategoryType[]> = this.filterSet$.pipe(
+        filter((result: FiltersSet) => !!result),
+        map((result: FiltersSet) => {
+            this.page = Number(result['page']) || 1;
 
-    public items: CategoryType[] = [];
+            return this.page;
+        }),
+        switchMap((page: number) => this.categories.getCategories(page)),
+        map((result: PageRequest) => {
+                this.pageCount = result.pageCount;
+                return result.items;
+            }
+        ));
+
+
     public pageCount: number = 1;
+    public page: number;
+    public filters: Record<string, unknown>;
 
     constructor(
         private categories: CategoriesService
     ) {
+        super();
     }
 
-    public nextPage(query: FilterQuery): void {
-        this.categories.getCategories(query.page)
-            .subscribe((next: PaginatedResponse<CategoryType>) => {
-                this.pageCount = next.pageCount;
-                this.items = next.items;
-            });
+    protected initFilters(query: Params): FiltersSet {
+        this.page = Number(query['page']) || 1;
+
+        return {
+            page: query['page']
+        };
     }
 }

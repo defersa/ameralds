@@ -16,7 +16,6 @@ import { DestroySubject } from "@am/utils/destroy.service";
 @Component({
     selector: 'amstore-chips-checkbox',
     templateUrl: './chips-checkbox.component.html',
-    styleUrls: ['./chips-checkbox.component.scss'],
     encapsulation: ViewEncapsulation.None,
     changeDetection: ChangeDetectionStrategy.OnPush,
     providers: [DestroySubject],

@@ -17,6 +17,10 @@ export class AmstoreColor {
         return this._color;
     }
 
+    public get colorClass(): string {
+        return `amstore-${this._color}`;
+    }
+
     protected _color: ThemePalette;
     protected defaultColor: ThemePalette = 'primary';
 
