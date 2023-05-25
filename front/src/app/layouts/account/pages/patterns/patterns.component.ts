@@ -1,6 +1,5 @@
 import { Component } from '@angular/core';
 import { PatternMaxType } from 'src/app/interface/pattern.interface';
-import { PatternsService } from '../../services/patterns.service';
 
 @Component({
     selector: 'app-patterns',
@@ -13,8 +12,7 @@ export class PatternsComponent {
     public page: number = 1;
 
 
-    constructor(
-        private patternsService: PatternsService) {
+    constructor() {
 
     }
 

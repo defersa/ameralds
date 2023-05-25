@@ -3,8 +3,8 @@ import { AbstractControl, FormControl, FormGroup } from "@angular/forms";
 import { Observable } from "rxjs";
 import { takeUntil } from "rxjs/operators";
 
-import { SizesService } from "@am/shared/services/sizes.service";
-import { CategoriesService } from "@am/shared/services/categories.service";
+import { SizesService } from "@am/services/sizes.service";
+import { CategoriesService } from "@am/services/categories.service";
 import { LangService } from "@am/services/lang.service";
 import { OptionType } from "@am/interface/cdk.interface";
 import { DestroySubject } from "@am/utils/destroy.service";

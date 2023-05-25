@@ -4,7 +4,7 @@ import { IdName } from "./request.interface"
 import { LangNumber, LangString } from "@am/interface/lang.interface";
 import { SizeType } from "@am/interface/size.interface";
 
-export type SmallPattern = {
+export type IPattern = {
     id: number;
     name: LangString;
     price: LangNumber;

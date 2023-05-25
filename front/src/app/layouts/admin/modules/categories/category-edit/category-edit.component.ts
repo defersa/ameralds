@@ -1,7 +1,7 @@
 import { Component, inject, OnInit } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
-import { CategoriesService } from '@am/shared/services/categories.service';
+import { CategoriesService } from '@am/services/categories.service';
 import { CategoryType } from '@am/interface/category.interface';
 import { map } from "rxjs/operators";
 import { Location } from "@angular/common";

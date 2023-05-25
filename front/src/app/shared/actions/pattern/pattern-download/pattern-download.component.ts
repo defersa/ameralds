@@ -1,7 +1,7 @@
 import { Component, Injector } from '@angular/core';
 
 import { downloadBlobFile } from "@am/utils/file-utils";
-import { PatternService } from "@am/shared/services/pattern.service";
+import { PatternService } from "@am/services/pattern.service";
 import { AbstractPatternCard } from "@am/shared/actions/pattern/pattern.abstract";
 
 @Component({

@@ -5,7 +5,7 @@ import { Observable } from "rxjs";
 import { PageRequest, PatternMaxType } from "@am/interface/pattern.interface";
 import { filter, map, switchMap } from "rxjs/operators";
 import { Params } from "@angular/router";
-import { PatternService } from "@am/shared/services/pattern.service";
+import { PatternService } from "@am/services/pattern.service";
 
 
 @Directive({

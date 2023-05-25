@@ -3,7 +3,7 @@ import { Component, Input, OnInit } from '@angular/core';
 import { PattenSizeFiles, PatternMaxType } from "@am/interface/pattern.interface";
 import { LangService } from "@am/services/lang.service";
 import { UntypedFormControl, Validators } from "@angular/forms";
-import { PatternService } from "@am/shared/services/pattern.service";
+import { PatternService } from "@am/services/pattern.service";
 import { MatSnackBar } from "@angular/material/snack-bar";
 import { SelectOption } from "@am/cdk/forms/forms.abstract.directive";
 

@@ -4,17 +4,17 @@ import { Injectable } from '@angular/core';
 import { Observable, OperatorFunction, pipe } from 'rxjs';
 import { map, tap } from 'rxjs/operators';
 
-import { SizeType } from 'src/app/interface/size.interface';
+import { SizeType } from '@am/interface/size.interface';
 import {
     IItemResponse,
     IListResponse,
-    PaginatedResponse,
-    ResultRequest
-} from 'src/app/interface/request.interface';
-import { UB } from 'src/app/utils/action-builder';
+    IPaginatedResponse,
+    IResultRequest
+} from '@am/interface/request.interface';
+import { UB } from '@am/utils/action-builder';
 import { OptionType } from "@am/interface/cdk.interface";
 import { BehaviorObservable, GetDataAction, GetOptionsObservable } from "@am/utils/data-action.subject";
-import { SnackService } from "@am/shared/services/snackbar.service";
+import { SnackService } from "@am/services/snackbar.service";
 
 
 @Injectable({
@@ -31,8 +31,8 @@ export class SizesService {
     }
 
 
-    public getSizes(page: number): Observable<PaginatedResponse<SizeType>> {
-        return this.httpClient.get<PaginatedResponse<SizeType>>(UB(['api', 'sizes', 'paginated']), {
+    public getSizes(page: number): Observable<IPaginatedResponse<SizeType>> {
+        return this.httpClient.get<IPaginatedResponse<SizeType>>(UB(['api', 'sizes', 'paginated']), {
             params: {
                 page
             }
@@ -50,9 +50,9 @@ export class SizesService {
     }
 
 
-    public editSize(values: Record<string, unknown>): Observable<ResultRequest> {
+    public editSize(values: Record<string, unknown>): Observable<IResultRequest> {
         return this.httpClient
-            .patch<ResultRequest>(UB(['api', 'sizes']), values)
+            .patch<IResultRequest>(UB(['api', 'sizes']), values)
             .pipe(this.retakeAndMessage('Размер изменен!'));
     }
 
@@ -62,9 +62,9 @@ export class SizesService {
             .pipe(this.retakeAndMessage('Размер добавлен!'));
     }
 
-    public deleteSize(id: number): Observable<ResultRequest> {
+    public deleteSize(id: number): Observable<IResultRequest> {
         return this.httpClient
-            .delete<ResultRequest>(UB(['api', 'sizes', id]))
+            .delete<IResultRequest>(UB(['api', 'sizes', id]))
             .pipe(this.retakeAndMessage('Размер изменен!'));
     }
 

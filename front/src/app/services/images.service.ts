@@ -1,8 +1,8 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { ImageAddRequest } from 'src/app/interface/image.interface';
-import { UB } from 'src/app/utils/action-builder';
+import { ImageAddRequest } from '@am/interface/image.interface';
+import { UB } from '@am/utils/action-builder';
 
 @Injectable({
     providedIn: 'root'

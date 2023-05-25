@@ -1,6 +1,6 @@
-import { PaginatedResponse } from '@am/interface/request.interface';
+import { IPaginatedResponse } from '@am/interface/request.interface';
 import { SizeType } from '@am/interface/size.interface';
-import { SizesService } from '@am/shared/services/sizes.service';
+import { SizesService } from '@am/services/sizes.service';
 import { Component } from '@angular/core';
 import { Observable } from "rxjs";
 import { filter, map, switchMap } from "rxjs/operators";
@@ -24,7 +24,7 @@ export class SizesComponent extends FilteredPage {
             return this.page;
         }),
         switchMap((page: number) => this.sizes.getSizes(page)),
-        map((result: PaginatedResponse<SizeType>) => {
+        map((result: IPaginatedResponse<SizeType>) => {
                 this.pageCount = result.pageCount;
                 return result.items;
             }

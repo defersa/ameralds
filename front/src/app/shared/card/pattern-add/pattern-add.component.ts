@@ -24,16 +24,16 @@ import {
 } from '@am/interface/pattern.interface';
 import { ArrayComponent } from '@am/cdk/forms/array/array.component';
 import { AbstractControl, UntypedFormArray, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
-import { SizesService } from '@am/shared/services/sizes.service';
+import { SizesService } from '@am/services/sizes.service';
 import { SizeType } from '@am/interface/size.interface';
 import { ArrayValidatorFns } from '@am/cdk/forms/array/array-validators-fn';
-import { CategoriesService } from '@am/shared/services/categories.service';
-import { PatternService } from '@am/shared/services/pattern.service';
+import { CategoriesService } from '@am/services/categories.service';
+import { PatternService } from '@am/services/pattern.service';
 
 import { AmstoreCardDirective } from '../card.directive';
-import { ResultRequest } from "@am/interface/request.interface";
+import { IResultRequest } from "@am/interface/request.interface";
 import { IndexedBlob, IndexedImage } from "@am/shared/viewer/image-list-editor/image-list-editor.component";
-import { ImagesService } from "@am/shared/services/images.service";
+import { ImagesService } from "@am/services/images.service";
 
 
 @Component({
@@ -236,7 +236,7 @@ export class AmstorePatternAddCardComponent extends AmstoreCardDirective impleme
             })
     }
 
-    private _getSetPatternRequest(saveSizeResult: PatternSaveSizeResult, patternSizes: unknown): Observable<ResultRequest> {
+    private _getSetPatternRequest(saveSizeResult: PatternSaveSizeResult, patternSizes: unknown): Observable<IResultRequest> {
         const sizes: PattenSizeFiles = (patternSizes as Record<string, unknown>[])
             .find((size: Record<string, unknown>) => size.size === saveSizeResult.size.id) as PattenSizeFiles;
 
@@ -259,7 +259,7 @@ export class AmstorePatternAddCardComponent extends AmstoreCardDirective impleme
         return this._patternService.setPatternSizeFiles(fileList);
     }
 
-    private _getSetColorRequest(patternId: number, color: unknown): Observable<ResultRequest> {
+    private _getSetColorRequest(patternId: number, color: unknown): Observable<IResultRequest> {
         const fileList: FormData = new FormData();
         fileList.append('patternId', String(patternId));
         if (color instanceof Blob) {

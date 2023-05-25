@@ -19,7 +19,7 @@ import {
     IUser,
 } from "@am/interface/profile.interface";
 import { AuthRegistrationRequest } from "@am/interface/request/auth-request.interface";
-import { ResultRequest } from "@am/interface/request.interface";
+import { IResultRequest } from "@am/interface/request.interface";
 import { UBehaviorSubject } from "@am/utils/u-behavior.subject";
 import { LocalStorage } from "@am/decorators/local.decorator";
 
@@ -98,8 +98,8 @@ export class ProfileService {
          return this.httpClient.get<unknown>(getAction(HttpAuthActions.SendVerifyToken, RestSuffixFragments.Auth));
     }
 
-    public verifyProfile(data: {user: string; token: string;}): Observable<ResultRequest> {
-        return this.httpClient.post<ResultRequest>(getAction(HttpAuthActions.Verify, RestSuffixFragments.Auth), data);
+    public verifyProfile(data: {user: string; token: string;}): Observable<IResultRequest> {
+        return this.httpClient.post<IResultRequest>(getAction(HttpAuthActions.Verify, RestSuffixFragments.Auth), data);
     }
 
     private _getUserStatusByProfile(value: IUser | null): UserEnum {

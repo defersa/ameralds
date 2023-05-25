@@ -1,4 +1,4 @@
-import { SmallPattern } from "./pattern.interface"
+import { IPattern } from "./pattern.interface"
 
 export type OrdersRequest = {
     page: number;
@@ -11,5 +11,21 @@ export type SmallOrders = {
     status: number;
     create_date: string;
     jewels: any[];
-    patterns: SmallPattern[];
+    patterns: IPattern[];
 }
+
+export type IAdminCart = {
+    purchases: IPatternPurchase[];
+}
+
+export type IPatternPurchase = {
+    pattern: number;
+    color: boolean;
+    sizes: number[];
+}
+
+export type IAdminOrder = IAdminCart & {
+    email: string;
+    date: Date;
+};
+

@@ -1,8 +1,6 @@
 import { Component } from '@angular/core';
-import { FilterQuery } from '@am/shared/paginated-page/paginated-page.component';
-import { CategoriesService } from '@am/shared/services/categories.service';
+import { CategoriesService } from '@am/services/categories.service';
 import { CategoryType } from '@am/interface/category.interface';
-import { PaginatedResponse } from '@am/interface/request.interface';
 import { FilteredPage, FiltersSet } from "@am/shared/abstract/filtered-page";
 import { Observable } from "rxjs";
 import { PageRequest } from "@am/interface/pattern.interface";

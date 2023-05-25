@@ -1,6 +1,6 @@
 import { CustomValidatorFns } from '@am/cdk/forms/custom-validators-fn';
 import { SizeType } from '@am/interface/size.interface';
-import { SizesService } from '@am/shared/services/sizes.service';
+import { SizesService } from '@am/services/sizes.service';
 import { Component, inject, OnInit } from '@angular/core';
 import { FormControl, FormGroup, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';

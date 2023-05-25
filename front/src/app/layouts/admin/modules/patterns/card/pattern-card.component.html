@@ -9,5 +9,7 @@
 <amstore-pattern-send [pattern]="pattern"></amstore-pattern-send>
 
 <amstore-pattern-card *ngIf="pattern" [data]="pattern">
-    <amstore-pattern-admin [pattern]="pattern"></amstore-pattern-admin>
+    <admin-pattern-cart [pattern]="pattern">
+        Добавить в корзину админа
+    </admin-pattern-cart>
 </amstore-pattern-card>

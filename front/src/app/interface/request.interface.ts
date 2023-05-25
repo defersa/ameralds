@@ -1,4 +1,4 @@
-export type ResultRequest = {
+export type IResultRequest = {
     result: boolean;
 }
 
@@ -11,7 +11,7 @@ export type IdRequest = {
     id: number;
 }
 
-export type PaginatedResponse<T> = {
+export type IPaginatedResponse<T> = {
     page: number;
     pageCount: number;
     items: T[];

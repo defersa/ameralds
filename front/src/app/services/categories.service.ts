@@ -3,15 +3,15 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { combineLatest, Observable, OperatorFunction, pipe } from 'rxjs';
 import { map, tap } from 'rxjs/operators';
-import { CategoryType } from 'src/app/interface/category.interface';
+import { CategoryType } from '@am/interface/category.interface';
 import {
     IItemResponse,
     IListResponse,
-    PaginatedResponse,
-    ResultRequest
-} from 'src/app/interface/request.interface';
-import { UB } from 'src/app/utils/action-builder';
-import { SnackService } from "@am/shared/services/snackbar.service";
+    IPaginatedResponse,
+    IResultRequest
+} from '@am/interface/request.interface';
+import { UB } from '@am/utils/action-builder';
+import { SnackService } from "@am/services/snackbar.service";
 import { BehaviorObservable, GetDataAction } from "@am/utils/data-action.subject";
 import { LangService, LangType } from "@am/services/lang.service";
 
@@ -35,8 +35,8 @@ export class CategoriesService {
             .pipe(map((result: IItemResponse<CategoryType>) => result.item));
     }
 
-    public getCategories(page: number): Observable<PaginatedResponse<CategoryType>> {
-        return this.httpClient.get<PaginatedResponse<CategoryType>>(UB(['api', 'categories', 'paginated']), {
+    public getCategories(page: number): Observable<IPaginatedResponse<CategoryType>> {
+        return this.httpClient.get<IPaginatedResponse<CategoryType>>(UB(['api', 'categories', 'paginated']), {
             params: {
                 page
             }
@@ -48,9 +48,9 @@ export class CategoriesService {
             .pipe(map((result: IListResponse<CategoryType>) => result.items));
     }
 
-    public editCategory(values: Record<string, unknown>): Observable<ResultRequest> {
+    public editCategory(values: Record<string, unknown>): Observable<IResultRequest> {
         return this.httpClient
-            .patch<ResultRequest>(UB(['api', 'categories']), values)
+            .patch<IResultRequest>(UB(['api', 'categories']), values)
             .pipe(this.retakeAndMessage('Категория изменена!'));
     }
 
@@ -60,9 +60,9 @@ export class CategoriesService {
             .pipe(this.retakeAndMessage('Категория добавлена!'));
     }
 
-    public deleteCategory(id: number): Observable<ResultRequest> {
+    public deleteCategory(id: number): Observable<IResultRequest> {
         return this.httpClient
-            .delete<ResultRequest>(UB(['api', 'sizes', id]))
+            .delete<IResultRequest>(UB(['api', 'sizes', id]))
             .pipe(this.retakeAndMessage('Размер изменен!'));
     }
 

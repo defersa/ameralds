@@ -2,7 +2,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { GoodsCard, GoodsStatusResult } from 'src/app/interface/goods.intreface';
-import { PatternMaxType, SmallPattern } from 'src/app/interface/pattern.interface';
+import { PatternMaxType, IPattern } from 'src/app/interface/pattern.interface';
 import { GoodsService } from 'src/app/services/goods.service';
 import { ProfileService } from 'src/app/services/profile.service';
 

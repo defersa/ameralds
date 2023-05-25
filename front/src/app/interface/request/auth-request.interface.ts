@@ -1,4 +1,4 @@
 import { FormErrorResponse } from "@am/cdk/forms/form-async-error.handler";
-import { ResultRequest } from "@am/interface/request.interface";
+import { IResultRequest } from "@am/interface/request.interface";
 
-export type AuthRegistrationRequest = FormErrorResponse & ResultRequest;
+export type AuthRegistrationRequest = FormErrorResponse & IResultRequest;

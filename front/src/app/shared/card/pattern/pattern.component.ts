@@ -20,7 +20,7 @@ import { LangType } from '@am/interface/lang.interface';
 import { AmstoreCardDirective } from '../card.directive';
 import { CategoryType } from '@am/interface/category.interface';
 import { SIZE_UNIT } from "@am/utils/constants";
-import { PatternService } from "@am/shared/services/pattern.service";
+import { PatternService } from "@am/services/pattern.service";
 import { EMPTY_PATTERN } from "@am/shared/mocks/pattern";
 
 @Component({

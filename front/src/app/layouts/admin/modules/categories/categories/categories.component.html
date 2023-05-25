@@ -3,9 +3,6 @@
     Создать новую
 </button>
 
-<!--<amstore-paginated-page (queryEvent)="nextPage($event)" [pageCount]="pageCount">-->
-<!--</amstore-paginated-page>-->
-
 <div class="amstore-categories-container">
     <div *ngFor="let item of items$ | async" class="amstore-categories-container-row" [routerLink]="['edit', item.id]">
         <div class="amstore-categories-container-col-small">{{item.id}}</div>

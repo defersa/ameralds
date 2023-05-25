@@ -1,5 +1,5 @@
 import { LangType } from '@am/interface/lang.interface';
-import { IItemResponse, ResultRequest } from '@am/interface/request.interface';
+import { IItemResponse, IResultRequest } from '@am/interface/request.interface';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { ActivatedRoute, Params, Router } from '@angular/router';
@@ -9,9 +9,9 @@ import {
     PageRequest,
     PatternMaxType,
     PatternSaveResultResponse,
-} from 'src/app/interface/pattern.interface';
-import { getAction, HttpActions, UB } from 'src/app/utils/action-builder';
-import { MapImage } from '../../layouts/store/utils/images';
+} from '@am/interface/pattern.interface';
+import { getAction, HttpActions, UB } from '@am/utils/action-builder';
+import { MapImage } from '../layouts/store/utils/images';
 
 
 @Injectable({
@@ -73,26 +73,26 @@ export class PatternService {
         return this.httpClient.patch<PatternSaveResultResponse>(UB(['api', 'patterns', 'edit']), data);
     }
 
-    public removePattern(id: number): Observable<ResultRequest> {
-        return this.httpClient.delete<ResultRequest>(UB(['api', 'patterns', 'edit']), {params: {id: String(id)}});
+    public removePattern(id: number): Observable<IResultRequest> {
+        return this.httpClient.delete<IResultRequest>(UB(['api', 'patterns', 'edit']), {params: {id: String(id)}});
     }
 
-    public setPatternSizeFiles(data: FormData): Observable<ResultRequest> {
-        return this.httpClient.post<ResultRequest>(getAction(HttpActions.PatternSizeFile), data);
+    public setPatternSizeFiles(data: FormData): Observable<IResultRequest> {
+        return this.httpClient.post<IResultRequest>(getAction(HttpActions.PatternSizeFile), data);
     }
 
-    public setPatternColorFile(data: FormData): Observable<ResultRequest> {
-        return this.httpClient.post<ResultRequest>(getAction(HttpActions.PatternColorsFile), data);
+    public setPatternColorFile(data: FormData): Observable<IResultRequest> {
+        return this.httpClient.post<IResultRequest>(getAction(HttpActions.PatternColorsFile), data);
     }
 
-    public sendPatternMail(email: string, lang: LangType, patternId: number, sizes: number[]): Observable<ResultRequest> {
+    public sendPatternMail(email: string, lang: LangType, patternId: number, sizes: number[]): Observable<IResultRequest> {
         const data: Record<string, unknown> = {
             email,
             lang,
             id: patternId,
             sizes
         }
-        return this.httpClient.post<ResultRequest>(getAction(HttpActions.SendMail), data);
+        return this.httpClient.post<IResultRequest>(getAction(HttpActions.SendMail), data);
     }
 
 

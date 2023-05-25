@@ -4,7 +4,7 @@ import { DialogService } from "@am/core/dialog/dialog.service";
 import { ActivatedRoute, Params, Router } from "@angular/router";
 import { switchMap, take } from "rxjs/operators";
 import { of } from "rxjs";
-import { ResultRequest } from "@am/interface/request.interface";
+import { IResultRequest } from "@am/interface/request.interface";
 import { fromPromise } from "rxjs/internal-compatibility";
 
 
@@ -34,7 +34,7 @@ export class AmstoreVerifyComponent implements OnInit {
                 }
                 return this._profile.verifyProfile({ user: params.user, token: params.token });
             })
-        ).subscribe((response: ResultRequest) => {
+        ).subscribe((response: IResultRequest) => {
             fromPromise(this._router.navigate(['/']))
                 .subscribe(() => {
                     this._dialog.openDialog({

@@ -3,7 +3,7 @@ import { ActivatedRoute } from '@angular/router';
 import { Observable, of } from 'rxjs';
 import { ImageModelSmall } from '@am/interface/image.interface';
 import { PatternMaxType } from '@am/interface/pattern.interface';
-import { PatternService } from '@am/shared/services/pattern.service';
+import { PatternService } from '@am/services/pattern.service';
 import { EMPTY_PATTERN } from "@am/shared/mocks/pattern";
 import { Location } from "@angular/common";
 

@@ -1,7 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule, Routes } from '@angular/router';
-import { AmstorePaginatedPageModule } from 'src/app/shared/paginated-page/paginated-page.module';
 import { AmstoreCdkModule } from '@am/cdk/cdk.module';
 import { AmstoreCardModule } from "@am/shared/card/card.module";
 
@@ -54,7 +53,6 @@ export const routes: Routes = [{
         RouterModule.forChild(routes),
         CommonModule,
         AmstoreCdkModule,
-        AmstorePaginatedPageModule,
         AmstoreCardModule,
 
         MenuModule,

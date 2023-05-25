@@ -1,7 +1,7 @@
 import { Component, inject, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 
-import { PatternService } from '@am/shared/services/pattern.service';
+import { PatternService } from '@am/services/pattern.service';
 import { PatternMaxType } from '@am/interface/pattern.interface';
 import { DestroySubject } from "@am/utils/destroy.service";
 import { Location } from "@angular/common";
