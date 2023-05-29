@@ -17,3 +17,6 @@ admin.site.register(models.PrivateFile)
 admin.site.register(models.PatternSize)
 admin.site.register(models.LangCharFieldShort)
 admin.site.register(models.Token)
+
+admin.site.register(models.BoughtAdminPattern)
+admin.site.register(models.AdminOrder)
