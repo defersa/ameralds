@@ -1,13 +1,18 @@
-import { Component, Input, OnInit } from '@angular/core';
-import { IPattern, PattenSizeFiles, PatternMaxType } from "@am/interface/pattern.interface";
+import { Component, inject, Input, OnInit } from '@angular/core';
+import { PattenSizeFiles, PatternMaxType } from "@am/interface/pattern.interface";
 import { FormControl, FormGroup } from "@angular/forms";
 import { SelectOption } from "@am/cdk/forms/forms.abstract.directive";
-import { IdName } from "@am/interface/request.interface";
+import { AdminOrderService } from "@am/services/admin-order.service";
+import { filter, map, takeUntil, tap } from "rxjs/operators";
+import { IAdminCart, IPatternPurchase } from "@am/interface/order.interface";
+import { DestroyService } from "@am/utils/destroy.service";
+
 
 @Component({
     selector: 'admin-pattern-cart',
     templateUrl: './cart.component.html',
-    styleUrls: ['./cart.component.scss']
+    styleUrls: ['./cart.component.scss'],
+    providers: [DestroyService],
 })
 export class CartComponent implements OnInit {
 
@@ -25,19 +30,65 @@ export class CartComponent implements OnInit {
         return this._pattern;
     }
 
+    public isEmpty: boolean = false;
+
     private _pattern: PatternMaxType;
+    protected onDestroy: DestroyService = inject(DestroyService);
 
     public form: FormGroup = new FormGroup({
         color: new FormControl(),
-        size: new FormControl([]),
+        sizes: new FormControl([]),
     });
 
     public sizeItems: SelectOption[] = [];
 
-    constructor() {
+    constructor(
+        public adminOrderService: AdminOrderService,
+    ) {
     }
 
     ngOnInit(): void {
+        this.form.valueChanges.subscribe((values: IPatternPurchase) => {
+            if (CartComponent.isEmptyValues(values) && !values.sizes?.length) {
+                this.adminOrderService.removePattern(this.pattern.id);
+                return;
+            }
+
+            this.adminOrderService.addPattern({
+                ...values,
+                pattern: this.pattern.id,
+            });
+        });
+
+        this.adminOrderService.order$
+            .pipe(
+                map((cart: IAdminCart) => cart.purchases.find((purchase: IPatternPurchase) => purchase.pattern === this.pattern.id)),
+                takeUntil(this.onDestroy),
+            )
+            .subscribe((purchase: IPatternPurchase) => {
+                const value: IPatternPurchase = this.form.value;
+                this.isEmpty = CartComponent.isEmptyValues(value);
+
+                if (!purchase && this.isEmpty) {
+                    return;
+                }
+
+                if (purchase?.color === value?.color && value?.sizes.sort().join() === purchase?.sizes.sort().join()) {
+                    return;
+                }
+
+                this.form.setValue({
+                    color: purchase?.color || false,
+                    sizes: purchase?.sizes ?? [],
+                });
+            });
     }
 
+    public removePattern(): void {
+        this.adminOrderService.removePattern(this.pattern.id);
+    }
+
+    private static isEmptyValues(value: IPatternPurchase): boolean {
+        return !value.color && !value?.sizes.length;
+    }
 }

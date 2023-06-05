@@ -4,7 +4,7 @@ import { BehaviorSubject, Subject } from 'rxjs';
 import { startWith, takeUntil } from 'rxjs/operators';
 import { AmstoreColor, ThemePalette } from '../core/color';
 import { getControlErrors } from './error-message-builder';
-import { DestroySubject } from "@am/utils/destroy.service";
+import { DestroyService } from "@am/utils/destroy.service";
 
 
 export type SelectOption = {
@@ -14,7 +14,7 @@ export type SelectOption = {
 
 @Directive({
     selector: 'forms-base',
-    providers: [DestroySubject],
+    providers: [DestroyService],
 })
 export class AmstoreFormsBaseDirective extends AmstoreColor {
     @HostBinding('class')
@@ -70,7 +70,7 @@ export class AmstoreFormsBaseDirective extends AmstoreColor {
 
     protected _control: AbstractControl = new FormControl();
     protected _controlChanged: Subject<void>;
-    protected onDestroy: DestroySubject = inject(DestroySubject);
+    protected onDestroy: DestroyService = inject(DestroyService);
 
     public get formControl(): FormControl {
         return this.control as FormControl;

@@ -3,7 +3,7 @@ import {
     ActivatedRoute, Params, Router, Event, NavigationEnd, Navigation
 } from "@angular/router";
 import { filter, map, takeUntil } from "rxjs/operators";
-import { DestroySubject } from "@am/utils/destroy.service";
+import { DestroyService } from "@am/utils/destroy.service";
 import { BehaviorSubject } from "rxjs";
 
 
@@ -11,11 +11,11 @@ export type FiltersSet = Record<string, unknown>;
 
 @Directive({
     providers: [
-        DestroySubject,
+        DestroyService,
     ]
 })
 export abstract class FilteredPage {
-    protected onDestroy: DestroySubject = inject(DestroySubject);
+    protected onDestroy: DestroyService = inject(DestroyService);
     protected activateRoute: ActivatedRoute = inject(ActivatedRoute);
     protected router: Router = inject(Router);
 

@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { DestroySubject } from "@am/utils/destroy.service";
+import { DestroyService } from "@am/utils/destroy.service";
 import { AbstractPatternsIndex } from "@am/shared/actions/pattern/pattern-index.abstract";
 
 
@@ -7,7 +7,7 @@ import { AbstractPatternsIndex } from "@am/shared/actions/pattern/pattern-index.
     selector: 'store-patterns',
     templateUrl: './patterns.component.html',
     styleUrls: ['./patterns.component.scss'],
-    providers: [DestroySubject],
+    providers: [DestroyService],
 })
 export class PatternsComponent extends AbstractPatternsIndex {
 }

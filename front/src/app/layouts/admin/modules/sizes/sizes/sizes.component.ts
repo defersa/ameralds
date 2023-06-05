@@ -6,14 +6,14 @@ import { Observable } from "rxjs";
 import { filter, map, switchMap } from "rxjs/operators";
 import { FilteredPage, FiltersSet } from "@am/shared/abstract/filtered-page";
 import { Params } from "@angular/router";
-import { DestroySubject } from "@am/utils/destroy.service";
+import { DestroyService } from "@am/utils/destroy.service";
 
 
 @Component({
     selector: 'app-sizes',
     templateUrl: './sizes.component.html',
     styleUrls: ['./sizes.component.scss'],
-    providers: [DestroySubject],
+    providers: [DestroyService],
 })
 export class SizesComponent extends FilteredPage {
     public items$: Observable<SizeType[]> = this.filterSet$.pipe(

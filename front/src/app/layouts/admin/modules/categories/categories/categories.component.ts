@@ -3,17 +3,18 @@ import { CategoriesService } from '@am/services/categories.service';
 import { CategoryType } from '@am/interface/category.interface';
 import { FilteredPage, FiltersSet } from "@am/shared/abstract/filtered-page";
 import { Observable } from "rxjs";
-import { PageRequest } from "@am/interface/pattern.interface";
+import { PatternMaxType } from "@am/interface/pattern.interface";
 import { filter, map, switchMap } from "rxjs/operators";
 import { Params } from "@angular/router";
-import { DestroySubject } from "@am/utils/destroy.service";
+import { DestroyService } from "@am/utils/destroy.service";
+import { IPaginatedResponse } from "@am/interface/request.interface";
 
 
 @Component({
     selector: 'admin-categories',
     templateUrl: './categories.component.html',
     styleUrls: ['./categories.component.scss'],
-    providers: [DestroySubject],
+    providers: [DestroyService],
 })
 export class CategoriesComponent extends FilteredPage {
     public items$: Observable<CategoryType[]> = this.filterSet$.pipe(
@@ -24,7 +25,7 @@ export class CategoriesComponent extends FilteredPage {
             return this.page;
         }),
         switchMap((page: number) => this.categories.getCategories(page)),
-        map((result: PageRequest) => {
+        map((result: IPaginatedResponse<PatternMaxType>) => {
                 this.pageCount = result.pageCount;
                 return result.items;
             }

@@ -3,7 +3,7 @@ import { ActivatedRoute } from '@angular/router';
 
 import { PatternService } from '@am/services/pattern.service';
 import { PatternMaxType } from '@am/interface/pattern.interface';
-import { DestroySubject } from "@am/utils/destroy.service";
+import { DestroyService } from "@am/utils/destroy.service";
 import { Location } from "@angular/common";
 
 
@@ -17,7 +17,7 @@ type PatterButtonStatus = {
     selector: 'amstore-pattern-page',
     templateUrl: './pattern-card.component.html',
     styleUrls: ['./pattern-card.component.scss'],
-    providers: [DestroySubject],
+    providers: [DestroyService],
 })
 export class PatternCardComponent implements OnInit {
     protected readonly location: Location = inject(Location);

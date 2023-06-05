@@ -22,7 +22,7 @@ export const routes: Routes = [{
         },
         {
             path: 'patterns',
-            loadChildren: () => import('./pages/pattern/patterns.module').then(m => m.PatternsStoreModule)
+            loadChildren: () => import('./modules/pattern/patterns.module').then(m => m.PatternsStoreModule)
         },
         {
             path: 'jewelrys',

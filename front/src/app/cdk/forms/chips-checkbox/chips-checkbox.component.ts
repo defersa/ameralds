@@ -10,7 +10,7 @@ import {
 } from '@angular/core';
 import { AmstoreFormsBaseDirective, SelectOption } from "@am/cdk/forms/forms.abstract.directive";
 import { startWith, takeUntil } from "rxjs/operators";
-import { DestroySubject } from "@am/utils/destroy.service";
+import { DestroyService } from "@am/utils/destroy.service";
 
 
 @Component({
@@ -18,7 +18,7 @@ import { DestroySubject } from "@am/utils/destroy.service";
     templateUrl: './chips-checkbox.component.html',
     encapsulation: ViewEncapsulation.None,
     changeDetection: ChangeDetectionStrategy.OnPush,
-    providers: [DestroySubject],
+    providers: [DestroyService],
     host: {
         class: 'amstore-chips-checkbox'
     }
@@ -35,7 +35,7 @@ export class AmstoreChipsCheckboxComponent extends AmstoreFormsBaseDirective imp
         super(elementRef, _changeDetectorRef);
     }
 
-    protected onDestroy: DestroySubject = inject(DestroySubject);
+    protected onDestroy: DestroyService = inject(DestroyService);
 
     public ngOnChanges(changes: SimpleChanges): void {
         if (changes.items?.currentValue || changes.control?.currentValue) {

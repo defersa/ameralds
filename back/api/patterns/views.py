@@ -216,3 +216,17 @@ class PatternEditView(APIView):
 
         return PatternSizeSerializer(entity.sizes, many=True).data
 
+
+class ByIdsPatternsView(APIView):
+    @classmethod
+    def get(cls, request):
+        ids = request.GET.getlist('ids', [])
+        ids = list(map(int, ids))
+
+        pattern_list: QuerySet[Pattern] = Pattern.objects.filter(pk__in=ids).distinct()
+
+        patterns = PatternsMinSerializer(pattern_list, many=True).data
+
+        return Response({
+            'items': patterns
+        })

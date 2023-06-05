@@ -1,5 +1,4 @@
 import { IdName } from "./request.interface"
-import { PatternType } from "@am/interface/pattern.interface";
 
 export type ImageModelSmall = {
     id: number;

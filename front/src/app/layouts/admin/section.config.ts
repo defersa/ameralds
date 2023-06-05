@@ -21,6 +21,16 @@ export const adminConfig: SectionsConfig = {
                 path: ['/', 'admin', 'categories'],
                 icon: 'pattern',
             },
+            {
+                label: 'Корзина',
+                path: ['/', 'admin', 'orders', 'cart'],
+                icon: 'pattern',
+            },
+            {
+                label: 'Заказы админа',
+                path: ['/', 'admin', 'orders', 'list'],
+                icon: 'pattern',
+            },
         ]
     }
 }

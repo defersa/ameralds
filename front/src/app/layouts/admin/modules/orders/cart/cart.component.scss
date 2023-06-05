@@ -1,0 +1,10 @@
+@import "spacing";
+@import "untils";
+
+.admin-cart {
+    &__pattern {
+        margin: get-spacing(4) 0;
+        padding: get-spacing(4);
+        @include amstore-border();
+    }
+}

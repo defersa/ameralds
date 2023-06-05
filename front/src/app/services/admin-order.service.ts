@@ -6,9 +6,10 @@ import { HttpClient } from "@angular/common/http";
 import { UB } from "@am/utils/action-builder";
 import { Params } from "@angular/router";
 import { IPaginatedResponse, IResultRequest } from "@am/interface/request.interface";
+import { parseJsonWithDefault } from "@am/utils/common.utils";
 
 
-const ADMIN_ORDER_NAME: string = '';
+const ADMIN_ORDER_NAME: string = 'adminOrder';
 
 @Injectable({
     providedIn: 'root'
@@ -21,12 +22,18 @@ export class AdminOrderService {
         return this._order$.asObservable();
     }
 
-    private _order$: BehaviorSubject<IAdminCart> = new BehaviorSubject(JSON.parse(this.order) || { purchases: [] });
+    private _order$: BehaviorSubject<IAdminCart> = new BehaviorSubject(parseJsonWithDefault(this.order, { purchases: [] }));
 
     constructor(
         private httpClient: HttpClient,
     ) {
-        this._order$.subscribe((order: IAdminCart) => this.order = JSON.stringify(order));
+        this._order$.subscribe((order: IAdminCart) => {
+            this.order = JSON.stringify(order)
+
+            if (!this.isNotValidOrder(order)) {
+                this.clearOrder();
+            }
+        });
     }
 
     public addPattern(purchase: IPatternPurchase): void {
@@ -60,5 +67,9 @@ export class AdminOrderService {
 
     public sendOrder(data: Params): Observable<IResultRequest> {
         return this.httpClient.post<IResultRequest>(UB(['api', 'admin', 'order']), data);
+    }
+
+    private isNotValidOrder(cart: IAdminCart): boolean {
+        return cart && Array.isArray(cart.purchases);
     }
 }

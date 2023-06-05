@@ -7,7 +7,7 @@ import { SizesService } from "@am/services/sizes.service";
 import { CategoriesService } from "@am/services/categories.service";
 import { LangService } from "@am/services/lang.service";
 import { OptionType } from "@am/interface/cdk.interface";
-import { DestroySubject } from "@am/utils/destroy.service";
+import { DestroyService } from "@am/utils/destroy.service";
 import { ThemePalette } from "@am/cdk/core/color";
 
 
@@ -15,7 +15,7 @@ import { ThemePalette } from "@am/cdk/core/color";
     selector: 'amstore-filter',
     templateUrl: './filter.component.html',
     styleUrls: ['./filter.component.scss'],
-    providers: [DestroySubject],
+    providers: [DestroyService],
     host: {
         class: 'amstore-filter'
     }
@@ -49,7 +49,7 @@ export class AmstoreFilterComponent implements OnInit {
 
     public isChanged: boolean = false;
     public isEmpty: boolean = false;
-    protected onDestroy: DestroySubject = inject(DestroySubject);
+    protected onDestroy: DestroyService = inject(DestroyService);
 
     @Output()
     public onSetFilters: EventEmitter<Record<string, unknown>> = new EventEmitter<Record<string, unknown>>();

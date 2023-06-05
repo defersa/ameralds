@@ -1,0 +1,7 @@
+<h2>Заказ</h2>
+
+<div *ngFor="let pattern of patterns$ | async"
+    class="admin-cart__pattern">
+    {{pattern.name.ru}}
+    <admin-pattern-cart [pattern]="pattern"></admin-pattern-cart>
+</div>
