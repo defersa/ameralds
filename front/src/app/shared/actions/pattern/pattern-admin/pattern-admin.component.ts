@@ -3,7 +3,7 @@ import { FormGroup, UntypedFormControl } from "@angular/forms";
 import { Subject } from "rxjs";
 import { takeUntil } from "rxjs/operators";
 
-import { PattenSizeFiles, PatternMaxType } from "@am/interface/pattern.interface";
+import { IPattern, PattenSizeFiles } from "@am/interface/pattern.interface";
 import { AdminService } from "@am/services/admin.service";
 import { CartPattern } from "@am/interface/cart.interface";
 import { AbstractPatternCard, SizeWithControl } from "@am/shared/actions/pattern/pattern.abstract";
@@ -19,7 +19,7 @@ export class PatternAdminComponent extends AbstractPatternCard {
     public colorControl: UntypedFormControl = new UntypedFormControl(false);
 
     @Input()
-    public set pattern(value: PatternMaxType) {
+    public set pattern(value: IPattern) {
         this._pattern = value;
         this.setFormControl(value);
     }
@@ -34,7 +34,7 @@ export class PatternAdminComponent extends AbstractPatternCard {
         super(_injector);
     }
 
-    public setFormControl(value: PatternMaxType): void {
+    public setFormControl(value: IPattern): void {
         this.destroyOldPattern.next();
         this.destroyOldPattern.complete();
 

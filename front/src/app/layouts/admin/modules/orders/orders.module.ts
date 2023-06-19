@@ -6,6 +6,7 @@ import { AmstoreSharedModule } from "@am/shared/shared.module";
 import { PatternModule } from "@am/shared/actions/pattern/pattern.module";
 import { NgModule } from "@angular/core";
 import { IndexComponent } from './index/index.component';
+import { ImageListModule } from "@am/shared/image-list/image-list.module";
 
 
 const routes: Routes = [
@@ -31,6 +32,7 @@ const routes: Routes = [
         AmstoreCdkModule,
         AmstoreSharedModule,
         PatternModule,
+        ImageListModule,
     ],
 })
 export class OrdersModule {

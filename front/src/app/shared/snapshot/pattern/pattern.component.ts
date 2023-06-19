@@ -6,7 +6,7 @@ import { expandAnimation } from '@am/cdk/animations/expand';
 import { LangType } from '@am/interface/lang.interface';
 import { GoodsCard, ProductLite } from '@am/interface/goods.intreface';
 import { ImageModelSmall } from '@am/interface/image.interface';
-import { PattenSizeFiles, PatternMaxType } from '@am/interface/pattern.interface';
+import { IPattern, PattenSizeFiles } from '@am/interface/pattern.interface';
 import { IdName } from '@am/interface/request.interface';
 import { GoodsService } from '@am/services/goods.service';
 import { LangService } from '@am/services/lang.service';
@@ -27,7 +27,7 @@ import { CategoryType } from "@am/interface/category.interface";
 })
 export class AmstoreSnapshotPatternComponent extends AmstoreSnapshotBaseDirective implements OnDestroy, OnInit {
     @Input()
-    public data: PatternMaxType;
+    public data: IPattern;
 
     public status: 'buy' | 'remove' | 'bought' = 'buy';
     public showSale: boolean = false;

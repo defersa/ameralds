@@ -1,7 +1,5 @@
 <div class="amstore-card-images-wrapper">
-    <div class="amstore-card-images">
-        <img *ngFor="let image of images; index as i;" [src]="image.image_full" (click)="openViewer(data.images, i)" class="amstore-card-img">
-    </div>
+    <amstore-image-list [images]="images"></amstore-image-list>
 </div>
 <div class="amstore-card-container">
     <div class="amstore-card-container-header">

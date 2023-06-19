@@ -10,7 +10,7 @@ from rest_framework.views import APIView
 
 from ..models import Pattern, LangCharFieldShort, LangIntegerField, Image, Size
 from ..patternFile import PatternSize, PatternSizeSerializer
-from .serializers import PatternsMinSerializer, PatternsMaxSerializer
+from .serializers import PatternsSerializer
 
 
 PATTERNS_ON_LIST = 5
@@ -52,7 +52,7 @@ class PaginatedPatternsView(APIView):
         paginator = Paginator(
             pattern_list.order_by('-views'), per_page)
 
-        patterns = PatternsMinSerializer(
+        patterns = PatternsSerializer(
             paginator.page(page), many=True).data
 
         return Response({
@@ -70,7 +70,7 @@ class OwnPatternsView(APIView):
         person_patterns = request.user.person.patterns
         paginator = Paginator(
             person_patterns.order_by('-views'), PATTERNS_ON_LIST)
-        serializer_patterns = PatternsMinSerializer(
+        serializer_patterns = PatternsSerializer(
             paginator.page(page), many=True).data
 
         return Response({
@@ -96,7 +96,7 @@ class PatternCardView(APIView):
         pattern.views = pattern.views + 1
         pattern.save()
 
-        data = PatternsMaxSerializer(pattern).data
+        data = PatternsSerializer(pattern).data
 
         return Response({
             'result': True,
@@ -118,7 +118,7 @@ class PatternEditView(APIView):
 
         pattern = Pattern.objects.get(pk=pk)
 
-        data = PatternsMaxSerializer(pattern).data
+        data = PatternsSerializer(pattern).data
 
         return Response({
             'result': True,
@@ -225,7 +225,7 @@ class ByIdsPatternsView(APIView):
 
         pattern_list: QuerySet[Pattern] = Pattern.objects.filter(pk__in=ids).distinct()
 
-        patterns = PatternsMinSerializer(pattern_list, many=True).data
+        patterns = PatternsSerializer(pattern_list, many=True).data
 
         return Response({
             'items': patterns

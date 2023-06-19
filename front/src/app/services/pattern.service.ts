@@ -7,11 +7,9 @@ import { Observable } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
 import {
     IPattern,
-    PatternMaxType,
     PatternSaveResultResponse,
 } from '@am/interface/pattern.interface';
 import { getAction, HttpActions, UB } from '@am/utils/action-builder';
-import { MapImage } from '../layouts/store/utils/images';
 
 
 @Injectable({
@@ -23,28 +21,21 @@ export class PatternService {
     ) {
     }
 
-    public getPatterns(params: Params): Observable<IPaginatedResponse<PatternMaxType>> {
-        return this.httpClient.get<IPaginatedResponse<PatternMaxType>>(UB(['api', 'patterns', 'paginated']), { params })
-            .pipe(map((value: IPaginatedResponse<PatternMaxType>) => {
-                value.items.forEach((pattern: PatternMaxType) => pattern.images = pattern.images.map(MapImage));
-                return value;
-            }));
+    public getPatterns(params: Params): Observable<IPaginatedResponse<IPattern>> {
+        return this.httpClient.get<IPaginatedResponse<IPattern>>(UB(['api', 'patterns', 'paginated']), { params });
     }
 
-    public getPattern(id: number): Observable<PatternMaxType> {
+    public getPattern(id: number): Observable<IPattern> {
         return this.httpClient
-            .get<IItemResponse<PatternMaxType>>(UB(['api', 'patterns']), { params: { id: String(id) } })
+            .get<IItemResponse<IPattern>>(UB(['api', 'patterns']), { params: { id: String(id) } })
             .pipe(
-                filter((value: IItemResponse<PatternMaxType>) => {
+                filter((value: IItemResponse<IPattern>) => {
                     if (!value.result) {
                         return false;
                     }
                     return true;
                 }),
-                map((value: IItemResponse<PatternMaxType>) => {
-                    value.item.images = value.item.images.map(MapImage);
-                    return value.item;
-                })
+                map((value: IItemResponse<IPattern>) => value.item),
             );
     }
 
@@ -54,20 +45,17 @@ export class PatternService {
                 map((value: IListResponse<IPattern>) => value.items));
     }
 
-    public getPatternEdit(id: number): Observable<PatternMaxType> {
+    public getPatternEdit(id: number): Observable<IPattern> {
         return this.httpClient
-            .get<IItemResponse<PatternMaxType>>(UB(['api', 'patterns', 'edit']), { params: { id: String(id) } })
+            .get<IItemResponse<IPattern>>(UB(['api', 'patterns', 'edit']), { params: { id: String(id) } })
             .pipe(
-                filter((value: IItemResponse<PatternMaxType>) => {
+                filter((value: IItemResponse<IPattern>) => {
                     if (!value.result) {
                         return false;
                     }
                     return true
                 }),
-                map((value: IItemResponse<PatternMaxType>) => {
-                    value.item.images = value.item.images.map(MapImage);
-                    return value.item;
-                })
+                map((value: IItemResponse<IPattern>) => value.item)
             );
     }
 

@@ -10,6 +10,7 @@ import { AmstoreButtonDefaultModule } from '@am/cdk/buttons/default/default.modu
 import { AmstoreInfoModule } from '@am/cdk/info/info.module';
 import { AmstoreSlideModule } from '@am/cdk/slide/slide.module';
 import { RouterModule } from "@angular/router";
+import { OutsideSrcModule } from "@am/shared/outside-src/outside-src.module";
 
 
 
@@ -23,6 +24,7 @@ import { RouterModule } from "@angular/router";
         AmstoreInfoModule,
         AmstoreSlideModule,
         RouterModule,
+        OutsideSrcModule,
     ],
     exports: [
         AmstoreSnapshotPatternComponent

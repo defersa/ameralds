@@ -7,13 +7,12 @@ import { expandAnimation } from '@am/cdk/animations/expand';
 import { ThemePalette } from '@am/cdk/core/color';
 import { AmstoreViewerService } from '@am/shared/viewer/viewer.service';
 
-import { GoodsService } from '@am/services/goods.service';
 import { LangService } from '@am/services/lang.service';
 import { ProfileService } from '@am/services/profile.service';
 
 
 import { ImageModelSmall } from '@am/interface/image.interface';
-import { PatternMaxType } from '@am/interface/pattern.interface';
+import { IPattern } from '@am/interface/pattern.interface';
 import { IdName } from '@am/interface/request.interface';
 import { LangType } from '@am/interface/lang.interface';
 
@@ -50,15 +49,15 @@ export class AmstorePatternCardComponent extends AmstoreCardDirective {
     }
 
     @Input()
-    public set data(value: PatternMaxType) {
+    public set data(value: IPattern) {
         this._data = value;
     };
 
-    public get data(): PatternMaxType {
+    public get data(): IPattern {
         return this._data;
     };
 
-    private _data: PatternMaxType = EMPTY_PATTERN;
+    private _data: IPattern = EMPTY_PATTERN;
 
     private _lang: LangType = 'ru';
 

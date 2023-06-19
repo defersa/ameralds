@@ -6,14 +6,14 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
 
-from .patterns.serializers import PatternsMinSerializer
+from .patterns.serializers import PatternsSerializer
 from .jewerelies.serializers import JewelryPriceSerializer
 from .models import Order
 
 
 class OrderMinSelializer(serializers.HyperlinkedModelSerializer):
     jewels = JewelryPriceSerializer(many=True)
-    patterns = PatternsMinSerializer(many=True)
+    patterns = PatternsSerializer(many=True)
     create_date = serializers.DateTimeField(format="%Y-%m-%d.%H-%M-%S")
 
     class Meta:

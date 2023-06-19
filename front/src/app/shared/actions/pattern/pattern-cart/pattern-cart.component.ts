@@ -1,7 +1,7 @@
-import { Component, Injector, Input, OnInit } from '@angular/core';
+import { Component, Injector, OnInit } from '@angular/core';
 import { IdName } from "@am/interface/request.interface";
 import { CategoryType } from "@am/interface/category.interface";
-import { PatternMaxType } from "@am/interface/pattern.interface";
+import { IPattern } from "@am/interface/pattern.interface";
 import { expandAnimation } from "@am/cdk/animations/expand";
 import { GoodsCard, GoodsModifire, ProductType } from "@am/interface/goods.intreface";
 import { ThemePalette } from "@am/cdk/core/color";
@@ -61,7 +61,8 @@ export class PatternCartComponent extends AbstractPatternCard implements OnInit 
                 this.status = 'buy';
                 const goods: GoodsCard = this.goodsService.goods$.value;
                 const bought: number[] = this.profileService.boughtPatterns$.value;
-                if (goods.patterns.find((value: PatternMaxType) => value.id === this.pattern.id)) {
+
+                if (goods.patterns.find((value: IPattern) => value.id === this.pattern.id)) {
                     this.status = 'remove';
                 }
                 if (bought.find((value: number) => value === this.pattern.id)) {

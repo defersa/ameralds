@@ -12,6 +12,7 @@ import { AmstorePanelModule } from "@am/cdk/panel/panel.module";
 import { AmstoreCardDirective } from './card.directive';
 import { AmstorePatternCardComponent } from './pattern/pattern.component';
 import { AmstorePatternAddCardComponent } from './pattern-add/pattern-add.component';
+import { ImageListModule } from "@am/shared/image-list/image-list.module";
 
 const COMPONENTS:  Array<Type<any> | any[]> = [
     AmstorePatternCardComponent,
@@ -30,7 +31,8 @@ const COMPONENTS:  Array<Type<any> | any[]> = [
         AmstoreSlideModule,
         AmstoreInfoModule,
         AmstoreFormsModule,
-        AmstorePanelModule
+        AmstorePanelModule,
+        ImageListModule,
     ],
     exports: COMPONENTS
 })

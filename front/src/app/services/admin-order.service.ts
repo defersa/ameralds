@@ -62,11 +62,11 @@ export class AdminOrderService {
     }
 
     public getOrders(params: Params): Observable<IPaginatedResponse<IAdminOrder>> {
-        return this.httpClient.get<IPaginatedResponse<IAdminOrder>>(UB(['api', 'admin', 'order', 'paginated']), { params });
+        return this.httpClient.get<IPaginatedResponse<IAdminOrder>>(UB(['api', 'admin-order', 'paginated']), { params });
     }
 
     public sendOrder(data: Params): Observable<IResultRequest> {
-        return this.httpClient.post<IResultRequest>(UB(['api', 'admin', 'order']), data);
+        return this.httpClient.post<IResultRequest>(UB(['api', 'admin-order']), data);
     }
 
     private isNotValidOrder(cart: IAdminCart): boolean {

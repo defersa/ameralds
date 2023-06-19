@@ -1,9 +1,9 @@
-import { PatternMaxType } from "./pattern.interface"
+import { IPattern } from "./pattern.interface"
 import { LangNumber } from "@am/interface/lang.interface";
 
 export type GoodsCard = {
     jewels: ProductLite[];
-    patterns: PatternMaxType[];
+    patterns: IPattern[];
     id: number;
 }
 export type GoodsModifire = {

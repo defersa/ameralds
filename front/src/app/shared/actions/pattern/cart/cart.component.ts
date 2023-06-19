@@ -1,9 +1,9 @@
 import { Component, inject, Input, OnInit } from '@angular/core';
-import { PattenSizeFiles, PatternMaxType } from "@am/interface/pattern.interface";
+import { IPattern, PattenSizeFiles } from "@am/interface/pattern.interface";
 import { FormControl, FormGroup } from "@angular/forms";
 import { SelectOption } from "@am/cdk/forms/forms.abstract.directive";
 import { AdminOrderService } from "@am/services/admin-order.service";
-import { filter, map, takeUntil, tap } from "rxjs/operators";
+import { map, takeUntil } from "rxjs/operators";
 import { IAdminCart, IPatternPurchase } from "@am/interface/order.interface";
 import { DestroyService } from "@am/utils/destroy.service";
 
@@ -17,7 +17,7 @@ import { DestroyService } from "@am/utils/destroy.service";
 export class CartComponent implements OnInit {
 
     @Input()
-    public set pattern(value: PatternMaxType) {
+    public set pattern(value: IPattern) {
         this._pattern = value;
 
         this.sizeItems = this._pattern.sizes.map((item: PattenSizeFiles) => ({
@@ -26,13 +26,13 @@ export class CartComponent implements OnInit {
         }));
     }
 
-    public get pattern(): PatternMaxType {
+    public get pattern(): IPattern {
         return this._pattern;
     }
 
     public isEmpty: boolean = false;
 
-    private _pattern: PatternMaxType;
+    private _pattern: IPattern;
     protected onDestroy: DestroyService = inject(DestroyService);
 
     public form: FormGroup = new FormGroup({

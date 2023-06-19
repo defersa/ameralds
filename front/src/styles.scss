@@ -38,7 +38,7 @@ $amstore-theme: mat-light-theme((
 @import "/src/app/styles/theming-var.scss";
 @import "/src/app/styles/spacing.scss";
 @import "/src/app/styles/typography.scss";
-@import "/src/app/styles/untils.scss";
+@import "app/styles/utils";
 @import './app/styles/base.scss';
 @import './app/styles/global.scss';
 

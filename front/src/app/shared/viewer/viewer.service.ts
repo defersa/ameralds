@@ -9,6 +9,7 @@ import {
 import { AmstoreViewerDialogComponent } from "@am/shared/viewer/viewer-dialog/viewer-dialog.component";
 
 
+// TODO: Not for root
 @Injectable({
     providedIn: 'root'
 })

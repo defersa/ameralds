@@ -2,7 +2,7 @@ import { Component, inject, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 
 import { PatternService } from '@am/services/pattern.service';
-import { PatternMaxType } from '@am/interface/pattern.interface';
+import { IPattern } from '@am/interface/pattern.interface';
 import { DestroyService } from "@am/utils/destroy.service";
 import { Location } from "@angular/common";
 
@@ -21,7 +21,7 @@ type PatterButtonStatus = {
 })
 export class PatternCardComponent implements OnInit {
     protected readonly location: Location = inject(Location);
-    public pattern: PatternMaxType | undefined;
+    public pattern: IPattern | undefined;
     public id: number;
 
     public button: PatterButtonStatus = {
@@ -40,7 +40,7 @@ export class PatternCardComponent implements OnInit {
 
     ngOnInit(): void {
         this.patternService.getPattern(this.id)
-            .subscribe((result: PatternMaxType) => this.pattern = result );
+            .subscribe((result: IPattern) => this.pattern = result );
     }
 
     public getBack(): void {

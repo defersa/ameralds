@@ -3,7 +3,7 @@ import { UntypedFormControl } from "@angular/forms";
 
 import { LangType } from "@am/interface/lang.interface";
 import { SIZE_UNIT } from "@am/utils/constants";
-import { PattenSizeFiles, PatternMaxType } from "@am/interface/pattern.interface";
+import { IPattern, PattenSizeFiles } from "@am/interface/pattern.interface";
 import { EMPTY_PATTERN } from "@am/shared/mocks/pattern";
 import { Subject } from "rxjs";
 import { LangService } from "@am/services/lang.service";
@@ -31,7 +31,7 @@ export class AbstractPatternCard implements OnDestroy {
 
     /** Pattern input */
     @Input()
-    public set pattern(value: PatternMaxType) {
+    public set pattern(value: IPattern) {
         this.sizesWithControl = value.sizes.map((item: PattenSizeFiles) => ({
             value: item.size.value,
             control: new UntypedFormControl(),
@@ -39,10 +39,10 @@ export class AbstractPatternCard implements OnDestroy {
         }));
         this._pattern = value;
     };
-    public get pattern(): PatternMaxType {
+    public get pattern(): IPattern {
         return this._pattern;
     };
-    protected _pattern: PatternMaxType = EMPTY_PATTERN;
+    protected _pattern: IPattern = EMPTY_PATTERN;
 
     /** Subjects */
     protected destroyed: Subject<void> = new Subject<void>();

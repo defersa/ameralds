@@ -6,8 +6,7 @@ import { AuthService } from './auth.service';
 import { LocalStorageService } from '../core/services/local-storage.service';
 import { getAction, HttpActions } from '../utils/action-builder';
 import { GoodsCard, ProductLite, ProductType, GoodsModifire, GoodsStatusResult } from '../interface/goods.intreface';
-import { PatternMaxType } from '../interface/pattern.interface';
-import { MapImage } from '../layouts/store/utils/images';
+import { IPattern } from '../interface/pattern.interface';
 
 
 const LOCAL_GOODS_NAME: string = 'localGoods';
@@ -21,11 +20,6 @@ export class GoodsService {
         if (!value) {
             return;
         }
-
-        value.patterns = value.patterns.map((item: PatternMaxType) => {
-            item.images = item.images.map(MapImage);
-            return item;
-        });
 
         this.goods$.next(value);
     }
@@ -67,14 +61,14 @@ export class GoodsService {
         })
     }
 
-    public addProduct(type: ProductType, product: ProductLite | PatternMaxType): Observable<any> {
+    public addProduct(type: ProductType, product: ProductLite | IPattern): Observable<any> {
         if (this.authService.authStatus$.value) {
             return this.httpClient
                 .post<GoodsModifire>(getAction(HttpActions.AddProduct), { id: product.id, productType: type })
                 .pipe( tap((request: GoodsModifire) => this.goods = request.goods));
         }
         const value: GoodsCard = this.localGoods;
-        ProductType.Patterns === type ? value.patterns.push(product as PatternMaxType) : value.jewels.push(product as ProductLite);
+        ProductType.Patterns === type ? value.patterns.push(product as IPattern) : value.jewels.push(product as ProductLite);
         this.goods$.next(value);
 
         return of({
@@ -91,7 +85,7 @@ export class GoodsService {
 
         const value: GoodsCard = this.localGoods;
         if(ProductType.Patterns === type){
-            value.patterns = value[type].filter((value: PatternMaxType) => value.id !== id );
+            value.patterns = value[type].filter((value: IPattern) => value.id !== id );
         }
         if(ProductType.Jewels === type){
             value.jewels = value[type].filter((value: ProductLite) => value.id !== id );
@@ -106,14 +100,6 @@ export class GoodsService {
 
     public buyGoods(): Observable<GoodsStatusResult> {
         return this.httpClient.post<GoodsStatusResult>(getAction(HttpActions.GoodsBuy), {}).pipe();
-    }
-
-    private mapGoods(goods: GoodsCard): GoodsCard {
-        goods.patterns = goods.patterns.map((item: PatternMaxType) => {
-            item.images = item.images.map(MapImage);
-            return item;
-        });
-        return goods;
     }
 
 }

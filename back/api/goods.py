@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .patterns.serializers import PatternsMinSerializer
+from .patterns.serializers import PatternsSerializer
 from .jewerelies.serializers import JewelryPriceSerializer
 from .models import Order, Pattern, Jewelry 
 from datetime import datetime
@@ -13,7 +13,7 @@ from .common.serializers import IdSerializer
 
 class GoodsSelializer(serializers.HyperlinkedModelSerializer):
     jewels = JewelryPriceSerializer(many=True)
-    patterns = PatternsMinSerializer(many=True)
+    patterns = PatternsSerializer(many=True)
 
     class Meta:
         model = Order
@@ -23,7 +23,7 @@ class GoodsSelializer(serializers.HyperlinkedModelSerializer):
 class Goods():
     def getGoods(person):
         orders = person.orders.filter(status=1)
-        order = None
+
         if len(orders) > 0:
             order = orders[0]
         else:

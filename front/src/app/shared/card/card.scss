@@ -1,6 +1,7 @@
-@import "../../styles/theming-var";
-@import "../../styles/spacing";
-@import "../../styles/typography";
+@import "theming-var";
+@import "spacing";
+@import "typography";
+@import "utils";
 
 $card-border-radius: 8px;
 
@@ -15,44 +16,11 @@ $card-border-radius: 8px;
     box-shadow: 0 0 8px rgba(get-amstore-color(gray, deep), .3);
 
 
-    &-images {
-        display: flex;
-        flex-direction: row;
-        flex-wrap: wrap;
-        align-content: flex-start;
-
-        &-wrapper {
-            @media screen and (min-width: 768px) {
-                text-align: center;
-                width: 30%;
-                padding: get-spacing(2);
-            }
-        }
-
-        img {
-            object-fit: cover;
-            cursor: pointer;
-            margin: get-spacing(1);
-            border-radius: 4px;
-            max-width: 25%;
-
-            @media screen and (min-width: 1280px) {
-                height: 30px;
-            }
-            @media screen and (min-width: 1920px) {
-                height: 50px;
-            }
-
-            &:first-child {
-                width: 100%;
-                max-width: 100%;
-                @media screen and (min-width: 1280px) {
-                    height: 120px;
-                }
-                @media screen and (min-width: 1920px) {
-                    height: 160px;
-                }
-            }
+    &-images-wrapper {
+        @include tablet {
+            text-align: center;
+            width: 30%;
+            padding: get-spacing(2);
         }
     }
 

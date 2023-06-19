@@ -2,7 +2,7 @@ import { Directive, inject } from "@angular/core";
 import { DestroyService } from "@am/utils/destroy.service";
 import { FilteredPage, FiltersSet } from "@am/shared/abstract/filtered-page";
 import { Observable } from "rxjs";
-import { PatternMaxType } from "@am/interface/pattern.interface";
+import { IPattern } from "@am/interface/pattern.interface";
 import { filter, map, switchMap } from "rxjs/operators";
 import { Params } from "@angular/router";
 import { PatternService } from "@am/services/pattern.service";
@@ -13,7 +13,7 @@ import { IPaginatedResponse } from "@am/interface/request.interface";
     providers: [DestroyService],
 })
 export abstract class AbstractPatternsIndex extends FilteredPage {
-    public items$: Observable<PatternMaxType[]> = this.filterSet$.pipe(
+    public items$: Observable<IPattern[]> = this.filterSet$.pipe(
         filter((result: FiltersSet) => !!result),
         map((result: FiltersSet) => {
             this.page = Number(result['page']) || 1;
@@ -24,7 +24,7 @@ export abstract class AbstractPatternsIndex extends FilteredPage {
             };
         }),
         switchMap((variables: Params) => this.pattern.getPatterns(variables)),
-        map((result: IPaginatedResponse<PatternMaxType>) => {
+        map((result: IPaginatedResponse<IPattern>) => {
                 this.pageCount = result.pageCount;
                 return result.items;
             }

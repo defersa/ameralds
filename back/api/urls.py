@@ -38,5 +38,6 @@ urlpatterns = [
     path('sizes/', include('api.sizes.urls')),
     path('categories/', include('api.categories.urls')),
     path('images/', include('api.images.urls')),
+    path('admin-order/', include('api.admin_order.urls')),
     
 ]

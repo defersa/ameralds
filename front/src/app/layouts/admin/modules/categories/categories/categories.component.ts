@@ -3,7 +3,7 @@ import { CategoriesService } from '@am/services/categories.service';
 import { CategoryType } from '@am/interface/category.interface';
 import { FilteredPage, FiltersSet } from "@am/shared/abstract/filtered-page";
 import { Observable } from "rxjs";
-import { PatternMaxType } from "@am/interface/pattern.interface";
+import { IPattern } from "@am/interface/pattern.interface";
 import { filter, map, switchMap } from "rxjs/operators";
 import { Params } from "@angular/router";
 import { DestroyService } from "@am/utils/destroy.service";
@@ -25,7 +25,7 @@ export class CategoriesComponent extends FilteredPage {
             return this.page;
         }),
         switchMap((page: number) => this.categories.getCategories(page)),
-        map((result: IPaginatedResponse<PatternMaxType>) => {
+        map((result: IPaginatedResponse<IPattern>) => {
                 this.pageCount = result.pageCount;
                 return result.items;
             }

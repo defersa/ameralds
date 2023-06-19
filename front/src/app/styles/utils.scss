@@ -2,6 +2,14 @@
 @import "theming-var.scss";
 
 
+$width-fhd: 1920px;
+$width-hd-max: $width-fhd - 1px;
+$width-hd: 1280px;
+$width-tablet-max: $width-hd - 1px;
+$width-tablet: 768px;
+$width-mobile-max: $width-tablet - 1px;
+
+
 @mixin amstore-box-shadow() {
     box-shadow: 0 0 8px rgb(17 17 17 / 30%);
 }
@@ -13,37 +21,37 @@
 
 
 @mixin mobile {
-    @media screen and (max-width: 500px) {
+    @media screen and (max-width: $width-mobile-max) {
         @content;
     }
 }
 
 @mixin tablet {
-    @media screen and (min-height: 500px) {
+    @media screen and (min-width: $width-tablet) {
         @content;
     }
 }
 
 @mixin tablet-only {
-    @media screen and (min-width: 500px) and (max-width: 992px) {
+    @media screen and (min-width: $width-tablet) and (max-width: $width-tablet-max) {
         @content;
     }
 }
 
 @mixin portable {
-    @media screen and (max-width: 992px) {
+    @media screen and (max-width: $width-tablet-max) {
         @content;
     }
 }
 
-@mixin desktop-s {
-    @media screen and (min-width: 992px) {
+@mixin fhd {
+    @media screen and (min-width: $width-hd) {
         @content;
     }
 }
 
-@mixin desktop-l {
-    @media screen and (min-width: 1375px) {
+@mixin qhd {
+    @media screen and (min-width: $width-fhd) {
         @content;
     }
 }

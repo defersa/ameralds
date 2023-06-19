@@ -5,6 +5,7 @@ import { switchMap, take } from "rxjs/operators";
 import { Observable } from "rxjs";
 import { PatternService } from "@am/services/pattern.service";
 import { IPattern } from "@am/interface/pattern.interface";
+import { FormControl, Validators } from "@angular/forms";
 
 
 @Component({
@@ -13,11 +14,14 @@ import { IPattern } from "@am/interface/pattern.interface";
     styleUrls: ['./cart.component.scss']
 })
 export class CartComponent {
-    public patterns$: Observable<IPattern[]> = this.adminOrder.order$
+    public order$: Observable<IAdminCart> = this.adminOrder.order$;
+    public patterns$: Observable<IPattern[]> = this.order$
         .pipe(
             take(1),
             switchMap((order: IAdminCart) => this.patternService.getPatternsByIds(order.purchases.map((item: IPatternPurchase) => item.pattern)))
         );
+
+    public emailControl: FormControl = new FormControl('', [Validators.required, Validators.email]);
 
     constructor(
         private adminOrder: AdminOrderService,
@@ -25,4 +29,10 @@ export class CartComponent {
     ) {
     }
 
+    public sendOrder(order: IAdminCart): void {
+        this.adminOrder.sendOrder({
+            email: this.emailControl.value,
+            order,
+        }).subscribe((result) => console.log(result));
+    }
 }

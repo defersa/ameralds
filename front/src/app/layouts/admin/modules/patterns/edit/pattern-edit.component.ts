@@ -2,7 +2,7 @@ import { Component, inject } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Observable, of } from 'rxjs';
 import { ImageModelSmall } from '@am/interface/image.interface';
-import { PatternMaxType } from '@am/interface/pattern.interface';
+import { IPattern } from '@am/interface/pattern.interface';
 import { PatternService } from '@am/services/pattern.service';
 import { EMPTY_PATTERN } from "@am/shared/mocks/pattern";
 import { Location } from "@angular/common";
@@ -17,7 +17,7 @@ export class PatternEditComponent {
 
     public id: number;
     public images: ImageModelSmall[] = [];
-    public asyncPattern: Observable<PatternMaxType>;
+    public asyncPattern: Observable<IPattern>;
     private readonly location: Location = inject(Location);
 
     constructor(

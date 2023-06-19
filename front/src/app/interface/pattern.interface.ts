@@ -9,28 +9,15 @@ export type IPattern = {
     name: LangString;
     price: LangNumber;
 
-    description: string;
-
-    create_date: any;
-    images: ImageModelSmall[];
-    category: CategoryType[]
-    sizes?: IdName[];
-}
-
-export type PatternMaxType = {
-    id: number;
-    name: LangString;
-    price: LangNumber;
-
     hidden: boolean;
     description: string;
     create_date: any;
 
+    images: ImageModelSmall[];
+    category: CategoryType[]
     sizes: PattenSizeFiles[];
     colors: Blob | { id: number; };
 
-    images: ImageModelSmall[];
-    category: CategoryType[]
 }
 
 export type PatternSaveResultResponse = {

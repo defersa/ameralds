@@ -8,6 +8,7 @@ import { AmstorePaginatorModule } from '@am/cdk/paginator/paginator.module';
 import { AmstoreViewerComponent } from './viewer.component';
 import { AmstoreImageListEditorComponent } from './image-list-editor/image-list-editor.component';
 import { AmstoreViewerDialogComponent } from "@am/shared/viewer/viewer-dialog/viewer-dialog.component";
+import { OutsideSrcModule } from "@am/shared/outside-src/outside-src.module";
 
 
 @NgModule({
@@ -20,7 +21,8 @@ import { AmstoreViewerDialogComponent } from "@am/shared/viewer/viewer-dialog/vi
         CommonModule,
         AmstoreIconModule,
         AmstoreButtonDefaultModule,
-        AmstorePaginatorModule
+        AmstorePaginatorModule,
+        OutsideSrcModule,
     ]
 })
 export class AmstoreViewerModule {

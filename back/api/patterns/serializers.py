@@ -25,20 +25,7 @@ class PatternSizeSerializer(serializers.HyperlinkedModelSerializer):
         fields = ['id', 'size', 'cbb', 'jbb', 'png', 'pdf']
 
 
-class PatternsMinSerializer(serializers.HyperlinkedModelSerializer):
-    name = LangShortSerializer()
-    price = LangNumberSerializer()
-
-    sizes = PatternSizeSerializer(many=True)
-    images = ImageSerializer(many=True)
-    category = CategorySerializer(many=True)
-
-    class Meta:
-        model = Pattern
-        fields = ['id', 'name', 'views', 'price', 'images', 'category', 'sizes']
-
-
-class PatternsMaxSerializer(serializers.HyperlinkedModelSerializer):
+class PatternsSerializer(serializers.HyperlinkedModelSerializer):
     name = LangShortSerializer()
     price = LangNumberSerializer()
     colors = PrivateFileSerializer()

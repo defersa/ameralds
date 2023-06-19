@@ -17,8 +17,8 @@ import { CategoryType } from '@am/interface/category.interface';
 import { OptionType } from '@am/interface/cdk.interface';
 import { ImageAddRequest, ImageModelSmall } from '@am/interface/image.interface';
 import {
+    IPattern,
     PattenSizeFiles,
-    PatternMaxType,
     PatternSaveResultResponse,
     PatternSaveSizeResult
 } from '@am/interface/pattern.interface';
@@ -59,7 +59,7 @@ export class AmstorePatternAddCardComponent extends AmstoreCardDirective impleme
     public categoriesList$: Observable<OptionType[]>;
 
     @Input()
-    public set data(value: PatternMaxType) {
+    public set data(value: IPattern) {
         this._savedImages = value.images.map((item: ImageModelSmall, index: number) => ({image: item, index}));
 
         this._data = value;
@@ -67,7 +67,7 @@ export class AmstorePatternAddCardComponent extends AmstoreCardDirective impleme
         this._fillPatternForm(value);
     };
 
-    private _data: PatternMaxType | null = null;
+    private _data: IPattern | null = null;
 
     public patternForm: UntypedFormGroup;
 
@@ -113,7 +113,7 @@ export class AmstorePatternAddCardComponent extends AmstoreCardDirective impleme
         return (this.patternForm.get(groupName) as UntypedFormGroup).get(controlName) as UntypedFormControl;
     }
 
-    private _fillPatternForm(value: PatternMaxType): void {
+    private _fillPatternForm(value: IPattern): void {
         this.patternForm.setValue({
             price: value.price,
             name: value.name,
