@@ -25,6 +25,7 @@ export class PatternEditComponent {
         private patternService: PatternService
     ) {
         this.id = Number(this.route.snapshot.paramMap.get('id'));
+
         this.asyncPattern = !this.id ? of(EMPTY_PATTERN) :
             this.patternService.getPatternEdit(this.id);
     }

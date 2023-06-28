@@ -83,6 +83,20 @@ WSGI_APPLICATION = 'ameralds.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'OPTIONS': {
+            'options': '-c search_path=django,public'
+        },
+        'NAME': env.DATABASE_NAME,
+        'USER': env.DATABASE_USER,
+        'PASSWORD': env.DATABASE_PASSWORD,
+        'HOST': 'localhost',
+        'PORT': env.DATABASE_PORT,
+    },
+    'moder': {
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'OPTIONS': {
+            'options': '-c search_path=moder,public'
+        },
         'NAME': env.DATABASE_NAME,
         'USER': env.DATABASE_USER,
         'PASSWORD': env.DATABASE_PASSWORD,
@@ -90,6 +104,7 @@ DATABASES = {
         'PORT': env.DATABASE_PORT,
     }
 }
+DATABASE_ROUTERS = ('api.routers.admin_router.AdminDBRouter',)
 
 # Password validation
 # https://docs.djangoproject.com/en/3.1/ref/settings/#auth-password-validators

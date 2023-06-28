@@ -14,6 +14,5 @@ from .common import PatternRating
 from .common import Order
 from .common import Promo
 
-
 from .admin_order import BoughtAdminPattern
 from .admin_order import AdminOrder

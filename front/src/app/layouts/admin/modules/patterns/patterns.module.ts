@@ -15,12 +15,12 @@ const routes: Routes = [
         component: PatternsComponent,
     },
     {
-        path: ':id',
-        component: PatternCardComponent
-    },
-    {
         path: 'create',
         component: PatternEditComponent,
+    },
+    {
+        path: ':id',
+        component: PatternCardComponent
     },
     {
         path: ':id/edit',
