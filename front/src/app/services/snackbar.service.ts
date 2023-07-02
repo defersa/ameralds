@@ -4,6 +4,8 @@ import { OperatorFunction, pipe } from "rxjs";
 import { tap } from "rxjs/operators";
 
 
+const DEFAULT_DURATION: number = 5000;
+
 @Injectable({
     providedIn: 'root'
 })
@@ -13,13 +15,17 @@ export class SnackService {
     ) {
     }
 
-    public getSnackTap<T extends { result: boolean }>(message: string): OperatorFunction<T, T> {
+    public getSnackTap<T extends { result: boolean }>(message: string, duration: number = DEFAULT_DURATION): OperatorFunction<T, T> {
         return pipe(
             tap((result: T) => {
                 if (result.result) {
-                    this.snackBar.open(message, undefined, { duration: 5000 });
+                    this.snackBar.open(message, undefined, { duration });
                 }
             })
         )
+    }
+
+    public open(message: string, duration: number = DEFAULT_DURATION): void {
+        this.snackBar.open(message, undefined, { duration });
     }
 }

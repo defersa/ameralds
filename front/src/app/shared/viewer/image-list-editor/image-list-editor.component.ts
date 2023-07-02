@@ -1,10 +1,7 @@
 import { Component, ElementRef, Inject, OnInit, ViewChild } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from "@angular/material/dialog";
-import { ImageType } from "@am/interface/image.interface";
+import { ImageType, IIndexedBlob, IIndexedImage } from "@am/interface/image.interface";
 
-
-export type IndexedImage = { image: ImageType; index: number; };
-export type IndexedBlob = { image: File; src: string; index: number; };
 
 @Component({
     selector: 'amstore-image-list-editor',
@@ -18,8 +15,8 @@ export class AmstoreImageListEditorComponent implements OnInit {
     @ViewChild('imageInput')
     private imageInputRef: ElementRef | undefined;
 
-    public currentImages: IndexedImage[] = [];
-    public blobImages: IndexedBlob[] = [];
+    public currentImages: IIndexedImage[] = [];
+    public blobImages: IIndexedBlob[] = [];
 
     public removedImages: ImageType[] = [];
 
@@ -30,7 +27,7 @@ export class AmstoreImageListEditorComponent implements OnInit {
     private _fileReader: FileReader = new FileReader();
     private _file: globalThis.File | null = null;
 
-    constructor(@Inject(MAT_DIALOG_DATA) public data: { currentImages: IndexedImage[], blobImages: IndexedBlob[] },
+    constructor(@Inject(MAT_DIALOG_DATA) public data: { currentImages: IIndexedImage[], blobImages: IIndexedBlob[] },
                 private _dialogRef: MatDialogRef<unknown>) {
         this.currentImages = this.data.currentImages;
         this.blobImages = this.data.blobImages;
@@ -50,7 +47,7 @@ export class AmstoreImageListEditorComponent implements OnInit {
         }
     }
 
-    public moveImage(image: IndexedBlob | IndexedImage, direction: 'next' | 'prev'): void {
+    public moveImage(image: IIndexedBlob | IIndexedImage, direction: 'next' | 'prev'): void {
         const currentIndex: number = image.index;
         let newIndex: number = image.index + (this.imagesLength === image.index ? 0 : 1);
 
@@ -62,8 +59,8 @@ export class AmstoreImageListEditorComponent implements OnInit {
             return;
         }
 
-        const shiftedImage: IndexedBlob | IndexedImage | undefined = this.currentImages.find((item: IndexedImage) => item.index === newIndex) ||
-            this.blobImages.find((item: IndexedBlob) => item.index === newIndex);
+        const shiftedImage: IIndexedBlob | IIndexedImage | undefined = this.currentImages.find((item: IIndexedImage) => item.index === newIndex) ||
+            this.blobImages.find((item: IIndexedBlob) => item.index === newIndex);
 
         if (shiftedImage) {
             shiftedImage.index = currentIndex;
@@ -71,18 +68,18 @@ export class AmstoreImageListEditorComponent implements OnInit {
         }
     }
 
-    public removeBlobImage(image: IndexedBlob): void {
+    public removeBlobImage(image: IIndexedBlob): void {
         const index: number = image.index;
 
-        this.blobImages = this.blobImages.filter((item: IndexedBlob) => item !== image);
+        this.blobImages = this.blobImages.filter((item: IIndexedBlob) => item !== image);
 
         this._updateOrderAtIndex(index);
     }
 
-    public removeDownloadImage(image: IndexedImage): void {
+    public removeDownloadImage(image: IIndexedImage): void {
         const index: number = image.index;
 
-        this.currentImages = this.currentImages.filter((item: IndexedImage) => item !== image);
+        this.currentImages = this.currentImages.filter((item: IIndexedImage) => item !== image);
         this.removedImages.push(image.image);
 
         this._updateOrderAtIndex(index);
@@ -103,7 +100,7 @@ export class AmstoreImageListEditorComponent implements OnInit {
 
     private _updateOrderAtIndex(index: number): void {
         [...this.blobImages, ...this.currentImages]
-            .forEach((image: IndexedBlob | IndexedImage) => image.index = image.index - (image.index > index ? 1 : 0));
+            .forEach((image: IIndexedBlob | IIndexedImage) => image.index = image.index - (image.index > index ? 1 : 0));
     }
 
     private _initFileReader(): void {

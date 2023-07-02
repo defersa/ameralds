@@ -24,3 +24,6 @@ class AdminDBRouter(object):
             return True
 
         return False
+
+    def allow_relation(self, obj1, obj2, **hints):
+        return True

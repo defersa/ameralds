@@ -24,6 +24,7 @@ export type PatternSaveResultResponse = {
     sizes: PatternSaveSizeResult[];
     id: number;
     result: boolean;
+    images: [];
 }
 
 export type PatternSaveSizeResult = {

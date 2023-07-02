@@ -26,6 +26,6 @@ export type IPatternPurchase = {
 
 export type IAdminOrder = IAdminCart & {
     email: string;
-    date: Date;
+    create_date: Date;
 };
 

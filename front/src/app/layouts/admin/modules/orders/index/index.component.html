@@ -1,1 +1,11 @@
-<p>index works!</p>
+<!-- filters -->
+<!--<amstore-filter (onSetFilters)="setFilterWithPage($event)" [filters]="filters"></amstore-filter>-->
+
+<div *ngFor="let item of items$ | async" style="padding: 16px">
+    {{item.email}}
+    <br>
+    {{item.create_date | date : 'YYYY.MM.dd HH:mm.SS'}}
+</div>
+
+<amstore-paginator (goToPageEvent)="setFilter({page: $event})" [pageCount]="pageCount" [page]="page">
+</amstore-paginator>

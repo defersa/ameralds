@@ -13,7 +13,7 @@ from ..patternFile import PatternSize, PatternSizeSerializer
 from .serializers import PatternsSerializer
 
 
-PATTERNS_ON_LIST = 5
+PATTERNS_ON_LIST = 6
 
 
 class PaginatedPatternsView(APIView):
@@ -40,14 +40,6 @@ class PaginatedPatternsView(APIView):
 
         if len(sizes):
             pattern_list = pattern_list.filter(sizes__size__in=sizes).distinct()
-
-        # if categories != 'null':
-        #     categories_id_list = [int(item) for item in categories.split('-')]
-        #     pattern_list = pattern_list.filter(category__in=categories_id_list)
-        #
-        # if sizes != 'null':
-        #     sizes_id_list = [int(item) for item in sizes.split('-')]
-        #     pattern_list = pattern_list.filter(sizes__size__in=sizes_id_list)
 
         paginator = Paginator(
             pattern_list.order_by('-views'), per_page)

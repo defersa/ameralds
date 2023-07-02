@@ -3,10 +3,10 @@ import { MatDialog } from '@angular/material/dialog';
 import { Observable } from 'rxjs';
 import { AmstoreViewerComponent } from './viewer.component';
 import {
-    AmstoreImageListEditorComponent, IndexedBlob,
-    IndexedImage
+    AmstoreImageListEditorComponent
 } from "@am/shared/viewer/image-list-editor/image-list-editor.component";
 import { AmstoreViewerDialogComponent } from "@am/shared/viewer/viewer-dialog/viewer-dialog.component";
+import { IIndexedBlob, IIndexedImage } from "@am/interface/image.interface";
 
 
 // TODO: Not for root
@@ -44,7 +44,7 @@ export class AmstoreViewerService {
         }).afterClosed();
     }
 
-    public openImageEditor(currentImages: IndexedImage[], blobImages: IndexedBlob[]): Observable<any> {
+    public openImageEditor(currentImages: IIndexedImage[], blobImages: IIndexedBlob[]): Observable<any> {
         return this._dialog.open(AmstoreImageListEditorComponent, {
             data: {
                 currentImages,

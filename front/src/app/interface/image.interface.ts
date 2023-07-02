@@ -30,3 +30,7 @@ export type ImageType = {
     image_full: string;
     image_small: string;
 }
+
+
+export type IIndexedImage = { image: ImageType; index: number; };
+export type IIndexedBlob = { image: File; src: string; index: number; };

@@ -6,6 +6,8 @@ import { Observable } from "rxjs";
 import { PatternService } from "@am/services/pattern.service";
 import { IPattern } from "@am/interface/pattern.interface";
 import { FormControl, Validators } from "@angular/forms";
+import { SnackService } from "@am/services/snackbar.service";
+import { Router } from "@angular/router";
 
 
 @Component({
@@ -26,6 +28,8 @@ export class CartComponent {
     constructor(
         private adminOrder: AdminOrderService,
         private patternService: PatternService,
+        private snackService: SnackService,
+        private router: Router,
     ) {
     }
 
@@ -33,6 +37,11 @@ export class CartComponent {
         this.adminOrder.sendOrder({
             email: this.emailControl.value,
             order,
-        }).subscribe((result) => console.log(result));
+        })
+            .pipe(this.snackService.getSnackTap('Заказ отправлен!'))
+            .subscribe((result) => {
+                this.adminOrder.clearOrder();
+                this.router.navigate(['admin', 'orders', 'list']);
+            });
     }
 }

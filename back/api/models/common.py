@@ -12,7 +12,7 @@ class LangCharFieldShort(models.Model):
     ru = models.CharField(max_length=200, verbose_name="Ru", blank=True, default="")
 
     def __str__(self):
-        return str(self.en + ' ' + self.ru)
+        return str(self.en.__str__() + '|' + self.ru.__str__())
 
 
 # Локализация валют
@@ -179,7 +179,7 @@ class Pattern(models.Model):
         super(Pattern, self).delete(*args, **kwargs)
 
     def __str__(self):
-        return str(self.name)
+        return self.name.__str__()
 
 
 # Файлы разных размеров схем
@@ -205,7 +205,7 @@ class PatternSize(models.Model):
         super(PatternSize, self).delete(*args, **kwargs)
 
     def __str__(self):
-        return str(self.pk)
+        return str(self.pk.__str() + ' ' + self.size.__str__())
 
 
 # Токен

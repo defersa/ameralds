@@ -1,17 +1,19 @@
 from django.db import models
 
-from . import Pattern, Size
+from . import Pattern, PatternSize
 
 
 # Купленный паттерн
 class BoughtAdminPattern(models.Model):
     pattern = models.ForeignKey(
-        Pattern, on_delete=models.SET_NULL, related_name='admin_order_patterns', null=True)
+        Pattern, on_delete=models.SET_NULL, related_name='admin_order_patterns', null=True, verbose_name='Паттерн')
 
-    sizes = models.ManyToManyField(Size, related_name='admin_order_patterns')
+    sizes = models.ManyToManyField(PatternSize, related_name='admin_order_patterns', verbose_name='Размеры')
+    colors = models.BooleanField(verbose_name='Подбор цветов')
 
     def __str__(self):
-        return str(self.pattern.__str__())
+        sizes = ','.join([size.__str__() for size in self.sizes.all()])
+        return self.pk.__str__() + '. Схема: ' + self.pattern.__str__() + '  Размеры:' + sizes + '  Подбор: ' + self.colors.__str__()
 
 
 # Корзина админа

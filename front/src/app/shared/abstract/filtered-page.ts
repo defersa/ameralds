@@ -21,7 +21,7 @@ export abstract class FilteredPage {
 
     protected filterSet$: BehaviorSubject<FiltersSet> = new BehaviorSubject(null);
 
-    protected constructor() {
+    public constructor() {
         this.initFiltersWithParams();
         this.initQueryUpdateHandler();
     }
