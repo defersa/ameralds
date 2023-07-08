@@ -11,6 +11,7 @@ import { AmstoreInfoModule } from '@am/cdk/info/info.module';
 import { AmstoreSlideModule } from '@am/cdk/slide/slide.module';
 import { RouterModule } from "@angular/router";
 import { OutsideSrcModule } from "@am/shared/outside-src/outside-src.module";
+import { LangHandlerModule } from "@am/shared/lang-text/lang-handler.module";
 
 
 
@@ -25,6 +26,7 @@ import { OutsideSrcModule } from "@am/shared/outside-src/outside-src.module";
         AmstoreSlideModule,
         RouterModule,
         OutsideSrcModule,
+        LangHandlerModule,
     ],
     exports: [
         AmstoreSnapshotPatternComponent

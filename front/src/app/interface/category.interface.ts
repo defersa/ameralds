@@ -1,7 +1,7 @@
-import {LangString} from "@am/interface/lang.interface";
+import {ILangText} from "@am/interface/lang.interface";
 
 export type CategoryType = {
     id: number;
-    name: LangString;
+    name: ILangText;
     create_date: string;
 }

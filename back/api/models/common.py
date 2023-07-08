@@ -205,7 +205,7 @@ class PatternSize(models.Model):
         super(PatternSize, self).delete(*args, **kwargs)
 
     def __str__(self):
-        return str(self.pk.__str() + ' ' + self.size.__str__())
+        return self.pk.__str__() + ' ' + self.size.__str__()
 
 
 # Токен

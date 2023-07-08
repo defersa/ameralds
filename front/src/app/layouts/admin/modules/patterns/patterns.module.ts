@@ -6,7 +6,8 @@ import { NgModule } from "@angular/core";
 import { PatternsComponent } from "./index/patterns.component";
 import { PatternCardComponent } from "./card/pattern-card.component";
 import { PatternEditComponent } from "./edit/pattern-edit.component";
-import { PatternModule } from "@am/shared/actions/pattern/pattern.module";
+import { PatternActionsModule } from "@am/shared/actions/pattern/pattern-actions.module";
+import { PatternDetailsModule } from "@am/shared/details/pattern/pattern-details.module";
 
 
 const routes: Routes = [
@@ -40,7 +41,8 @@ const routes: Routes = [
 
         AmstoreCdkModule,
         AmstoreSharedModule,
-        PatternModule,
+        PatternActionsModule,
+        PatternDetailsModule,
     ],
 })
 export class PatternsModule {

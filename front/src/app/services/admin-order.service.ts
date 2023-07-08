@@ -1,12 +1,13 @@
 import { Injectable } from "@angular/core";
 import { LocalStorage } from "@am/decorators/local.decorator";
 import { BehaviorSubject, Observable } from "rxjs";
-import { IAdminCart, IAdminOrder, IPatternPurchase } from "@am/interface/order.interface";
+import { IAdminCart, IAdminOrder, IAdminOrderShort, IPatternPurchase } from "@am/interface/order.interface";
 import { HttpClient } from "@angular/common/http";
 import { UB } from "@am/utils/action-builder";
 import { Params } from "@angular/router";
-import { IPaginatedResponse, IResultRequest } from "@am/interface/request.interface";
+import { IItemResponse, IPaginatedResponse, IResultRequest } from "@am/interface/request.interface";
 import { parseJsonWithDefault } from "@am/utils/common.utils";
+import { map } from "rxjs/operators";
 
 
 const ADMIN_ORDER_NAME: string = 'adminOrder';
@@ -22,7 +23,7 @@ export class AdminOrderService {
         return this._order$.asObservable();
     }
 
-    private _order$: BehaviorSubject<IAdminCart> = new BehaviorSubject(parseJsonWithDefault(this.order, { purchases: [] }));
+    private _order$: BehaviorSubject<IAdminCart> = new BehaviorSubject(parseJsonWithDefault(this.order, {purchases: []}));
 
     constructor(
         private httpClient: HttpClient,
@@ -61,8 +62,13 @@ export class AdminOrderService {
         });
     }
 
-    public getOrders(params: Params): Observable<IPaginatedResponse<IAdminOrder>> {
-        return this.httpClient.get<IPaginatedResponse<IAdminOrder>>(UB(['api', 'admin-order', 'paginated']), { params });
+    public getOrders(params: Params): Observable<IPaginatedResponse<IAdminOrderShort>> {
+        return this.httpClient.get<IPaginatedResponse<IAdminOrderShort>>(UB(['api', 'admin-order', 'paginated']), {params});
+    }
+
+    public getOrder(params: Params): Observable<IAdminOrder> {
+        return this.httpClient.get<IItemResponse<IAdminOrder>>(UB(['api', 'admin-order']), {params})
+            .pipe(map((result: IItemResponse<IAdminOrder>) => result.item));
     }
 
     public sendOrder(data: Params): Observable<IResultRequest> {

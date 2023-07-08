@@ -1,5 +1,5 @@
 import { IPattern } from "./pattern.interface"
-import { LangNumber } from "@am/interface/lang.interface";
+import { ILangNumber } from "@am/interface/lang.interface";
 
 export type GoodsCard = {
     jewels: ProductLite[];
@@ -22,7 +22,7 @@ export enum ProductType {
 
 export type ProductLite = {
     id: number;
-    price: LangNumber;
+    price: ILangNumber;
 }
 
 export type GoodsStatusResult = {

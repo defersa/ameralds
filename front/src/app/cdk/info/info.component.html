@@ -1,2 +1,2 @@
-<amstore-icon [iconName]="icon" [contrast]="!contrast" [size]="20"></amstore-icon>
+<amstore-icon *ngIf="needIcon" [iconName]="icon" [contrast]="!contrast" [size]="20"></amstore-icon>
 <ng-content></ng-content>

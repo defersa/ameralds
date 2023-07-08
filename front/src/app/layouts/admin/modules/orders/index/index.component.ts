@@ -5,7 +5,7 @@ import { Observable } from "rxjs";
 import { filter, map, switchMap } from "rxjs/operators";
 import { Params } from "@angular/router";
 import { IPaginatedResponse } from "@am/interface/request.interface";
-import { IAdminOrder } from "@am/interface/order.interface";
+import {IAdminOrder, IAdminOrderShort} from "@am/interface/order.interface";
 import { DestroyService } from "@am/utils/destroy.service";
 
 
@@ -16,7 +16,7 @@ import { DestroyService } from "@am/utils/destroy.service";
     providers: [DestroyService],
 })
 export class IndexComponent extends FilteredPage {
-    public items$: Observable<IAdminOrder[]> = this.filterSet$.pipe(
+    public items$: Observable<IAdminOrderShort[]> = this.filterSet$.pipe(
         filter((result: FiltersSet) => !!result),
         map((result: FiltersSet) => {
             this.page = Number(result['page']) || 1;
@@ -27,7 +27,7 @@ export class IndexComponent extends FilteredPage {
             };
         }),
         switchMap((variables: Params) => this.adminOrder.getOrders(variables)),
-        map((result: IPaginatedResponse<IAdminOrder>) => {
+        map((result: IPaginatedResponse<IAdminOrderShort>) => {
                 this.pageCount = result.pageCount;
                 return result.items;
             }

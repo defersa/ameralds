@@ -35,5 +35,9 @@
         @include amstore-info-color(red);
     }
 
+    &.amstore-special {
+        @include amstore-info-color(turquoise);
+    }
+
     @include get-amstore-font("body", 14, null, null);
 }

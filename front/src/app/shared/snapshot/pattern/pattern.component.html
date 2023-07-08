@@ -1,34 +1,11 @@
 <div class="amstore-snapshot-images">
-    <img *ngIf="images[0]" [outsideSrc]="images[0].image_full" (click)="openViewer(data.images, 0)">
+    <img *ngIf="pattern.images[0]" [outsideSrc]="pattern.images[0].image_full" (click)="openViewer(pattern.images, 0)">
 </div>
 <div class="amstore-snapshot-container">
     <div class="amstore-snapshot-container-header">
-        <h2 [routerLink]="routerLink">{{title}}</h2>
+        <h2 [routerLink]="routerLink">
+            <amstore-lang-text [text]="pattern.name"></amstore-lang-text>
+        </h2>
     </div>
-    <div class="amstore-snapshot-container-line">
-        <amstore-chip *ngFor="let category of categories" [isDark]="true">{{category.name}}</amstore-chip>
-    </div>
-
-    <div class="amstore-snapshot-container-line">
-        <amstore-chip *ngFor="let size of sizes" [stroked]="true" color="warn" [isDark]="true">{{size.size.value}} см</amstore-chip>
-    </div>
-
-    <div class="amstore-snapshot-container-line">
-        <h2>{{price}}</h2>
-    </div>
-
-
-    <div class="amstore-snapshot-container-info" [@expand]="expandState">
-        <amstore-info status="alert">
-            Aкция:<br>
-            На данный товар применяется акция - при покупке схем из списка цена на каждый товар уменьшается. Ознакомится с условиями акции можно по Ссылке. При удовлетворении условий цена автоматически просчитается.
-        </amstore-info>
-    </div>
-
-    <div class="amstore-snapshot-container-line amstore-snapshot-container-buttons">
-        <amstore-button color="warn" class="amstore-snapshot-container-sale" *ngIf="false" (click)="showSale = !showSale">
-            <amstore-icon iconName="sale" [contrast]="true" [size]="24"></amstore-icon>
-        </amstore-button>
-        <amstore-button [routerLink]="routerLink" color="primary">Подробнее</amstore-button>
-    </div>
+    <ng-content></ng-content>
 </div>

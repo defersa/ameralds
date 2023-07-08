@@ -31,5 +31,5 @@ import { CartComponent } from './cart/cart.component';
         AmstoreCdkModule,
     ]
 })
-export class PatternModule {
+export class PatternActionsModule {
 }

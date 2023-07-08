@@ -1,7 +1,8 @@
 from rest_framework import serializers
 from ..models import BoughtAdminPattern, AdminOrder
-from ..patterns.serializers import PatternsSerializer, PatternSizeSerializer
+from ..patterns.serializers import PatternsSerializer, PatternSizeSerializer, PatternShortSerializer
 from ..common.serializers import IdSerializer
+from ..lang.serializers import LangShortSerializer
 
 
 class BoughtAdminPatternSerializer(serializers.HyperlinkedModelSerializer):
@@ -21,8 +22,19 @@ class AdminOrderSerializer(serializers.HyperlinkedModelSerializer):
         fields = ['id', 'email', 'create_date', 'purchases']
 
 
-class MinAdminOrderSerializer(serializers.HyperlinkedModelSerializer):
-    purchases = IdSerializer(many=True)
+class ShortBoughtAdminPatternSerializer(serializers.HyperlinkedModelSerializer):
+    sizes = serializers.StringRelatedField(
+        many=True,
+    )
+    pattern = PatternShortSerializer()
+
+    class Meta:
+        model = BoughtAdminPattern
+        # fields = ['id', 'colors', 'pattern']
+        fields = ['id', 'colors', 'pattern', 'sizes']
+
+class ShortAdminOrderSerializer(serializers.HyperlinkedModelSerializer):
+    purchases = ShortBoughtAdminPatternSerializer(many=True)
 
     class Meta:
         model = AdminOrder

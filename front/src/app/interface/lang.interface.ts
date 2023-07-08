@@ -7,12 +7,12 @@ export type LangObject = {
     url: string;
 }
 
-export type LangString = {
+export type ILangText = {
     en: string;
     ru: string;
 };
 
-export type LangNumber = {
+export type ILangNumber = {
     en: number;
     ru: number;
 };

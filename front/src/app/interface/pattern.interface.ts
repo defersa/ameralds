@@ -1,13 +1,13 @@
 import { CategoryType } from "./category.interface"
 import { ImageModelSmall } from "./image.interface"
 import { IdName, IPaginatedResponse } from "./request.interface"
-import { LangNumber, LangString } from "@am/interface/lang.interface";
+import { ILangNumber, ILangText } from "@am/interface/lang.interface";
 import { SizeType } from "@am/interface/size.interface";
 
 export type IPattern = {
     id: number;
-    name: LangString;
-    price: LangNumber;
+    name: ILangText;
+    price: ILangNumber;
 
     hidden: boolean;
     description: string;

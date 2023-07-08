@@ -29,7 +29,7 @@
     <div class="amstore-card-container-line">
         <h3>Дополнительные параметры:</h3>
         <div class="amstore-row">
-            Дата регистрации: {{user.date_joined}}
+            Дата регистрации: {{user.date_joined | date : 'YYYY.MM.dd HH:mm:SS'}}
         </div>
     </div>
 

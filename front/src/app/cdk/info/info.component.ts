@@ -43,6 +43,8 @@ export class AmstoreInfoComponent extends AmstoreColor  {
     @Input()
     public contrast: boolean = false;
 
+    @Input()
+    public needIcon: boolean = true;
 
     constructor(public elementRef: ElementRef) {
         super(elementRef)

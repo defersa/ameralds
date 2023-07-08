@@ -6,7 +6,8 @@ from django.core.paginator import Paginator
 
 from ..models import BoughtAdminPattern, AdminOrder, Pattern
 from ..patterns.utils import get_pattern
-from .serializers import AdminOrderSerializer, MinAdminOrderSerializer
+from .serializers import AdminOrderSerializer, ShortAdminOrderSerializer
+from .utils import get_order_admin
 
 import math
 
@@ -51,6 +52,24 @@ class AdminOrderView(APIView):
             'result': True
         })
 
+    @classmethod
+    def get(cls, request):
+        pk = request.GET.get('id', 0)
+
+        order = get_order_admin(pk)
+
+        if not order:
+            return Response({
+                'result': False
+            })
+
+        item = AdminOrderSerializer(order).data
+
+        return Response({
+            'result': True,
+            'item': item
+        })
+
 
 class PaginatedAdminOrderView(APIView):
     permission_classes = [IsAdminUser]
@@ -81,7 +100,7 @@ class PaginatedAdminOrderView(APIView):
         paginator = Paginator(
             admin_order_list.order_by('-create_date'), per_page)
 
-        orders = MinAdminOrderSerializer(
+        orders = ShortAdminOrderSerializer(
             paginator.page(page), many=True).data
 
 

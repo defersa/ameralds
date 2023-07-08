@@ -3,10 +3,14 @@ import { RouterModule, Routes } from "@angular/router";
 import { CommonModule } from "@angular/common";
 import { AmstoreCdkModule } from "@am/cdk/cdk.module";
 import { AmstoreSharedModule } from "@am/shared/shared.module";
-import { PatternModule } from "@am/shared/actions/pattern/pattern.module";
+import { PatternActionsModule } from "@am/shared/actions/pattern/pattern-actions.module";
 import { NgModule } from "@angular/core";
 import { IndexComponent } from './index/index.component';
 import { ImageListModule } from "@am/shared/image-list/image-list.module";
+import { SnapshotAdminOrderModule } from "@am/shared/snapshot/admin-order/snapshot-admin-order.module";
+import { LangHandlerModule } from "../../../../shared/lang-text/lang-handler.module";
+import { CardComponent } from './card/card.component';
+import { AmstoreInfoModule } from "@am/cdk/info/info.module";
 
 
 const routes: Routes = [
@@ -18,12 +22,17 @@ const routes: Routes = [
         path: 'list',
         component: IndexComponent,
     },
+    {
+        path: 'card/:id',
+        component: CardComponent,
+    },
 ];
 
 @NgModule({
     declarations: [
         CartComponent,
         IndexComponent,
+        CardComponent,
     ],
     imports: [
         RouterModule.forChild(routes),
@@ -31,8 +40,11 @@ const routes: Routes = [
 
         AmstoreCdkModule,
         AmstoreSharedModule,
-        PatternModule,
+        PatternActionsModule,
         ImageListModule,
+        SnapshotAdminOrderModule,
+        LangHandlerModule,
+        AmstoreInfoModule,
     ],
 })
 export class OrdersModule {

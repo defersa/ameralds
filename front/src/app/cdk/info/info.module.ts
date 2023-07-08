@@ -13,6 +13,6 @@ import { AmstoreIconModule } from '../icons/icons.module';
     ],
     exports: [
         AmstoreInfoComponent
-    ]
+    ],
 })
 export class AmstoreInfoModule { }

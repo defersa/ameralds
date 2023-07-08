@@ -5,6 +5,7 @@ import { RouterModule, Routes } from "@angular/router";
 import { CommonModule } from "@angular/common";
 import { AmstoreCdkModule } from "@am/cdk/cdk.module";
 import { AmstoreSharedModule } from "@am/shared/shared.module";
+import { PatternDetailsModule } from "../../../../shared/details/pattern/pattern-details.module";
 
 
 export const routes: Routes = [
@@ -29,6 +30,7 @@ export const routes: Routes = [
 
         AmstoreCdkModule,
         AmstoreSharedModule,
+        PatternDetailsModule,
     ],
 })
 export class PatternsStoreModule {

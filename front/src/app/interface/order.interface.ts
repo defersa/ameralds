@@ -1,4 +1,5 @@
-import { IPattern } from "./pattern.interface"
+import { IPattern, PattenSizeFiles } from "./pattern.interface"
+import {ILangText} from "@am/interface/lang.interface";
 
 export type OrdersRequest = {
     page: number;
@@ -24,8 +25,27 @@ export type IPatternPurchase = {
     sizes: number[];
 }
 
-export type IAdminOrder = IAdminCart & {
+export interface IPurchaseSaved {
+    id: number;
+    pattern: IPattern;
+    colors: boolean;
+    sizes: PattenSizeFiles[];
+}
+
+export type IAdminOrder = {
+    id: number;
     email: string;
     create_date: Date;
+    purchases: IPurchaseSaved[];
 };
 
+export interface IAdminOrderShort {
+    id: number;
+    email: string;
+    create_date: Date;
+    purchases: {
+        pattern: { id: number; name: ILangText };
+        sizes: string[];
+        color: boolean;
+    }[];
+}

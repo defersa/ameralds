@@ -37,3 +37,11 @@ class PatternsSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Pattern
         fields = ['id', 'name', 'views', 'category', 'hidden', 'price', 'images', 'sizes', 'colors']
+
+
+class PatternShortSerializer(serializers.HyperlinkedModelSerializer):
+    name = LangShortSerializer()
+
+    class Meta:
+        model = Pattern
+        fields = ['id', 'name']

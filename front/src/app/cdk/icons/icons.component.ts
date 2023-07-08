@@ -4,7 +4,7 @@ import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import { IconsMap, IconsName } from "@am/cdk/icons/icons.map";
 
 
-export type IconSize = 12 | 16 | 20 | 24 | 28 | 32;
+export type IconSize = 12 | 16 | 20 | 24 | 28 | 32 | 64;
 
 @Component({
     selector: 'amstore-icon',
