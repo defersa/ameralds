@@ -8,6 +8,7 @@ import { PatternCardComponent } from "./card/pattern-card.component";
 import { PatternEditComponent } from "./edit/pattern-edit.component";
 import { PatternActionsModule } from "@am/shared/actions/pattern/pattern-actions.module";
 import { PatternDetailsModule } from "@am/shared/details/pattern/pattern-details.module";
+import { AmstoreFilterModule } from "@am/shared/filters/pattern/filter.module";
 
 
 const routes: Routes = [
@@ -43,6 +44,7 @@ const routes: Routes = [
         AmstoreSharedModule,
         PatternActionsModule,
         PatternDetailsModule,
+        AmstoreFilterModule,
     ],
 })
 export class PatternsModule {

@@ -1,5 +1,5 @@
-import {Component, Input, OnInit} from '@angular/core';
-import {IAdminOrderShort} from "@am/interface/order.interface";
+import { Component, Input } from '@angular/core';
+import { IAdminOrderShort } from "@am/interface/order.interface";
 
 @Component({
     selector: 'amstore-snapshot-admin-order',

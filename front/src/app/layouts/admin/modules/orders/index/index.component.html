@@ -1,9 +1,8 @@
-<!-- filters -->
-<!--<amstore-filter (onSetFilters)="setFilterWithPage($event)" [filters]="filters"></amstore-filter>-->
+<amstore-orders-filter (onSetFilters)="setFilterWithPage($event)" [filters]="filters" color="special"></amstore-orders-filter>
 
 <div *ngFor="let order of items$ | async" style="padding: 16px">
     <amstore-snapshot-admin-order [order]="order" [routerLink]="['/', 'admin', 'orders', 'card', order.id]"></amstore-snapshot-admin-order>
 </div>
 
-<amstore-paginator (goToPageEvent)="setFilter({page: $event})" [pageCount]="pageCount" [page]="page">
+<amstore-paginator (goToPageEvent)="setFilter({page: $event})" [pageCount]="pageCount" [page]="page" color="special">
 </amstore-paginator>

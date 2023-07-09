@@ -5,7 +5,7 @@ import { Observable } from "rxjs";
 import { filter, map, switchMap } from "rxjs/operators";
 import { Params } from "@angular/router";
 import { IPaginatedResponse } from "@am/interface/request.interface";
-import {IAdminOrder, IAdminOrderShort} from "@am/interface/order.interface";
+import { IAdminOrderShort } from "@am/interface/order.interface";
 import { DestroyService } from "@am/utils/destroy.service";
 
 
@@ -21,8 +21,13 @@ export class IndexComponent extends FilteredPage {
         map((result: FiltersSet) => {
             this.page = Number(result['page']) || 1;
 
+            const startDate: string = result.startDate ? (result.startDate as Date).toISOString() : null;
+            const endDate: string = result.endDate ? (result.endDate as Date).toISOString() : null;
+
             return {
                 ...result,
+                startDate,
+                endDate,
                 page: this.page,
             };
         }),
@@ -48,19 +53,15 @@ export class IndexComponent extends FilteredPage {
     }
 
     protected initFilters(query: Params): FiltersSet {
-        // const categories: number[] =
-        //     (typeof query['categories'] === 'string' ? [query['categories']] : query['categories'] as [])
-        //     ?.map(Number) || [];
-        //
-        // const sizes: number[] =
-        //     (typeof query['sizes'] === 'string' ? [query['sizes']] : query['sizes'] as [])
-        //     ?.map(Number) || [];
-        //
-        // this.filters = {
-        //     search: query['search'] ?? '',
-        //     categories,
-        //     sizes
-        // };
+        console.log(query['startDate'])
+        const startDate: Date = query['startDate'] ? new Date(query['startDate']) : null;
+        const endDate: Date = query['endDate'] ? new Date(query['endDate']) : null;
+
+        this.filters = {
+            email: query['email'] ?? '',
+            startDate,
+            endDate,
+        };
 
         this.page = Number(query['page']) || 1;
 

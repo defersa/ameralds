@@ -1,4 +1,4 @@
-<amstore-filter (onSetFilters)="setFilterWithPage($event)" [filters]="filters"></amstore-filter>
+<amstore-filters (onSetFilters)="setFilterWithPage($event)" [filters]="filters"></amstore-filters>
 
 <amstore-snapshot-pattern *ngFor="let item of items$ | async" [pattern]="item" [routerLink]="[item.id]">
     <amstore-pattern-details-short [pattern]="item" [routerLink]="[item.id]"></amstore-pattern-details-short>

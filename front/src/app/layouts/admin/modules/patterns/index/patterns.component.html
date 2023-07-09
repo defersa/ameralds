@@ -5,11 +5,11 @@
     </amstore-button>
 </div>
 
-<amstore-filter (onSetFilters)="setFilterWithPage($event)" [filters]="filters" color="special"></amstore-filter>
+<amstore-filters (onSetFilters)="setFilterWithPage($event)" [filters]="filters" color="special"></amstore-filters>
 
 <amstore-snapshot-pattern *ngFor="let item of items$ | async" [pattern]="item" [routerLink]="[item.id]">
     <amstore-pattern-details-short [pattern]="item" [routerLink]="[item.id]"></amstore-pattern-details-short>
 </amstore-snapshot-pattern>
 
-<amstore-paginator (goToPageEvent)="setFilter({page: $event})" [pageCount]="pageCount" [page]="page">
+<amstore-paginator (goToPageEvent)="setFilter({page: $event})" [pageCount]="pageCount" [page]="page" color="special">
 </amstore-paginator>

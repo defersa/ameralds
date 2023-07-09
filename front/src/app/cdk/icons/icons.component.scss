@@ -22,6 +22,9 @@
     &.amstore-warn:not(.is-contrast):not(.is-black) {
         @include amstore-icon-color(red);
     }
+    &.amstore-special:not(.is-contrast):not(.is-black) {
+        @include amstore-icon-color(turquoise);
+    }
 
     &.is-contrast {
         .amstore-icon-figure {

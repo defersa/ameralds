@@ -8,9 +8,10 @@ import { NgModule } from "@angular/core";
 import { IndexComponent } from './index/index.component';
 import { ImageListModule } from "@am/shared/image-list/image-list.module";
 import { SnapshotAdminOrderModule } from "@am/shared/snapshot/admin-order/snapshot-admin-order.module";
-import { LangHandlerModule } from "../../../../shared/lang-text/lang-handler.module";
+import { LangHandlerModule } from "@am/shared/lang-text/lang-handler.module";
 import { CardComponent } from './card/card.component';
 import { AmstoreInfoModule } from "@am/cdk/info/info.module";
+import { OrdersFilterModule } from "@am/shared/filters/orders/orders-filter.module";
 
 
 const routes: Routes = [
@@ -45,6 +46,7 @@ const routes: Routes = [
         SnapshotAdminOrderModule,
         LangHandlerModule,
         AmstoreInfoModule,
+        OrdersFilterModule,
     ],
 })
 export class OrdersModule {

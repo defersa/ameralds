@@ -80,29 +80,23 @@ class PaginatedAdminOrderView(APIView):
         page = request.GET.get('page', 1)
         per_page = request.GET.get('perPage', ORDER_ON_LIST)
 
-        # sizes = request.GET.getlist('sizes', [])
-        # categories = request.GET.getlist('categories', [])
-        #
-        # search = request.GET.get('search', None)
+        email = request.GET.get('email', None)
+        start_date = request.GET.get('startDate', None)
+        end_date = request.GET.get('endDate', None)
 
         admin_order_list: QuerySet[AdminOrder] = AdminOrder.objects.all()
 
-        # if search and search != 'null':
-        #     pattern_list = pattern_list.filter(Q(name__en__icontains=search) | Q(name__ru__icontains=search)).distinct()
-        #
-        # if len(categories):
-        #     pattern_list = pattern_list.filter(category__in=categories).distinct()
-        #
-        # if len(sizes):
-        #     pattern_list = pattern_list.filter(sizes__size__in=sizes).distinct()
+        if start_date != 'null' and end_date != 'null':
+            admin_order_list = admin_order_list.filter(create_date__range=[start_date, end_date])
 
-        #
+        if email and email != 'null':
+            admin_order_list = admin_order_list.filter(email__icontains=email).distinct()
+
         paginator = Paginator(
             admin_order_list.order_by('-create_date'), per_page)
 
         orders = ShortAdminOrderSerializer(
             paginator.page(page), many=True).data
-
 
         return Response({
             'pageCount': math.ceil(paginator.count / ORDER_ON_LIST),

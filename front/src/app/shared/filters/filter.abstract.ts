@@ -1,35 +1,15 @@
-import { Component, EventEmitter, inject, Input, OnInit, Output } from '@angular/core';
-import { AbstractControl, FormControl, FormGroup } from "@angular/forms";
-import { Observable } from "rxjs";
+import { Directive, EventEmitter, inject, Input, OnInit, Output } from "@angular/core";
+import { DestroyService } from "@am/utils/destroy.service";
+import { AbstractControl, FormGroup } from "@angular/forms";
+import { ThemePalette } from "@am/cdk/core/color";
 import { takeUntil } from "rxjs/operators";
 
-import { SizesService } from "@am/services/sizes.service";
-import { CategoriesService } from "@am/services/categories.service";
-import { LangService } from "@am/services/lang.service";
-import { OptionType } from "@am/interface/cdk.interface";
-import { DestroyService } from "@am/utils/destroy.service";
-import { ThemePalette } from "@am/cdk/core/color";
-
-
-@Component({
-    selector: 'amstore-filter',
-    templateUrl: './filter.component.html',
-    styleUrls: ['./filter.component.scss'],
+@Directive({
     providers: [DestroyService],
-    host: {
-        class: 'amstore-filter'
-    }
 })
-export class AmstoreFilterComponent implements OnInit {
+export abstract class AbstractFilterComponent implements OnInit {
 
-    public categoriesList$: Observable<OptionType[]> = this._categoriesService.categoriesList$;
-    public sizesList$: Observable<OptionType[]> = this._sizeService.sizesList$;
-
-    public filterForm: FormGroup = new FormGroup({
-            search: new FormControl(),
-            categories: new FormControl(),
-            sizes: new FormControl()
-        });
+    public abstract filterForm: FormGroup;
 
     @Input()
     public color?: ThemePalette = 'primary';
@@ -45,7 +25,7 @@ export class AmstoreFilterComponent implements OnInit {
         this.checkIsEmpty();
     }
 
-    private _filters: Record<string, unknown> = {};
+    protected _filters: Record<string, unknown> = {};
 
     public isChanged: boolean = false;
     public isEmpty: boolean = false;
@@ -54,12 +34,6 @@ export class AmstoreFilterComponent implements OnInit {
     @Output()
     public onSetFilters: EventEmitter<Record<string, unknown>> = new EventEmitter<Record<string, unknown>>();
 
-    constructor(
-        private _langService: LangService,
-        private _sizeService: SizesService,
-        private _categoriesService: CategoriesService,
-    ) {
-    }
 
     public ngOnInit(): void {
         this.filterForm.valueChanges
@@ -87,7 +61,7 @@ export class AmstoreFilterComponent implements OnInit {
         this.setFilters();
     }
 
-    private checkIsEmpty(): void {
+    protected checkIsEmpty(): void {
         this.isChanged = false;
         this.isEmpty = !Boolean(Object.values(this._filters).filter((value: unknown) => (value as string)?.length).length);
     }

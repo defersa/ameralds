@@ -20,6 +20,9 @@ import { AmstoreFormArrayComponent } from './array/array.component';
 import { AmstoreUploadFileComponent } from './upload-file/upload-file.component';
 import { AmstoreChipsCheckboxComponent } from './chips-checkbox/chips-checkbox.component';
 import { AmstoreInputPasswordComponent } from './input-password/input-password.component';
+import { AmstoreDataRangePickerComponent } from "@am/cdk/forms/data-range-picker/amstore-data-range-picker.component";
+import { MatDatepickerModule } from "@angular/material/datepicker";
+import { MatNativeDateModule } from "@angular/material/core";
 
 const FORM_COMPONENT: any[] = [
     AmstoreInputComponent,
@@ -29,7 +32,8 @@ const FORM_COMPONENT: any[] = [
     AmstoreFormArrayComponent,
     AmstoreUploadFileComponent,
     AmstoreChipsCheckboxComponent,
-    AmstoreInputPasswordComponent
+    AmstoreInputPasswordComponent,
+    AmstoreDataRangePickerComponent,
 ];
 
 
@@ -47,7 +51,9 @@ const FORM_COMPONENT: any[] = [
         AmstoreButtonDefaultModule,
         AmstoreIconModule,
         AmstoreChipModule,
-        MatRadioModule
+        MatRadioModule,
+        MatDatepickerModule,
+        MatNativeDateModule,
     ]
 })
 export class AmstoreFormsModule {

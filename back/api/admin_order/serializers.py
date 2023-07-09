@@ -1,9 +1,6 @@
 from rest_framework import serializers
 from ..models import BoughtAdminPattern, AdminOrder
 from ..patterns.serializers import PatternsSerializer, PatternSizeSerializer, PatternShortSerializer
-from ..common.serializers import IdSerializer
-from ..lang.serializers import LangShortSerializer
-
 
 class BoughtAdminPatternSerializer(serializers.HyperlinkedModelSerializer):
     sizes = PatternSizeSerializer(many=True)

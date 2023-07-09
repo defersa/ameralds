@@ -66,4 +66,8 @@
     &.amstore-warn {
         @include amstore-paginator-color(red);
     }
+
+    &.amstore-special {
+        @include amstore-paginator-color(turquoise);
+    }
 }
